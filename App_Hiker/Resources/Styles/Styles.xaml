@@ -22,12 +22,22 @@
         <Setter Property="BackgroundColor" Value="{ DynamicResource Base300 }" />
     </Style>
 
+    <Style TargetType="ScrollView">
+        <Setter Property="Orientation" Value="Vertical"/>
+    </Style>
+
+    <Style TargetType="VerticalStackLayout">
+        <Setter Property="Spacing" Value="15"/>
+    </Style>
+
     <Style TargetType="Button">
-        <Setter Property="TextColor" Value="{ DynamicResource PrimaryContent }" />
-        <Setter Property="BackgroundColor" Value="{ DynamicResource Primary }" />
-        <Setter Property="FontFamily" Value="OpenSansRegular"/>
-        <Setter Property="FontSize" Value="14"/>
-        <Setter Property="BorderWidth" Value="0"/>
+        <Setter Property="TextColor" Value="{ DynamicResource NeutralContent }" />
+        <Setter Property="BackgroundColor" Value="{ DynamicResource Neutral }" />
+        <Setter Property="FontFamily" Value="AmikoRegular"/>
+        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
+        <Setter Property="BorderWidth" Value="1"/>
+        <Setter Property="BorderColor" Value="{ DynamicResource Neutral }"/>
         <Setter Property="CornerRadius" Value="8"/>
         <Setter Property="Padding" Value="14,10"/>
         <Setter Property="MinimumHeightRequest" Value="44"/>
@@ -36,12 +46,7 @@
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
                     <VisualState x:Name="Normal" />
-                    <VisualState x:Name="Disabled">
-                        <VisualState.Setters>
-                            <Setter Property="TextColor" Value="{ DynamicResource NeutralContent }" />
-                            <Setter Property="BackgroundColor" Value="{ DynamicResource Base200 }" />
-                        </VisualState.Setters>
-                    </VisualState>
+                    <VisualState x:Name="Disabled"/>
                     <VisualState x:Name="PointerOver" />
                 </VisualStateGroup>
             </VisualStateGroupList>
@@ -68,9 +73,10 @@
 
     <Style TargetType="DatePicker">
         <Setter Property="TextColor" Value="{ DynamicResource BaseContent }" />
-        <Setter Property="BackgroundColor" Value="Transparent" />
-        <Setter Property="FontFamily" Value="OpenSansRegular"/>
+        <Setter Property="BackgroundColor" Value="{ DynamicResource Base300 }" />
+        <Setter Property="FontFamily" Value="AmikoRegular"/>
         <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Format" Value="dd/MM/yyyy"/>
         <Setter Property="MinimumHeightRequest" Value="44"/>
         <Setter Property="MinimumWidthRequest" Value="44"/>
         <Setter Property="VisualStateManager.VisualStateGroups">
@@ -90,7 +96,7 @@
     <Style TargetType="Editor">
         <Setter Property="TextColor" Value="{ DynamicResource BaseContent }" />
         <Setter Property="BackgroundColor" Value="Transparent" />
-        <Setter Property="FontFamily" Value="OpenSansRegular"/>
+        <Setter Property="FontFamily" Value="AmikoRegular"/>
         <Setter Property="FontSize" Value="14" />
         <Setter Property="PlaceholderColor" Value="{ DynamicResource NeutralContent }" />
         <Setter Property="MinimumHeightRequest" Value="44"/>
@@ -111,8 +117,8 @@
 
     <Style TargetType="Entry">
         <Setter Property="TextColor" Value="{ DynamicResource BaseContent }" />
-        <Setter Property="BackgroundColor" Value="Transparent" />
-        <Setter Property="FontFamily" Value="OpenSansRegular"/>
+        <Setter Property="BackgroundColor" Value="{ DynamicResource Base300 }" />
+        <Setter Property="FontFamily" Value="AmikoRegular"/>
         <Setter Property="FontSize" Value="14" />
         <Setter Property="PlaceholderColor" Value="{ DynamicResource NeutralContent }" />
         <Setter Property="MinimumHeightRequest" Value="44"/>
@@ -156,7 +162,7 @@
     <Style TargetType="Label">
         <Setter Property="TextColor" Value="{ DynamicResource BaseContent }" />
         <Setter Property="BackgroundColor" Value="Transparent" />
-        <Setter Property="FontFamily" Value="OpenSansRegular" />
+        <Setter Property="FontFamily" Value="AmikoRegular" />
         <Setter Property="FontSize" Value="14" />
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
@@ -176,7 +182,7 @@
         <Setter Property="TextColor" Value="{ DynamicResource BaseContent }" />
         <Setter Property="TitleColor" Value="{ DynamicResource BaseContent }" />
         <Setter Property="BackgroundColor" Value="Transparent" />
-        <Setter Property="FontFamily" Value="OpenSansRegular"/>
+        <Setter Property="FontFamily" Value="AmikoRegular"/>
         <Setter Property="FontSize" Value="14" />
         <Setter Property="MinimumHeightRequest" Value="44"/>
         <Setter Property="MinimumWidthRequest" Value="44"/>
@@ -214,7 +220,7 @@
     <Style TargetType="RadioButton">
         <Setter Property="BackgroundColor" Value="Transparent"/>
         <Setter Property="TextColor" Value="{ DynamicResource BaseContent }" />
-        <Setter Property="FontFamily" Value="OpenSansRegular"/>
+        <Setter Property="FontFamily" Value="AmikoRegular"/>
         <Setter Property="FontSize" Value="14"/>
         <Setter Property="MinimumHeightRequest" Value="44"/>
         <Setter Property="MinimumWidthRequest" Value="44"/>
@@ -241,7 +247,7 @@
         <Setter Property="PlaceholderColor" Value="{ DynamicResource NeutralContent }" />
         <Setter Property="CancelButtonColor" Value="{ DynamicResource NeutralContent }" />
         <Setter Property="BackgroundColor" Value="Transparent" />
-        <Setter Property="FontFamily" Value="OpenSansRegular" />
+        <Setter Property="FontFamily" Value="AmikoRegular" />
         <Setter Property="FontSize" Value="14" />
         <Setter Property="MinimumHeightRequest" Value="44"/>
         <Setter Property="MinimumWidthRequest" Value="44"/>
@@ -264,7 +270,7 @@
         <Setter Property="TextColor" Value="{ DynamicResource BaseContent }" />
         <Setter Property="PlaceholderColor" Value="{ DynamicResource NeutralContent }" />
         <Setter Property="BackgroundColor" Value="Transparent" />
-        <Setter Property="FontFamily" Value="OpenSansRegular" />
+        <Setter Property="FontFamily" Value="AmikoRegular" />
         <Setter Property="FontSize" Value="14" />
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
@@ -344,7 +350,7 @@
     <Style TargetType="TimePicker">
         <Setter Property="TextColor" Value="{ DynamicResource BaseContent }" />
         <Setter Property="BackgroundColor" Value="Transparent"/>
-        <Setter Property="FontFamily" Value="OpenSansRegular"/>
+        <Setter Property="FontFamily" Value="AmikoRegular"/>
         <Setter Property="FontSize" Value="14"/>
         <Setter Property="MinimumHeightRequest" Value="44"/>
         <Setter Property="MinimumWidthRequest" Value="44"/>
@@ -368,16 +374,16 @@
     </Style>
 
     <Style TargetType="Shell" ApplyToDerivedTypes="True">
-        <Setter Property="Shell.BackgroundColor" Value="{ DynamicResource Base100 }" />
+        <Setter Property="Shell.BackgroundColor" Value="{ DynamicResource Secondary }" />
         <Setter Property="Shell.ForegroundColor" Value="{ DynamicResource SecondaryContent }" />
         <Setter Property="Shell.TitleColor" Value="{ DynamicResource SecondaryContent }" />
         <Setter Property="Shell.DisabledColor" Value="{ DynamicResource Neutral }" />
         <Setter Property="Shell.UnselectedColor" Value="{ DynamicResource Base200 }" />
         <Setter Property="Shell.NavBarHasShadow" Value="False" />
-        <Setter Property="Shell.TabBarBackgroundColor" Value="{ DynamicResource Base100 }" />
-        <Setter Property="Shell.TabBarForegroundColor" Value="{ DynamicResource PrimaryContent }" />
-        <Setter Property="Shell.TabBarTitleColor" Value="{ DynamicResource PrimaryContent }" />
-        <Setter Property="Shell.TabBarUnselectedColor" Value="{ DynamicResource BaseContent }" />
+        <Setter Property="Shell.TabBarBackgroundColor" Value="{ DynamicResource Secondary }" />
+        <Setter Property="Shell.TabBarForegroundColor" Value="{ DynamicResource SecondaryContent }" />
+        <Setter Property="Shell.TabBarTitleColor" Value="{ DynamicResource SecondaryContent }" />
+        <Setter Property="Shell.TabBarUnselectedColor" Value="{ DynamicResource Base200 }" />
     </Style>
 
     <Style TargetType="NavigationPage">

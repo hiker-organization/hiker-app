@@ -4,11 +4,18 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:App_Hiker"
+    xmlns:view_auth="clr-namespace:App_Hiker.View.Auth"
     Title="App_Hiker">
 
+    <Shell.Style>
+        <Style TargetType="Shell">
+            <Setter Property="Shell.NavBarIsVisible" Value="False"/>
+        </Style>
+    </Shell.Style>
+
     <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+        Title="Login"
+        ContentTemplate="{DataTemplate view_auth:Login}"
+        Route="Auth" />
 
 </Shell>

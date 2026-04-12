@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System.Diagnostics;
 
 namespace App_Hiker
 {
@@ -21,12 +21,25 @@ namespace App_Hiker
             return window;
         }
 
-        private void SetRequestedTheme(AppTheme requested_theme)
+        internal static void ShowInDebugConsole(string message)
+        {
+            Debug.WriteLine("--------------------------------------------------");
+            Debug.WriteLine(message);
+            Debug.WriteLine("--------------------------------------------------\n");
+        }
+
+        internal static void SetRequestedTheme(AppTheme requested_theme)
         {
             Application? current_app = (Application?) App.Current;
 
             if (current_app != null)
             {
+                // Efetuando a troca do tema do aplicativo de forma manual e forçada.
+
+                current_app.UserAppTheme = requested_theme;
+
+                // Aplicando as configurações do tema requisitado.
+
                 ICollection<ResourceDictionary> app_dictionaries = current_app.Resources.MergedDictionaries;
 
                 ResourceDictionary? current_app_theme = app_dictionaries.FirstOrDefault(dictionary =>
@@ -52,22 +65,25 @@ namespace App_Hiker
             }
         }
 
-        private void ApplyRequestedThemeColors()
+        private async void ApplyRequestedThemeColors()
         {
             Application? current_app = (Application?)App.Current;
 
             if (current_app != null)
             {
-                // Aplicação inicial.
+                // Evento de troca de tema gerenciado pelo dispositivo (Android, iOS, Windows, etc.).
 
-                SetRequestedTheme(current_app.RequestedTheme);
-
-                // Evento de troca de tema durante a execução do aplicativo.
-
-                current_app.RequestedThemeChanged += (sender, e) =>
+                current_app.RequestedThemeChanged += async (sender, e) =>
                 {
-                    SetRequestedTheme(e.RequestedTheme);
+                    if (e.RequestedTheme != current_app.UserAppTheme)
+                    {
+                        SetRequestedTheme(e.RequestedTheme);
+                    }
                 };
+
+                // Aplicação do tema inicial.
+
+                SetRequestedTheme(AppTheme.Dark);
             }
         }
     }
