@@ -1,4 +1,5 @@
-﻿using App_Hiker.Model;
+﻿using App_Hiker.Model.User.Request;
+using App_Hiker.Model.User.Response;
 
 using Newtonsoft.Json;
 
@@ -11,17 +12,13 @@ namespace App_Hiker.Service.User
             //
         }
 
-        public async Task<Model.Api<Model.User>> Create(Model.User payload)
+        public async Task<Model.Api<Model.User.Response.CreateUser>> Create(Model.User.Request.CreateUser payload)
         {
             string request_json = JsonConvert.SerializeObject(payload);
 
-            Api.ShowResponseInConsole(request_json);
-
             string response_json = await Api.PostData("/user", request_json);
 
-            Api.ShowResponseInConsole(response_json);
-
-            return JsonConvert.DeserializeObject<Model.Api<Model.User>>(response_json) ?? new Model.Api<Model.User>();
+            return JsonConvert.DeserializeObject<Model.Api<Model.User.Response.CreateUser>>(response_json) ?? new Model.Api<Model.User.Response.CreateUser>();
         }
     }
 }

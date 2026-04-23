@@ -7,9 +7,16 @@ public partial class Login : ContentPage
 		InitializeComponent();
 	}
 
-    private void btn_login_Clicked(object sender, EventArgs e)
+    private async void btn_login_Clicked(object sender, EventArgs e)
     {
-        //
+        try
+        {
+            //
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlertAsync("Erro!", ex.Message, "OK");
+        }
     }
 
     private async void btn_register_Clicked(object sender, EventArgs e)

@@ -26,7 +26,7 @@
 
         public int status_code
         {
-            get => this._status_code ?? 500;
+            get => this._status_code ?? 200;
             set => this._status_code = value;
         }
     }
