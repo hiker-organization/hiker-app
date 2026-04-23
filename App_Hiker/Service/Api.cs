@@ -1,10 +1,11 @@
 ﻿using System.Text;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Diagnostics;
 
 namespace App_Hiker.Service
 {
-    internal abstract class Api
+    public abstract class Api
     {
         private static HttpClient? connection = null;
 
@@ -17,7 +18,7 @@ namespace App_Hiker.Service
         {
             connection = new HttpClient();
 
-            connection.BaseAddress = new Uri(""); // A ser definido.
+            connection.BaseAddress = new Uri("http://localhost:3000");
 
             string auth_token = await SecureStorage.GetAsync("token") ?? "";
 
@@ -122,6 +123,13 @@ namespace App_Hiker.Service
             }
 
             return api_response_json;
+        }
+
+        protected static void ShowResponseInConsole(string response)
+        {
+            Debug.WriteLine("\n\n-------------------------------------");
+            Debug.WriteLine(response);
+            Debug.WriteLine("-------------------------------------\n");
         }
     }
 }
