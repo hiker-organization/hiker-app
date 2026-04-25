@@ -1,3 +1,6 @@
+using App_Hiker.Model.Auth.Request;
+using App_Hiker.Model.Auth.Response;
+
 namespace App_Hiker.View.Auth;
 
 public partial class Login : ContentPage
@@ -11,7 +14,22 @@ public partial class Login : ContentPage
     {
         try
         {
-            //
+            Model.Auth.Request.LoginUser payload = new Model.Auth.Request.LoginUser
+            {
+                email = txt_email.Text,
+                password = txt_senha.Text
+            };
+
+            Model.Auth.Response.LoginUser api_response = await new Service.Auth.Auth().Login(payload);
+
+            if (api_response.access_token != String.Empty)
+            {
+                await SecureStorage.SetAsync("token", api_response.access_token);
+
+                await DisplayAlertAsync("Sucesso!", "Seja bem vindo ao Hiker.", "OK");
+
+                await Shell.Current.GoToAsync("//Profile");
+            }
         }
         catch (Exception ex)
         {

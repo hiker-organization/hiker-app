@@ -26,9 +26,9 @@ public partial class Register : ContentPage
                 data_nascimento = dtpck_data_nascimento.Date
             };
 
-            Model.Api<Model.User.Response.CreateUser> api_response = await new Service.User.User().Create(user);
+            Model.DataResponse<Model.User.Response.CreateUser> api_response = await new Service.User.User().Create(user);
 
-            if (api_response.status_code < 200 && api_response.status_code >= 300)
+            if (api_response.data == null)
             {
                 throw new Exception("Ocorreu um erro ao tentar criar uma conta!");
             }
