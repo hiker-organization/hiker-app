@@ -1,3 +1,9 @@
+using App_Hiker.Model.Api;
+using App_Hiker.Model.Auth.Request;
+using App_Hiker.Model.Auth.Response;
+
+using App_Hiker.Service.Auth;
+
 namespace App_Hiker.View.Auth;
 
 public partial class ForgotPassword : ContentPage
@@ -56,7 +62,7 @@ public partial class ForgotPassword : ContentPage
         {
             string email = txt_email.Text;
 
-            Model.MessageResponse api_response = await new Service.Auth.Auth().ForgotPassword(email);
+            MessageResponse api_response = await AuthService.ForgotPassword(email);
 
             await DisplayAlertAsync("Atenção!", api_response.message, "OK");
         }
@@ -70,13 +76,13 @@ public partial class ForgotPassword : ContentPage
     {
         try
         {
-            Model.Auth.Request.ResetPassword payload = new Model.Auth.Request.ResetPassword()
+            ResetPasswordRequest payload = new ResetPasswordRequest()
             {
                 token = txt_token_validacao.Text,
                 senha = txt_nova_senha.Text
             };
 
-            Model.MessageResponse api_response = await new Service.Auth.Auth().ResetPassword(payload);
+            MessageResponse api_response = await AuthService.ResetPassword(payload);
 
             await DisplayAlertAsync("Atenção!", api_response.message, "OK");
         }

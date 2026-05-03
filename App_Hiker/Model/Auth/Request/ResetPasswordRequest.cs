@@ -1,6 +1,6 @@
 ﻿namespace App_Hiker.Model.Auth.Request
 {
-    public class ResetPassword
+    public class ResetPasswordRequest
     {
         public string token { get; set; } = String.Empty;
 

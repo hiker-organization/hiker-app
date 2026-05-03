@@ -1,7 +1,11 @@
+using App_Hiker.Model.Api;
 using App_Hiker.Model.User.Request;
 using App_Hiker.Model.User.Response;
+using App_Hiker.Model.User.Exception;
 
-using App_Hiker.Service;
+using App_Hiker.Service.User;
+
+using App_Hiker.Utils;
 
 namespace App_Hiker.View.Auth;
 
@@ -16,9 +20,14 @@ public partial class Register : ContentPage
     {
         try
         {
-            Model.User.Request.CreateUser user = new Model.User.Request.CreateUser()
+            if (txt_senha.Text != txt_confirmacao_senha.Text)
             {
-                nome_usuario = txt_nome_completo.Text.Replace(" ", "_"),
+                throw new NonMatchingPasswordsException("As senhas passadas não batem! Tente novamente.");
+            }
+
+            CreateUserRequest user = new CreateUserRequest()
+            {
+                nome_usuario = SpecialCharacters.Remove(txt_usuario.Text),
                 nome_exibicao = txt_nome_completo.Text,
                 email = txt_email.Text,
                 senha = txt_senha.Text,
@@ -26,16 +35,18 @@ public partial class Register : ContentPage
                 data_nascimento = dtpck_data_nascimento.Date
             };
 
-            Model.DataResponse<Model.User.Response.CreateUser> api_response = await new Service.User.User().Create(user);
+            DataResponse<CreateUserResponse> api_response = await UserService.Create(user);
 
-            if (api_response.data == null)
+            if (api_response.statusCode == 201)
             {
-                throw new Exception("Ocorreu um erro ao tentar criar uma conta!");
+                await DisplayAlertAsync("Sucesso!", "Sua conta do aplicativo foi criada com sucesso.", "OK");
+
+                await Navigation.PopAsync();
             }
-
-            await DisplayAlertAsync("Sucesso!", "Sua conta do aplicativo foi criada com sucesso.", "OK");
-
-            await Navigation.PopAsync();
+        }
+        catch (NonMatchingPasswordsException ex)
+        {
+            await DisplayAlertAsync("Atenção!", ex.Message, "OK");
         }
         catch (Exception ex)
         {

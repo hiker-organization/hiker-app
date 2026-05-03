@@ -10,6 +10,7 @@
 
     <Shell.Style>
         <Style TargetType="Shell">
+            <Setter Property="Shell.FlyoutBehavior" Value="Disabled"/>
             <Setter Property="Shell.NavBarIsVisible" Value="False"/>
         </Style>
     </Shell.Style>

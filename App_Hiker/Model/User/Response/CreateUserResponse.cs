@@ -1,6 +1,8 @@
-﻿namespace App_Hiker.Model.User.Response
+﻿using App_Hiker.Model.Api;
+
+namespace App_Hiker.Model.User.Response
 {
-    public class CreateUser
+    public class CreateUserResponse
     {
         public string nome_usuario { get; set; } = String.Empty;
 

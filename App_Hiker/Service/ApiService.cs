@@ -1,32 +1,37 @@
 ﻿using System.Text;
+
 using System.Net.Http;
 using System.Net.Http.Headers;
+
 using System.Diagnostics;
 
 namespace App_Hiker.Service
 {
-    public abstract class Api
+    internal abstract class ApiService
     {
         private static HttpClient? connection = null;
 
-        public Api()
+        private static async Task CreateConnection()
         {
-            CreateConnection();
-        }
+            if (connection == null)
+            {
+                connection = new HttpClient();
 
-        private static async void CreateConnection()
-        {
-            connection = new HttpClient();
-
-            connection.BaseAddress = new Uri("http://localhost:3000");
+                connection.BaseAddress = new Uri("http://localhost:3000");
+            }
 
             string auth_token = await SecureStorage.GetAsync("token") ?? "";
 
-            connection.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", auth_token);
+            if (auth_token != String.Empty)
+            {
+                connection.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", auth_token);
+            }
         }
 
-        protected static async Task<string> GetData(string endpoint)
+        internal static async Task<string> GetData(string endpoint)
         {
+            await CreateConnection();
+
             string api_response_json = "";
 
             if (connection != null)
@@ -45,8 +50,10 @@ namespace App_Hiker.Service
             return api_response_json;
         }
 
-        protected static async Task<string> PostData(string endpoint, string json_data)
+        internal static async Task<string> PostData(string endpoint, string json_data)
         {
+            await CreateConnection();
+
             string api_response_json = "";
 
             if (connection != null)
@@ -65,8 +72,10 @@ namespace App_Hiker.Service
             return api_response_json;
         }
 
-        protected static async Task<string> PutData(string endpoint, string json_data)
+        internal static async Task<string> PutData(string endpoint, string json_data)
         {
+            await CreateConnection();
+
             string api_response_json = "";
 
             if (connection != null)
@@ -85,8 +94,10 @@ namespace App_Hiker.Service
             return api_response_json;
         }
 
-        protected static async Task<string> PatchData(string endpoint, string json_data)
+        internal static async Task<string> PatchData(string endpoint, string json_data)
         {
+            await CreateConnection();
+
             string api_response_json = "";
 
             if (connection != null)
@@ -105,8 +116,10 @@ namespace App_Hiker.Service
             return api_response_json;
         }
 
-        protected static async Task<string> DeleteData(string endpoint)
+        internal static async Task<string> DeleteData(string endpoint)
         {
+            await CreateConnection();
+
             string api_response_json = "";
 
             if (connection != null)
@@ -123,13 +136,6 @@ namespace App_Hiker.Service
             }
 
             return api_response_json;
-        }
-
-        protected static void ShowResponseInConsole(string response)
-        {
-            Debug.WriteLine("\n\n-------------------------------------");
-            Debug.WriteLine(response);
-            Debug.WriteLine("-------------------------------------\n");
         }
     }
 }

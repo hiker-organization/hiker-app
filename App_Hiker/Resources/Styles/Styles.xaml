@@ -26,6 +26,10 @@
         <Setter Property="Orientation" Value="Vertical"/>
     </Style>
 
+    <Style TargetType="HorizontalStackLayout">
+        <Setter Property="Spacing" Value="15"/>
+    </Style>
+
     <Style TargetType="VerticalStackLayout">
         <Setter Property="Spacing" Value="15"/>
     </Style>
@@ -164,6 +168,8 @@
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="FontFamily" Value="AmikoRegular" />
         <Setter Property="FontSize" Value="14" />
+        <Setter Property="HorizontalTextAlignment" Value="Center" />
+        <Setter Property="VerticalTextAlignment" Value="Center" />
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">

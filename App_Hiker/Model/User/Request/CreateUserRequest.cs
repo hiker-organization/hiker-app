@@ -1,6 +1,6 @@
 ﻿namespace App_Hiker.Model.User.Request
 {
-    public class CreateUser
+    public class CreateUserRequest
     {
         public string nome_usuario { get; set; } = String.Empty;
 

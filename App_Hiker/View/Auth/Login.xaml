@@ -4,24 +4,32 @@
              x:Class="App_Hiker.View.Auth.Login"
              Title="Login">
     <ContentPage.Content>
-        <ScrollView>
-            <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Padding="20">
-                <Label Text="Hiker" Style="{ StaticResource lbl_title }"/>
+        <Grid ColumnDefinitions="*" RowDefinitions="100,*">
+            <Border Grid.Column="0" Grid.Row="0" BackgroundColor="{ DynamicResource Primary }" Padding="15">
+                <Border.Content>
+                    <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                        <Image Source="logo.png" Aspect="AspectFit" />
+                        <Label Text="Login" TextColor="{ DynamicResource Base100 }" Style="{ StaticResource lbl_title }"/>
+                    </HorizontalStackLayout>
+                </Border.Content>
+            </Border>
+            <ScrollView Grid.Column="0" Grid.Row="1">
+                <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Padding="15">
+                    <Label Text="Preencha com seus dados já cadastrados para efetuar login no aplicativo."/>
 
-                <Label Text="Preencha com seus dados já cadastrados para efetuar login no aplicativo." HorizontalTextAlignment="Center"/>
+                    <Label Text="E-mail:" Style="{ StaticResource lbl_form_field }"/>
+                    <Entry x:Name="txt_email" Placeholder="Digite seu e-mail aqui..." Keyboard="Email"/>
 
-                <Label Text="E-mail:" Style="{ StaticResource lbl_form_field }"/>
-                <Entry x:Name="txt_email" Placeholder="Digite seu e-mail aqui..." Keyboard="Email"/>
+                    <Label Text="Senha:" Style="{ StaticResource lbl_form_field }"/>
+                    <Entry x:Name="txt_senha" Placeholder="Digite sua senha aqui..." Keyboard="Password" IsPassword="True"/>
 
-                <Label Text="Senha:" Style="{ StaticResource lbl_form_field }"/>
-                <Entry x:Name="txt_senha" Placeholder="Digite sua senha aqui..." Keyboard="Password" IsPassword="True"/>
+                    <Button x:Name="btn_login" Text="Entrar" Margin="0,15,0,0" Style="{ StaticResource btn_primary }" Clicked="btn_login_Clicked"/>
 
-                <Button x:Name="btn_login" Text="Entrar" Margin="0,15,0,0" Style="{ StaticResource btn_primary }" Clicked="btn_login_Clicked"/>
+                    <Button x:Name="btn_register" Text="Cadastrar-se" Clicked="btn_register_Clicked"/>
 
-                <Button x:Name="btn_register" Text="Cadastrar-se" Clicked="btn_register_Clicked"/>
-
-                <Button x:Name="btn_alterar_senha" Text="Esqueceu a senha? Clique aqui." Style="{ StaticResource btn_route }" Clicked="btn_alterar_senha_Clicked"/>
-            </VerticalStackLayout>
-        </ScrollView>
+                    <Button x:Name="btn_alterar_senha" Text="Esqueceu a senha? Clique aqui." Style="{ StaticResource btn_route }" Clicked="btn_alterar_senha_Clicked"/>
+                </VerticalStackLayout>
+            </ScrollView>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

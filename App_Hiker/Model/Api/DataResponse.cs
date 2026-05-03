@@ -1,4 +1,4 @@
-﻿namespace App_Hiker.Model
+﻿namespace App_Hiker.Model.Api
 {
     public class DataResponse<T> : MessageResponse
     {

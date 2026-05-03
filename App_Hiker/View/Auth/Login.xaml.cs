@@ -1,6 +1,8 @@
 using App_Hiker.Model.Auth.Request;
 using App_Hiker.Model.Auth.Response;
 
+using App_Hiker.Service.Auth;
+
 namespace App_Hiker.View.Auth;
 
 public partial class Login : ContentPage
@@ -14,15 +16,15 @@ public partial class Login : ContentPage
     {
         try
         {
-            Model.Auth.Request.LoginUser payload = new Model.Auth.Request.LoginUser
+            LoginRequest payload = new LoginRequest
             {
                 email = txt_email.Text,
                 password = txt_senha.Text
             };
 
-            Model.Auth.Response.LoginUser api_response = await new Service.Auth.Auth().Login(payload);
+            LoginResponse api_response = await AuthService.Login(payload);
 
-            if (api_response.access_token != String.Empty)
+            if (api_response.statusCode == 200 && api_response.access_token != String.Empty)
             {
                 await SecureStorage.SetAsync("token", api_response.access_token);
 
