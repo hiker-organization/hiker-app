@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="App_Hiker.Resources.Styles.Light.Colors">
+    
+    <!-- Cores Base -->
+
+    <Color x:Key="Base100">#FFFFFF</Color>
+    <Color x:Key="Base200">#EDEDED</Color>
+    <Color x:Key="Base300">#DBDBDB</Color>
+
+    <Color x:Key="BaseContent">#1F2937</Color>
+
+    <Color x:Key="Neutral">#000000</Color>
+    <Color x:Key="NeutralContent">#808080</Color>
+
+    <Color x:Key="Primary">#F97316</Color>
+    <Color x:Key="PrimaryContent">#2B1206</Color>
+
+    <Color x:Key="Secondary">#6B7280</Color>
+    <Color x:Key="SecondaryContent">#FFFFFF</Color>
+
+    <Color x:Key="Accent">#14B8A6</Color>
+    <Color x:Key="AccentContent">#FFFFFF</Color>
+
+    <Color x:Key="Info">#0EA5E9</Color>
+    <Color x:Key="InfoContent">#FFFFFF</Color>
+
+    <Color x:Key="Success">#22C55E</Color>
+    <Color x:Key="SuccessContent">#FFFFFF</Color>
+
+    <Color x:Key="Warning">#FACC15</Color>
+    <Color x:Key="WarningContent">#000000</Color>
+
+    <Color x:Key="Error">#EF4444</Color>
+    <Color x:Key="ErrorContent">#000000</Color>
+    
+    <!-- Cores Padronizadas -->
+
+    <SolidColorBrush x:Key="Base100Brush" Color="{ StaticResource Base100 }"/>
+    <SolidColorBrush x:Key="Base200Brush" Color="{ StaticResource Base200 }"/>
+    <SolidColorBrush x:Key="Base300Brush" Color="{ StaticResource Base300 }"/>
+
+    <SolidColorBrush x:Key="BaseContentBrush" Color="{ StaticResource BaseContent }"/>
+
+    <SolidColorBrush x:Key="NeutralBrush" Color="{ StaticResource Neutral }"/>
+    <SolidColorBrush x:Key="NeutralContentBrush" Color="{ StaticResource NeutralContent }"/>
+
+    <SolidColorBrush x:Key="PrimaryBrush" Color="{ StaticResource Primary }"/>
+    <SolidColorBrush x:Key="PrimaryContentBrush" Color="{ StaticResource PrimaryContent }"/>
+
+    <SolidColorBrush x:Key="SecondaryBrush" Color="{ StaticResource Secondary }"/>
+    <SolidColorBrush x:Key="SecondaryContentBrush" Color="{ StaticResource SecondaryContent }"/>
+
+    <SolidColorBrush x:Key="AccentBrush" Color="{ StaticResource Accent }"/>
+    <SolidColorBrush x:Key="AccentContentBrush" Color="{ StaticResource AccentContent }"/>
+
+    <SolidColorBrush x:Key="InfoBrush" Color="{ StaticResource Info }"/>
+    <SolidColorBrush x:Key="InfoContentBrush" Color="{ StaticResource InfoContent }"/>
+
+    <SolidColorBrush x:Key="SuccessBrush" Color="{ StaticResource Success }"/>
+    <SolidColorBrush x:Key="SuccessContentBrush" Color="{ StaticResource SuccessContent }"/>
+
+    <SolidColorBrush x:Key="WarningBrush" Color="{ StaticResource Warning }"/>
+    <SolidColorBrush x:Key="WarningContentBrush" Color="{ StaticResource WarningContent }"/>
+
+    <SolidColorBrush x:Key="ErrorBrush" Color="{ StaticResource Error }"/>
+    <SolidColorBrush x:Key="ErrorContentBrush" Color="{ StaticResource ErrorContent }"/>
+
+</ResourceDictionary>
