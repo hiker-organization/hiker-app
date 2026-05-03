@@ -1,6 +1,6 @@
 namespace App_Hiker.View.User;
 
-public partial class Profile : ContentPage
+public partial class Profile : ContentView
 {
 	public Profile()
 	{
