@@ -1,3 +1,5 @@
+using App_Hiker.View.User;
+
 namespace App_Hiker.Layout;
 
 public partial class MainTabBar : ContentPage
@@ -18,6 +20,31 @@ public partial class MainTabBar : ContentPage
 		LoadTab();
 	}
 
+	private async void ApplyTabsStyles()
+	{
+		try
+		{
+			foreach (IView tab in grid_tabs.Children)
+			{
+				if (tab is Button button)
+				{
+					if (Grid.GetColumn(button) == current_tab_index)
+					{
+						button.TextColor = (Color)Application.Current.Resources["Primary"];
+					}
+					else
+					{
+						button.TextColor = (Color)Application.Current.Resources["BaseContent"];
+					}
+				}
+			}
+		}
+		catch (Exception ex)
+		{
+            await DisplayAlertAsync("Erro!", ex.Message, "OK");
+        }
+	}
+
 	private async void LoadTab()
 	{
 		try
@@ -35,9 +62,11 @@ public partial class MainTabBar : ContentPage
                     break;
 
                 case InternalTabs.Profile:
-                    ctview_page.Content = new Label() { Text = "Aba 03" };
+					ctview_page.Content = new Profile();
                 break;
             }
+
+			ApplyTabsStyles();
         }
         catch (Exception ex)
         {

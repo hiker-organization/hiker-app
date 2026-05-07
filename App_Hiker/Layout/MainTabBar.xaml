@@ -11,18 +11,12 @@
         </Style>
 
         <Style TargetType="Button" x:Key="tabs_grid_button">
-            <Setter Property="BackgroundColor" Value="{ DynamicResource Secondary }"/>
+            <Setter Property="BackgroundColor" Value="Transparent"/>
             <Setter Property="BorderColor" Value="Transparent"/>
             <Setter Property="CornerRadius" Value="50"/>
+            <Setter Property="FontFamily" Value="FontAwesomeFreeSolid900"/>
             <Setter Property="HorizontalOptions" Value="Center"/>
             <Setter Property="VerticalOptions" Value="Center"/>
-            <Setter Property="MaximumHeightRequest" Value="10"/>
-            <Setter Property="MaximumWidthRequest" Value="20"/>
-            <Setter Property="TextColor" Value="{ DynamicResource BaseContent }"/>
-        </Style>
-
-        <Style TargetType="Button" x:Key="tabs_grid_button_primary" BaseResourceKey="tabs_grid_button">
-            <Setter Property="BackgroundColor" Value="{ DynamicResource Primary }"/>
         </Style>
     </ContentPage.Resources>
     
@@ -30,12 +24,12 @@
         <Grid ColumnDefinitions="*" RowDefinitions="*,60">
             <ContentView x:Name="ctview_page" Grid.Column="0" Grid.Row="0" Padding="15"/>
 
-            <Grid ColumnDefinitions="*,*,*" RowDefinitions="*" Grid.Column="0" Grid.Row="1" Style="{ DynamicResource tabs_grid }">
-                <Button x:Name="tab_home" ImageSource="home.png" Grid.Column="0" Grid.Row="0" Style="{ StaticResource tabs_grid_button }" Clicked="tab_Clicked"/>
+            <Grid x:Name="grid_tabs" ColumnDefinitions="*,*,*" RowDefinitions="*" Grid.Column="0" Grid.Row="1" Style="{ DynamicResource tabs_grid }">
+                <Button x:Name="tab_home" Text="&#xf015;" Grid.Column="0" Grid.Row="0" Style="{ StaticResource tabs_grid_button }" Clicked="tab_Clicked"/>
 
-                <Button x:Name="tab_novo" ImageSource="plus.png" Grid.Column="1" Grid.Row="0" Style="{ StaticResource tabs_grid_button_primary }" Clicked="tab_Clicked"/>
+                <Button x:Name="tab_novo" Text="&#x2b;" Grid.Column="1" Grid.Row="0" Style="{ StaticResource tabs_grid_button }" Clicked="tab_Clicked"/>
 
-                <Button x:Name="tab_perfil" ImageSource="user.png" Grid.Column="2" Grid.Row="0" Style="{ StaticResource tabs_grid_button }" Clicked="tab_Clicked"/>
+                <Button x:Name="tab_perfil" Text="&#xf007;" Grid.Column="2" Grid.Row="0" Style="{ StaticResource tabs_grid_button }" Clicked="tab_Clicked"/>
             </Grid>
         </Grid>
     </ContentPage.Content>

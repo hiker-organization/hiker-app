@@ -11,6 +11,8 @@ namespace App_Hiker
                 .UseMauiApp<App>()
                 .ConfigureFonts(fonts =>
                 {
+                    // Texto.
+
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 
@@ -19,6 +21,12 @@ namespace App_Hiker
                     fonts.AddFont("Amiko-Bold.ttf", "AmikoBold");
                     fonts.AddFont("Amiko-Regular.ttf", "AmikoRegular");
                     fonts.AddFont("Amiko-Semibold.ttf", "AmikoSemibold");
+
+                    // Ícones.
+
+                    fonts.AddFont("Font-Awesome-7-Brands-Regular-400.otf", "FontAwesomeBrandsRegular400");
+                    fonts.AddFont("Font-Awesome-7-Free-Regular-400.otf", "FontAwesomeFreeRegular400");
+                    fonts.AddFont("Font-Awesome-7-Free-Solid-900.otf", "FontAwesomeFreeSolid900");
                 });
 
 #if DEBUG

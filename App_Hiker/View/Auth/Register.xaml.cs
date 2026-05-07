@@ -25,7 +25,7 @@ public partial class Register : ContentPage
                 throw new NonMatchingPasswordsException("As senhas passadas não batem! Tente novamente.");
             }
 
-            if (SpecialCharacters.Verify(txt_usuario.Text, @"[^a-zA-Z0-9_-]"))
+            if (SpecialCharacters.Verify(txt_usuario.Text, @"[^a-zA-Z0-9_.]"))
             {
                 throw new InvalidUsernameException("Nome de usuário inválido! Caracteres permitidos: letras, números, underscore e hífen.");
             }
