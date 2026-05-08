@@ -15,11 +15,11 @@
         </Style>
     </Shell.Style>
 
-    <!--<ShellContent
+    <ShellContent
         Title="Login"
         ContentTemplate="{ DataTemplate auth:Login }"
         Route="Auth"
-    />-->
+    />
 
     <ShellContent
         Title="Início"

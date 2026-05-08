@@ -4,13 +4,13 @@
              x:Class="App_Hiker.Layout.MainTabBar"
              Title="MainTabBar">
     <ContentPage.Resources>
-        <Style TargetType="Grid" x:Key="tabs_grid">
-            <Setter Property="BackgroundColor" Value="{ DynamicResource Base100 }"/>
+        <Style TargetType="Grid" x:Key="grid_main_tabs">
+            <Setter Property="BackgroundColor" Value="{ DynamicResource Base300 }"/>
             <Setter Property="ColumnSpacing" Value="5"/>
             <Setter Property="RowSpacing" Value="5"/>
         </Style>
 
-        <Style TargetType="Button" x:Key="tabs_grid_button">
+        <Style TargetType="Button" x:Key="btn_grid_main_tabs">
             <Setter Property="BackgroundColor" Value="Transparent"/>
             <Setter Property="BorderColor" Value="Transparent"/>
             <Setter Property="CornerRadius" Value="50"/>
@@ -22,14 +22,14 @@
     
     <ContentPage.Content>
         <Grid ColumnDefinitions="*" RowDefinitions="*,60">
-            <ContentView x:Name="ctview_page" Grid.Column="0" Grid.Row="0" Padding="15"/>
+            <ContentView x:Name="ctview_page" Grid.Column="0" Grid.Row="0"/>
 
-            <Grid x:Name="grid_tabs" ColumnDefinitions="*,*,*" RowDefinitions="*" Grid.Column="0" Grid.Row="1" Style="{ DynamicResource tabs_grid }">
-                <Button x:Name="tab_home" Text="&#xf015;" Grid.Column="0" Grid.Row="0" Style="{ StaticResource tabs_grid_button }" Clicked="tab_Clicked"/>
+            <Grid x:Name="grid_main_tabs" ColumnDefinitions="*,*,*" RowDefinitions="*" Grid.Column="0" Grid.Row="1" Style="{ DynamicResource grid_main_tabs }">
+                <Button Text="&#xf015;" Grid.Column="0" Grid.Row="0" Style="{ StaticResource btn_grid_main_tabs }" Clicked="tab_Clicked"/>
 
-                <Button x:Name="tab_novo" Text="&#x2b;" Grid.Column="1" Grid.Row="0" Style="{ StaticResource tabs_grid_button }" Clicked="tab_Clicked"/>
+                <Button Text="&#x2b;" Grid.Column="1" Grid.Row="0" Style="{ StaticResource btn_grid_main_tabs }" Clicked="tab_Clicked"/>
 
-                <Button x:Name="tab_perfil" Text="&#xf007;" Grid.Column="2" Grid.Row="0" Style="{ StaticResource tabs_grid_button }" Clicked="tab_Clicked"/>
+                <Button Text="&#xf007;" Grid.Column="2" Grid.Row="0" Style="{ StaticResource btn_grid_main_tabs }" Clicked="tab_Clicked"/>
             </Grid>
         </Grid>
     </ContentPage.Content>
