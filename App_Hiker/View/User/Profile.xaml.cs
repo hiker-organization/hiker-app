@@ -11,7 +11,7 @@ public partial class Profile : ContentView
         Favorites
     };
 
-    private int current_profile_tab_index = 0;
+    private InternalTabs current_profile_tab_index = InternalTabs.Posts;
 
 	public Profile()
 	{
@@ -30,7 +30,7 @@ public partial class Profile : ContentView
                 {
                     if (tab is Button button)
                     {
-                        if (Grid.GetColumn(button) == current_profile_tab_index)
+                        if (Grid.GetColumn(button) == (int)current_profile_tab_index)
                         {
                             button.TextColor = (Color)current_app.Resources["Primary"];
                         }
@@ -52,7 +52,7 @@ public partial class Profile : ContentView
     {
         try
         {
-            InternalTabs tab_option = (InternalTabs)this.current_profile_tab_index;
+            InternalTabs tab_option = this.current_profile_tab_index;
 
             switch (tab_option)
             {
@@ -83,7 +83,7 @@ public partial class Profile : ContentView
         {
             Button selected_tab = (Button)sender;
 
-            this.current_profile_tab_index = Grid.GetColumn(selected_tab);
+            this.current_profile_tab_index = (InternalTabs)Grid.GetColumn(selected_tab);
 
             LoadTab();
 

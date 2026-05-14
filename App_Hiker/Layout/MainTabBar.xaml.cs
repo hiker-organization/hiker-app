@@ -13,7 +13,7 @@ public partial class MainTabBar : ContentPage
 		Profile
 	};
 
-	private int current_main_tab_index = 0;
+	private InternalTabs current_main_tab_index = InternalTabs.Home;
 
 	public MainTabBar()
 	{
@@ -33,7 +33,7 @@ public partial class MainTabBar : ContentPage
                 {
                     if (tab is Button button)
                     {
-                        if (Grid.GetColumn(button) == current_main_tab_index)
+                        if (Grid.GetColumn(button) == (int)current_main_tab_index)
                         {
                             button.TextColor = (Color)current_app.Resources["Primary"];
                         }
@@ -55,7 +55,7 @@ public partial class MainTabBar : ContentPage
 	{
 		try
 		{
-            InternalTabs tab_option = (InternalTabs)this.current_main_tab_index;
+            InternalTabs tab_option = this.current_main_tab_index;
 
             switch (tab_option)
             {
@@ -86,7 +86,7 @@ public partial class MainTabBar : ContentPage
 		{
 			Button selected_tab = (Button)sender;
 
-			this.current_main_tab_index = Grid.GetColumn(selected_tab);
+			this.current_main_tab_index = (InternalTabs)Grid.GetColumn(selected_tab);
 
 			LoadTab();
 

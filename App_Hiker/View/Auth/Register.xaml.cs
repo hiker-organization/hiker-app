@@ -27,7 +27,7 @@ public partial class Register : ContentPage
 
             if (SpecialCharacters.Verify(txt_usuario.Text, @"[^a-zA-Z0-9_.]"))
             {
-                throw new InvalidUsernameException("Nome de usuário inválido! Caracteres permitidos: letras, números, underscore e hífen.");
+                throw new InvalidUsernameException("Nome de usuário inválido! Caracteres permitidos: letras, números, underscore e ponto final.");
             }
 
             CreateUserRequest user = new CreateUserRequest()
