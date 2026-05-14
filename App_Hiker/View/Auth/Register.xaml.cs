@@ -25,9 +25,14 @@ public partial class Register : ContentPage
                 throw new NonMatchingPasswordsException("As senhas passadas não batem! Tente novamente.");
             }
 
+            if (SpecialCharacters.Verify(txt_usuario.Text, @"[^a-zA-Z0-9_.]"))
+            {
+                throw new InvalidUsernameException("Nome de usuário inválido! Caracteres permitidos: letras, números, underscore e ponto final.");
+            }
+
             CreateUserRequest user = new CreateUserRequest()
             {
-                nome_usuario = SpecialCharacters.Remove(txt_usuario.Text),
+                nome_usuario = txt_usuario.Text,
                 nome_exibicao = txt_nome_completo.Text,
                 email = txt_email.Text,
                 senha = txt_senha.Text,
@@ -43,6 +48,10 @@ public partial class Register : ContentPage
 
                 await Navigation.PopAsync();
             }
+        }
+        catch (InvalidUsernameException ex)
+        {
+            await DisplayAlertAsync("Atenção!", ex.Message, "OK");
         }
         catch (NonMatchingPasswordsException ex)
         {

@@ -32,7 +32,7 @@ public partial class ForgotPassword : ContentPage
                 case ResetPasswordStats.Unready:
                     txt_email.IsEnabled = true;
 
-                    txt_token_validacao.IsEnabled = false;
+                    txt_codigo_validacao.IsEnabled = false;
 
                     txt_nova_senha.IsEnabled = false;
 
@@ -42,7 +42,7 @@ public partial class ForgotPassword : ContentPage
                 case ResetPasswordStats.Ready:
                     txt_email.IsEnabled = false;
 
-                    txt_token_validacao.IsEnabled = true;
+                    txt_codigo_validacao.IsEnabled = true;
 
                     txt_nova_senha.IsEnabled = true;
 
@@ -56,7 +56,7 @@ public partial class ForgotPassword : ContentPage
         }
     }
 
-    private async void SendEmailToResetPassword()
+    private async Task SendEmailToResetPassword()
     {
         try
         {
@@ -64,7 +64,9 @@ public partial class ForgotPassword : ContentPage
 
             MessageResponse api_response = await AuthService.ForgotPassword(email);
 
-            await DisplayAlertAsync("Atenção!", api_response.message, "OK");
+            await DisplayAlertAsync("Atenção!", "Uma mensagem de redefinição de senha foi enviada para o e-mail informado, caso ele exista.", "OK");
+
+            ToggleValidationFieldsStatus();
         }
         catch (Exception ex)
         {
@@ -78,13 +80,16 @@ public partial class ForgotPassword : ContentPage
         {
             ResetPasswordRequest payload = new ResetPasswordRequest()
             {
-                token = txt_token_validacao.Text,
+                email = txt_email.Text,
+                token = txt_codigo_validacao.Text,
                 senha = txt_nova_senha.Text
             };
 
             MessageResponse api_response = await AuthService.ResetPassword(payload);
 
-            await DisplayAlertAsync("Atenção!", api_response.message, "OK");
+            await DisplayAlertAsync("Atenção!", "Sua senha foi alterada com sucesso! Efetue o login para prosseguir.", "OK");
+
+            await Navigation.PopAsync();
         }
         catch (Exception ex)
         {
@@ -98,14 +103,12 @@ public partial class ForgotPassword : ContentPage
         {
             if (this.reset_password_stats == ResetPasswordStats.Unready)
             {
-                SendEmailToResetPassword();
+                await SendEmailToResetPassword();
             }
             else
             {
                 ResetUserPassword();
             }
-
-            ToggleValidationFieldsStatus();
         }
         catch (Exception ex)
         {

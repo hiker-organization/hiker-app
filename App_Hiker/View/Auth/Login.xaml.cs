@@ -30,7 +30,7 @@ public partial class Login : ContentPage
 
                 await DisplayAlertAsync("Sucesso!", "Seja bem vindo ao Hiker.", "OK");
 
-                await Shell.Current.GoToAsync("//Profile");
+                await Shell.Current.GoToAsync("//Home");
             }
         }
         catch (Exception ex)

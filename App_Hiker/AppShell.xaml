@@ -5,7 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:App_Hiker"
     xmlns:auth="clr-namespace:App_Hiker.View.Auth"
-    xmlns:user="clr-namespace:App_Hiker.View.User"
+    xmlns:layout="clr-namespace:App_Hiker.Layout"
     Title="App_Hiker">
 
     <Shell.Style>
@@ -22,8 +22,8 @@
     />
 
     <ShellContent
-        Title="Perfil"
-        ContentTemplate="{ DataTemplate user:Profile }"
-        Route="Profile"
+        Title="Início"
+        ContentTemplate="{ DataTemplate layout:MainTabBar }"
+        Route="Home"
     />
 </Shell>
