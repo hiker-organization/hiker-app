@@ -68,7 +68,7 @@ public partial class MainTabBar : ContentPage
                     break;
 
                 case InternalTabs.Profile:
-					ctview_page.Content = new Profile();
+                    ctview_page.Content = new Profile("AuthUserContext");
                 break;
             }
 

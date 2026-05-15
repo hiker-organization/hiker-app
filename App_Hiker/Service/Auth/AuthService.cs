@@ -2,12 +2,21 @@
 using App_Hiker.Model.Auth.Request;
 using App_Hiker.Model.Auth.Response;
 
+using App_Hiker.Model.User.Response;
+
 using Newtonsoft.Json;
 
 namespace App_Hiker.Service.Auth
 {
     public static class AuthService
     {
+        public static async Task<DataResponse<UserDataResponse>> Me()
+        {
+            string response_json = await ApiService.GetData("/user/me");
+
+            return JsonConvert.DeserializeObject<DataResponse<UserDataResponse>>(response_json) ?? new DataResponse<UserDataResponse>();
+        }
+
         public static async Task<LoginResponse> Login(LoginRequest payload)
         {
             string request_json = JsonConvert.SerializeObject(payload);

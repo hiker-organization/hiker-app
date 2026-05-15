@@ -29,21 +29,25 @@
                     </Border.Content>
                 </Border>
 
-                <VerticalStackLayout Grid.Column="1" Grid.Row="0" VerticalOptions="Center">
-                    <Border Style="{ StaticResource brd_user_data }">
+                <Grid ColumnDefinitions="Auto,*" RowDefinitions="*,*" Grid.Column="1" Grid.Row="0" ColumnSpacing="15" RowSpacing="15">
+                    <Border Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Style="{ StaticResource brd_user_data }">
+                        <Label x:Name="lbl_user_name" Text="Usuário"/>
+                    </Border>
+                    
+                    <Border Grid.Column="0" Grid.Row="1" Style="{ StaticResource brd_user_data }">
                         <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
                             <Label Text="&#xf304;" FontFamily="FontAwesomeFreeSolid900" TextColor="{ DynamicResource Primary }"/>
-                            <Label Text="Posts: 10" />
+                            <Label x:Name="lbl_posts_quantity" Text="0"/>
                         </HorizontalStackLayout>
                     </Border>
 
-                    <Border Style="{ StaticResource brd_user_data }">
+                    <Border Grid.Column="1" Grid.Row="1" Style="{ StaticResource brd_user_data }">
                         <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
                             <Label Text="&#xf005;" FontFamily="FontAwesomeFreeSolid900" TextColor="{ DynamicResource Primary }"/>
-                            <Label Text="Pontuação: 80%" />
+                            <Label x:Name="lbl_reputation" Text="0%"/>
                         </HorizontalStackLayout>
                     </Border>
-                </VerticalStackLayout>
+                </Grid>
             </Grid>
 
             <Grid x:Name="grid_profile_tabs" ColumnDefinitions="*,*,*" RowDefinitions="Auto" Grid.Column="0" Grid.Row="1" BackgroundColor="{ DynamicResource Base300 }">
