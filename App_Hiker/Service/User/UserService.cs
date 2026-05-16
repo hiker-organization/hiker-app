@@ -16,5 +16,13 @@ namespace App_Hiker.Service.User
 
             return JsonConvert.DeserializeObject<DataResponse<CreateUserResponse>>(response_json) ?? new DataResponse<CreateUserResponse>();
         }
+
+        public static async Task<DataResponse<ProfileResponse>> GetProfile()
+        {
+            string response_json = await ApiService.GetData("/user/me");
+            Console.WriteLine(response_json);
+
+            return JsonConvert.DeserializeObject<DataResponse<ProfileResponse>>(response_json) ?? new DataResponse<ProfileResponse>();
+        }
     }
 }

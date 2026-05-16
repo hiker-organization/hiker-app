@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="App_Hiker.View.Posts.NewPost">
+
+    <ContentView.Content>
+        <ScrollView>
+            <VerticalStackLayout>
+                <Grid  ColumnDefinitions="60, *, Auto"
+                       RowDefinitions="Auto, Auto"
+                       Padding="10">
+
+                    <!-- Foto de perfil ocupando as 2 linhas -->
+                    <Image Source="logo.png"
+                       Grid.Column="0"
+                       Grid.Row="0"
+                       Grid.RowSpan="2"
+                       WidthRequest="50"
+                       HeightRequest="50"/>
+
+                    <!-- Nome do usuário -->
+                    <Label Text="Maite Hiker"
+                       Grid.Column="1"
+                       Grid.Row="0"
+                       FontAttributes="Bold"
+                       VerticalOptions="Center"
+                       Margin="8,0,0,0"/>
+
+                    <!-- Picker Público/Privado -->
+                    <Picker x:Name="PickerVisibility"
+                       Grid.Column="1"
+                       Grid.Row="1"
+                       Margin="4,0,0,0"
+                       WidthRequest="100"
+                       HorizontalOptions="Start"
+                       SelectedIndexChanged="PickerVisibility_Changed"/>
+
+                    <!-- Estrelas interativas -->
+                    <HorizontalStackLayout x:Name="StarsLayout"
+                                           Grid.Column="2"
+                                           Grid.Row="0"
+                                           Grid.RowSpan="2"
+                                           VerticalOptions="Center"
+                                           Spacing="2">
+                        <Label Text="★" FontSize="28" TextColor="LightGray" x:Name="Star1"/>
+                        <Label Text="★" FontSize="28" TextColor="LightGray" x:Name="Star2"/>
+                        <Label Text="★" FontSize="28" TextColor="LightGray" x:Name="Star3"/>
+                        <Label Text="★" FontSize="28" TextColor="LightGray" x:Name="Star4"/>
+                        <Label Text="★" FontSize="28" TextColor="LightGray" x:Name="Star5"/>
+                    </HorizontalStackLayout>
+                </Grid>
+                <Entry x:Name="CityEntry"
+                       Placeholder="Selecione a Cidade"
+                       TextChanged="CityEntry_TextChanged"/>
+
+                <CollectionView x:Name="SuggestionsList"
+                                IsVisible="False"
+                                SelectionMode="Single"
+                                SelectionChanged="SuggestionsList_SelectionChanged">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Label Text="{Binding .}" Padding="10,8"/>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+                <Editor HeightRequest="200"
+                        Placeholder="Compartilhe sua experiência..."
+                        VerticalTextAlignment="Start"/>
+                <Entry Placeholder="Palavras que definem a cidade" />
+                <!-- Botão adicionar imagem -->
+                <HorizontalStackLayout Spacing="10" Margin="0,8,0,0">
+                    <Button x:Name="AddImageButton"
+                            Text="+ Adicionar Imagem (0/5)"
+                            Clicked="AddImage_Clicked"
+                            BackgroundColor="Transparent"
+                            TextColor="#FFC107"
+                            BorderColor="#FFC107"
+                            BorderWidth="1"
+                            CornerRadius="8"
+                            Margin="0,8,0,0"/>
+                </HorizontalStackLayout>
+
+
+                <!-- Preview das imagens em linha -->
+                <ScrollView Orientation="Horizontal"
+                            HorizontalScrollBarVisibility="Never"
+                            Margin="0,8,0,0">
+                    <HorizontalStackLayout x:Name="ImagesContainer"
+                                           Spacing="8"/>
+                </ScrollView>
+            </VerticalStackLayout>
+        </ScrollView>
+
+
+    </ContentView.Content>
+    
+ </ContentView>

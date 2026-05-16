@@ -1,3 +1,4 @@
+using App_Hiker.View.Posts;
 using App_Hiker.View.User;
 
 namespace App_Hiker.Layout;
@@ -64,7 +65,7 @@ public partial class MainTabBar : ContentPage
                 break;
 
                 case InternalTabs.NewPost:
-                    ctview_page.Content = new Label() { Text = "Aba 02" };
+                    ctview_page.Content = new NewPost();
                     break;
 
                 case InternalTabs.Profile:

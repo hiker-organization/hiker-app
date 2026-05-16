@@ -1,7 +1,10 @@
+using App_Hiker.Model.Api;
 using App_Hiker.Model.Auth.Request;
 using App_Hiker.Model.Auth.Response;
-
+using App_Hiker.Model.User.Response;
 using App_Hiker.Service.Auth;
+using App_Hiker.Service.User;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace App_Hiker.View.Auth;
 
@@ -11,6 +14,32 @@ public partial class Login : ContentPage
 	{
 		InitializeComponent();
 	}
+
+    protected override async void OnAppearing()
+    {
+        string? token = await SecureStorage.Default.GetAsync("token");
+        if (token != null )
+        {
+            var handler = new JwtSecurityTokenHandler();
+            var jwt = handler.ReadJwtToken(token);
+
+            if (jwt.ValidTo < DateTime.UtcNow)
+            {
+                SecureStorage.Default.Remove("token");
+                return;
+            }
+            try
+            {
+                DataResponse<ProfileResponse> api_response = await UserService.GetProfile();
+
+                await Shell.Current.GoToAsync("//Home");
+            }
+            catch (Exception)
+            {
+                SecureStorage.Default.Remove("token");
+            }
+        }
+    }
 
     private async void btn_login_Clicked(object sender, EventArgs e)
     {
