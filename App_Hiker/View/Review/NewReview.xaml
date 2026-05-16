@@ -2,7 +2,7 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             x:Class="App_Hiker.View.Posts.NewPost">
+             x:Class="App_Hiker.View.Review.NewReview">
 
     <ContentView.Content>
         <ScrollView>
@@ -65,9 +65,11 @@
                     </CollectionView.ItemTemplate>
                 </CollectionView>
                 <Editor HeightRequest="200"
+                        x:Name="DescriptionEditor"
                         Placeholder="Compartilhe sua experiência..."
                         VerticalTextAlignment="Start"/>
-                <Entry Placeholder="Palavras que definem a cidade" />
+                <Entry x:Name="TagsEntry"
+                       Placeholder="Palavras que definem a cidade, separadas por vírgula" />
                 <!-- Botão adicionar imagem -->
                 <HorizontalStackLayout Spacing="10" Margin="0,8,0,0">
                     <Button x:Name="AddImageButton"
@@ -89,6 +91,13 @@
                     <HorizontalStackLayout x:Name="ImagesContainer"
                                            Spacing="8"/>
                 </ScrollView>
+                <Button Text="Publicar"
+                        BackgroundColor="{StaticResource Primary}"
+                        TextColor="White"
+                        FontAttributes="Bold"
+                        CornerRadius="8"
+                        Margin="0,16,0,0"
+                        Clicked="Button_Clicked_Post"/>
             </VerticalStackLayout>
         </ScrollView>
 

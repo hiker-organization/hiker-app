@@ -100,4 +100,10 @@
 	  </MauiXaml>
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Compile Update="View\Review\NewReview.xaml.cs">
+	    <DependentUpon>NewReview.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
 </Project>

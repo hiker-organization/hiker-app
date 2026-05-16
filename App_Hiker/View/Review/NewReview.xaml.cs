@@ -1,22 +1,30 @@
+using App_Hiker.Model.Api;
+using App_Hiker.Model.Review.Request;
+using App_Hiker.Model.Review.Response;
+using App_Hiker.Service.Review;
 using System.Text.Json;
 
-namespace App_Hiker.View.Posts;
+namespace App_Hiker.View.Review;
 
 
-public partial class NewPost : ContentView
+public partial class NewReview : ContentView
 {
     private const string GoogleApiKey = "AIzaSyD8SFvXnT_IaBmd55CFkvflabW-HUWdX-Q";
     private CancellationTokenSource? _cts;
 
-    private int _selectedRating = 0;
+    private int _selectedRating = 1;
     private readonly List<Label> _stars = new();
     private readonly List<ImageSource> _imagensSelecionadas = new();
 
-    public NewPost()
+    private bool _isPrivate = false;
+    private string? _selectedPlaceId; // armazena o place_id selecionado
+
+    public NewReview()
     {
         InitializeComponent();
         SetupPicker();
         SetupStars();
+        SetRating(_selectedRating);
     }
 
     // ── Picker Público / Privado ──────────────────────────────────────
@@ -31,6 +39,8 @@ public partial class NewPost : ContentView
     {
         var selected = PickerVisibility.SelectedItem?.ToString();
         // Use 'selected' conforme precisar ("Público" ou "Privado")
+
+        _isPrivate = string.Equals(selected, "Privado", StringComparison.OrdinalIgnoreCase);
     }
 
     // ── Estrelas interativas ──────────────────────────────────────────
@@ -92,7 +102,7 @@ public partial class NewPost : ContentView
         catch (OperationCanceledException) { /* ignorar, nova busca em andamento */ }
     }
 
-    private async Task<List<string>> BuscarCidadesAsync(string input, CancellationToken ct)
+    private async Task<List<PlaceSuggestion>> BuscarCidadesAsync(string input, CancellationToken ct)
     {
         var url = $"https://maps.googleapis.com/maps/api/place/autocomplete/json" +
                   $"?input={Uri.EscapeDataString(input)}" +
@@ -106,12 +116,13 @@ public partial class NewPost : ContentView
         var json = JsonDocument.Parse(response);
         var predictions = json.RootElement.GetProperty("predictions");
 
-        var cidades = new List<string>();
+        var cidades = new List<PlaceSuggestion>();
         foreach (var item in predictions.EnumerateArray())
         {
             var descricao = item.GetProperty("description").GetString();
+            var placeId = item.TryGetProperty("place_id", out var pid) ? pid.GetString() : null;
             if (descricao != null)
-                cidades.Add(descricao);
+                cidades.Add(new PlaceSuggestion { Description = descricao, PlaceId = placeId });
         }
 
         return cidades;
@@ -119,9 +130,10 @@ public partial class NewPost : ContentView
 
     private void SuggestionsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        if (e.CurrentSelection.FirstOrDefault() is string cidade)
+        if (e.CurrentSelection.FirstOrDefault() is PlaceSuggestion suggestion)
         {
-            CityEntry.Text = cidade;
+            CityEntry.Text = suggestion.Description;
+            _selectedPlaceId = suggestion.PlaceId; // guarda o place_id para enviar ao backend
             SuggestionsList.IsVisible = false;
         }
     }
@@ -186,5 +198,45 @@ public partial class NewPost : ContentView
             await page.DisplayAlertAsync(title, message, button);
         else
             System.Diagnostics.Debug.WriteLine($"Não foi possível exibir alerta: nenhuma Window ativa. {title} - {message}");
+    }
+
+    private async void Button_Clicked_Post(object sender, EventArgs e)
+    {
+        try
+        {
+            if (_selectedRating < 1 || _selectedRating > 5)
+            {
+                await ShowAlert("Avaliação inválida", "Selecione uma nota de 1 a 5.", "OK");
+                return;
+            }
+            CreateReviewRequest payload = new CreateReviewRequest
+            {
+                descricao = DescriptionEditor.Text,
+                local = CityEntry.Text,
+                // enviar o place_id quando disponível, caso contrário fallback para o nome
+                local_id = string.IsNullOrWhiteSpace(_selectedPlaceId) ? CityEntry.Text : _selectedPlaceId,
+                nota = _selectedRating,
+                oculto = _isPrivate,
+                tags = TagsEntry.Text,
+            };
+
+            DataResponse<CreateReviewResponse> response = await ReviewService.Create(payload);
+            if (response.statusCode == 201)
+            {
+                await ShowAlert("Sucesso!", "Sua review foi criada com sucesso.", "OK");
+            }
+        }
+        catch (Exception ex)
+        {
+            await ShowAlert("Erro ao criar review", ex.Message, "OK");
+        }
+    }
+
+    // Classe auxiliar para representar sugestão (mostra Description no UI via ToString)
+    private class PlaceSuggestion
+    {
+        public string Description { get; set; } = string.Empty;
+        public string? PlaceId { get; set; }
+        public override string ToString() => Description;
     }
 }
