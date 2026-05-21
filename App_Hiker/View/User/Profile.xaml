@@ -22,33 +22,41 @@
 
     <ContentView.Content>
         <Grid ColumnDefinitions="*" RowDefinitions="Auto,Auto,*">
-            <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto" Grid.Column="0" Grid.Row="0" ColumnSpacing="15" BackgroundColor="{ DynamicResource Base300 }" Padding="15">
-                <Border Grid.Column="0" Grid.Row="0" Stroke="{ DynamicResource BaseContent }" StrokeShape="{ RoundRectangle CornerRadius=10 }">
-                    <Border.Content>
-                        <Image Source="logo.png" WidthRequest="100"/>
-                    </Border.Content>
-                </Border>
-
-                <Grid ColumnDefinitions="Auto,*" RowDefinitions="*,*" Grid.Column="1" Grid.Row="0" ColumnSpacing="15" RowSpacing="15">
-                    <Border Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Style="{ StaticResource brd_user_data }">
-                        <Label x:Name="lbl_user_name" Text="Usuário"/>
+            <VerticalStackLayout BackgroundColor="{ DynamicResource Base300 }" Padding="15">
+                <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto" Grid.Column="0" Grid.Row="0" ColumnSpacing="15" BackgroundColor="{ DynamicResource Base300 }">
+                    <Border Grid.Column="0" Grid.Row="0" Stroke="{ DynamicResource BaseContent }" StrokeShape="{ RoundRectangle CornerRadius=10 }">
+                        <Border.Content>
+                            <Image Source="logo.png" WidthRequest="100"/>
+                        </Border.Content>
                     </Border>
-                    
-                    <Border Grid.Column="0" Grid.Row="1" Style="{ StaticResource brd_user_data }">
+
+                    <Grid ColumnDefinitions="Auto,*" RowDefinitions="*,*" Grid.Column="1" Grid.Row="0" ColumnSpacing="15" RowSpacing="15">
+                        <Border Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Style="{ StaticResource brd_user_data }">
+                            <Label x:Name="lbl_user_real_name" Text="Usuário"/>
+                        </Border>
+
+                        <Border Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Style="{ StaticResource brd_user_data }">
+                            <Label x:Name="lbl_user_name" Text="@Usuário"/>
+                        </Border>
+                    </Grid>
+                </Grid>
+
+                <Grid ColumnDefinitions="*,*" RowDefinitions="Auto" Grid.Column="0" Grid.Row="1" ColumnSpacing="15" BackgroundColor="{ DynamicResource Base300 }">
+                    <Border Grid.Column="0" Grid.Row="0" Style="{ StaticResource brd_user_data }">
                         <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
                             <Label Text="&#xf304;" FontFamily="FontAwesomeFreeSolid900" TextColor="{ DynamicResource Primary }"/>
                             <Label x:Name="lbl_posts_quantity" Text="0"/>
                         </HorizontalStackLayout>
                     </Border>
 
-                    <Border Grid.Column="1" Grid.Row="1" Style="{ StaticResource brd_user_data }">
+                    <Border Grid.Column="1" Grid.Row="0" Style="{ StaticResource brd_user_data }">
                         <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
                             <Label Text="&#xf005;" FontFamily="FontAwesomeFreeSolid900" TextColor="{ DynamicResource Primary }"/>
                             <Label x:Name="lbl_reputation" Text="0%"/>
                         </HorizontalStackLayout>
                     </Border>
                 </Grid>
-            </Grid>
+            </VerticalStackLayout>
 
             <Grid x:Name="grid_profile_tabs" ColumnDefinitions="*,*,*" RowDefinitions="Auto" Grid.Column="0" Grid.Row="1" BackgroundColor="{ DynamicResource Base300 }">
                 <Button Text="&#xf249;" Grid.Column="0" Grid.Row="0" Style="{ StaticResource btn_profile_tabs_grid }" Clicked="tab_Clicked"/>

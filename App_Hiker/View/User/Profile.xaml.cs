@@ -50,7 +50,8 @@ public partial class Profile : ContentView
     {
         try
         {
-            lbl_user_name.Text = data.nome_exibicao;
+            lbl_user_real_name.Text = data.nome_exibicao;
+            lbl_user_name.Text = data.nome_usuario;
             lbl_posts_quantity.Text = data.reviews.Count.ToString();
             lbl_reputation.Text = data.reputacao_normalizada;
         }
@@ -123,7 +124,7 @@ public partial class Profile : ContentView
                 case InternalTabs.Posts:
                     ctv_profile_current_tab.Content = new UserReviewsListing()
                     {
-                        BindingContext = this.user_data
+                        BindingContext = this.user_data,
                     };
                 break;
 

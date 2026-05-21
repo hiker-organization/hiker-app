@@ -18,6 +18,8 @@ namespace App_Hiker.Service
                 connection = new HttpClient();
 
                 connection.BaseAddress = new Uri("http://localhost:3000");
+
+                //connection.BaseAddress = new Uri("https://hikerapi.azurewebsites.net");
             }
 
             string auth_token = await SecureStorage.GetAsync("token") ?? "";

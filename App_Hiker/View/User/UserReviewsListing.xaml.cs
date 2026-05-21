@@ -23,7 +23,7 @@ public partial class UserReviewsListing : ContentView
         }
     }
 
-	private async void LoadUserData()
+	private void LoadUserData()
 	{
 		try
 		{

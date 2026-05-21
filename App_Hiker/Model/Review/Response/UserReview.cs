@@ -1,8 +1,12 @@
-﻿namespace App_Hiker.Model.Review
+﻿namespace App_Hiker.Model.Review.Response
 {
-    public class UserGroupReviews
+    public class UserReview
     {
-        public List<UserGroupReviewsPhoto> fotos { get; set; } = new List<UserGroupReviewsPhoto>();
+        public int id { get; set; } = 0;
+
+        public bool oculto { get; set; } = false;
+
+        public List<UserReviewPhoto> fotos { get; set; } = new List<UserReviewPhoto>();
 
         public string local { get; set; } = String.Empty;
 

@@ -1,4 +1,4 @@
-﻿using App_Hiker.Model.Review;
+﻿using App_Hiker.Model.Review.Response;
 
 namespace App_Hiker.Model.User.Response
 {
@@ -20,6 +20,6 @@ namespace App_Hiker.Model.User.Response
             }
         }
 
-        public List<UserGroupReviews> reviews { get; set; } = new List<UserGroupReviews>();
+        public List<UserReview> reviews { get; set; } = new List<UserReview>();
     }
 }
