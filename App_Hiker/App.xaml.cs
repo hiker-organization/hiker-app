@@ -15,7 +15,7 @@ namespace App_Hiker
         {
             Window window = new Window(new AppShell());
 
-            window.Height = 600;
+            window.Height = 700;
             window.Width = 350;
 
             return window;

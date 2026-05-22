@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:parent="clr-namespace:App_Hiker.View.User"
+             x:Class="App_Hiker.View.User.UserReviewsListing">
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Label" x:Key="lbl_alignment_left">
+                <Setter Property="HorizontalTextAlignment" Value="Start"/>
+                <Setter Property="VerticalTextAlignment" Value="Center"/>
+            </Style>
+
+            <Style TargetType="Label" x:Key="lbl_alignment_right">
+                <Setter Property="HorizontalTextAlignment" Value="End"/>
+                <Setter Property="VerticalTextAlignment" Value="Center"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentView.Resources>
+
+    <ContentView.Content>
+        <Grid ColumnDefinitions="*" RowDefinitions="*" Padding="5">
+            <CollectionView x:Name="clview_posts_usuario" Grid.Column="0" Grid.Row="0">
+                <CollectionView.EmptyView>
+                    <Label Text="Nenhum post para ser exibido."/>
+                </CollectionView.EmptyView>
+
+                <CollectionView.Header>
+                    <Label Text="Meus Posts" FontSize="Small" Padding="10"/>
+                </CollectionView.Header>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border BackgroundColor="{ DynamicResource Base300 }" StrokeShape="{ RoundRectangle CornerRadius=15 }" Padding="15">
+                            <Border.Content>
+                                <VerticalStackLayout>
+                                    <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto" ColumnSpacing="10">
+                                        <Border Grid.Column="0" Grid.Row="0" Stroke="{ DynamicResource BaseContent }">
+                                            <Border.Content>
+                                                <Image Source="{ Binding Source={ RelativeSource AncestorType={ x:Type parent:UserReviewsListing } },Path=BindingContext.foto_url}" Aspect="AspectFill" HeightRequest="50" WidthRequest="50"/>
+                                            </Border.Content>
+                                        </Border>
+
+                                        <Label Grid.Column="1" Grid.Row="0" Text="{ Binding local }" FontSize="Small" Style="{ StaticResource lbl_alignment_left }"/>
+                                    </Grid>
+
+                                    <Label Text="{ Binding descricao }" HorizontalTextAlignment="Justify"/>
+
+                                    <Grid ColumnDefinitions="*,*" RowDefinitions="Auto">
+                                        <Label Grid.Column="0" Grid.Row="0" Text="{ Binding nota, StringFormat='{}{0} &#xf005;' }" FontFamily="FontAwesomeFreeSolid900" Style="{ StaticResource lbl_alignment_left }"/>
+
+                                        <Label Grid.Column="1" Grid.Row="0" Text="{ Binding createdAt, StringFormat='{}{0:dd/MM/yyyy}' }" Style="{ StaticResource lbl_alignment_right }"/>
+                                    </Grid>
+                                </VerticalStackLayout>
+                            </Border.Content>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
+    </ContentView.Content>
+</ContentView>

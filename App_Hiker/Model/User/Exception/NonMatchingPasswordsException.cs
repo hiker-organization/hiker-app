@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace App_Hiker.Model.User.Exception
+﻿namespace App_Hiker.Model.User.Exception
 {
     public class NonMatchingPasswordsException : System.Exception
     {
