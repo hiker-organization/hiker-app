@@ -1,10 +1,12 @@
 using App_Hiker.Model.Api;
+using App_Hiker.Model.Auth.Exception;
 using App_Hiker.Model.Auth.Request;
 using App_Hiker.Model.Auth.Response;
-using App_Hiker.Model.Auth.Exception;
 using App_Hiker.Model.User.Response;
 
 using App_Hiker.Service.Auth;
+
+using System.IdentityModel.Tokens.Jwt;
 
 namespace App_Hiker.View.Auth;
 
@@ -15,16 +17,28 @@ public partial class Login : ContentPage
 	public Login()
 	{
 		InitializeComponent();
-
-        Loaded += VerifyAuthentication;
 	}
 
-    private async void VerifyAuthentication(object? sender, EventArgs e)
+    protected override async void OnAppearing()
     {
+        base.OnAppearing();
+
         try
         {
-            if (!this.authentication_was_verified)
+            string? token = await SecureStorage.Default.GetAsync("token");
+
+            if (token != null)
             {
+                var handler = new JwtSecurityTokenHandler();
+                var jwt = handler.ReadJwtToken(token);
+
+                if (jwt.ValidTo < DateTime.UtcNow)
+                {
+                    SecureStorage.Default.Remove("token");
+
+                    return;
+                }
+
                 DataResponse<UserDataResponse> api_response = await AuthService.Me();
 
                 if (api_response.statusCode == 401 || api_response.data == null)

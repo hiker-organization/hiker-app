@@ -1,3 +1,4 @@
+using App_Hiker.View.Review;
 using App_Hiker.View.User;
 
 namespace App_Hiker.Layout;
@@ -9,7 +10,7 @@ public partial class MainTabBar : ContentPage
 	private enum InternalTabs
 	{
 		Home,
-		NewPost,
+		NewReview,
 		Profile
 	};
 
@@ -63,8 +64,8 @@ public partial class MainTabBar : ContentPage
                     ctview_page.Content = new Label() { Text = "Aba 01" };
                 break;
 
-                case InternalTabs.NewPost:
-                    ctview_page.Content = new Label() { Text = "Aba 02" };
+                case InternalTabs.NewReview:
+                    ctview_page.Content = new NewReview();
                     break;
 
                 case InternalTabs.Profile:

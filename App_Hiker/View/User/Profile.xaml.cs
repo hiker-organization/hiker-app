@@ -54,6 +54,7 @@ public partial class Profile : ContentView
             lbl_user_name.Text = data.nome_usuario;
             lbl_posts_quantity.Text = data.reviews.Count.ToString();
             lbl_reputation.Text = data.reputacao_normalizada;
+            img_user_photo.Source = data.foto_url;
         }
         catch (Exception ex)
         {
