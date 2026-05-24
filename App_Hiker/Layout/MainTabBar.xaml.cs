@@ -1,35 +1,35 @@
 using App_Hiker.View.Review;
 using App_Hiker.View.User;
+using App_Hiker.View.Auth;
 
 namespace App_Hiker.Layout;
 
 public partial class MainTabBar : ContentPage
 {
-	private Application? current_app = (Application?)App.Current;
+    private Application? current_app = (Application?)App.Current;
 
-	private enum InternalTabs
-	{
-		Home,
-		NewReview,
-		Profile
-	};
+    private enum InternalTabs
+    {
+        Home,
+        NewReview,
+        Profile
+    };
 
-	private InternalTabs current_main_tab_index = InternalTabs.Home;
+    private InternalTabs current_main_tab_index = InternalTabs.Home;
 
-	public MainTabBar()
-	{
-		InitializeComponent();
-
+    public MainTabBar()
+    {
+        InitializeComponent();
 
         LoadTab();
-	}
+    }
 
-	private async void ApplyTabsStyles()
-	{
-		try
-		{
-			if (current_app != null)
-			{
+    private async void ApplyTabsStyles()
+    {
+        try
+        {
+            if (current_app != null)
+            {
                 foreach (IView tab in grid_main_tabs.Children)
                 {
                     if (tab is Button button)
@@ -45,35 +45,6 @@ public partial class MainTabBar : ContentPage
                     }
                 }
             }
-		}
-		catch (Exception ex)
-		{
-            await DisplayAlertAsync("Erro!", ex.Message, "OK");
-        }
-	}
-
-	private async void LoadTab()
-	{
-		try
-		{
-            InternalTabs tab_option = this.current_main_tab_index;
-
-            switch (tab_option)
-            {
-                case InternalTabs.Home:
-                    ctview_page.Content = new Label() { Text = "Aba 01" };
-                break;
-
-                case InternalTabs.NewReview:
-                    ctview_page.Content = new NewReview();
-                    break;
-
-                case InternalTabs.Profile:
-                    ctview_page.Content = new Profile("AuthUserContext");
-                break;
-            }
-
-			ApplyTabsStyles();
         }
         catch (Exception ex)
         {
@@ -81,20 +52,94 @@ public partial class MainTabBar : ContentPage
         }
     }
 
+    private async void LoadTab()
+    {
+        try
+        {
+            InternalTabs tab_option = this.current_main_tab_index;
+
+            switch (tab_option)
+            {
+                case InternalTabs.Home:
+                    ctview_page.Content = new Label() { Text = "Aba 01" };
+                    break;
+
+                case InternalTabs.NewReview:
+                    ctview_page.Content = new NewReview("AuthUserContext");
+                    break;
+
+                case InternalTabs.Profile:
+                    Profile profile_view = new Profile("AuthUserContext");
+                    profile_view.EditProfileRequested += OnEditProfileRequested;
+                    profile_view.LogoutRequested += OnLogoutRequested;
+                    ctview_page.Content = profile_view;
+                    break;
+            }
+
+            ApplyTabsStyles();
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlertAsync("Erro!", ex.Message, "OK");
+        }
+    }
+
+    private void OnEditProfileRequested(object? sender, EventArgs e)
+    {
+        try
+        {
+            EditProfile edit_profile_view = new EditProfile();
+            edit_profile_view.BackRequested += OnEditProfileBackRequested;
+            ctview_page.Content = edit_profile_view;
+        }
+        catch (Exception ex)
+        {
+            App.ShowInDebugConsole(ex.Message); // Temporário.
+        }
+    }
+
+    private void OnEditProfileBackRequested(object? sender, EventArgs e)
+    {
+        try
+        {
+            // Volta para o perfil recriando a view (recarrega os dados atualizados)
+            Profile profile_view = new Profile("AuthUserContext");
+            profile_view.EditProfileRequested += OnEditProfileRequested;
+            profile_view.LogoutRequested += OnLogoutRequested;
+            ctview_page.Content = profile_view;
+        }
+        catch (Exception ex)
+        {
+            App.ShowInDebugConsole(ex.Message); // Temporário.
+        }
+    }
+
+    private async void OnLogoutRequested(object? sender, EventArgs e)
+    {
+        try
+        {
+            // Navega para a tela de login limpando a pilha de navegação
+            Application.Current!.Windows[0].Page = new NavigationPage(new Login());
+        }
+        catch (Exception ex)
+        {
+            App.ShowInDebugConsole(ex.Message); // Temporário.
+        }
+    }
+
     private async void tab_Clicked(object sender, EventArgs e)
     {
-		try
-		{
-			Button selected_tab = (Button)sender;
+        try
+        {
+            Button selected_tab = (Button)sender;
 
-			this.current_main_tab_index = (InternalTabs)Grid.GetColumn(selected_tab);
+            this.current_main_tab_index = (InternalTabs)Grid.GetColumn(selected_tab);
 
-			LoadTab();
-
+            LoadTab();
         }
-		catch (Exception ex)
-		{
-			await DisplayAlertAsync("Erro!", ex.Message, "OK");
-		}
+        catch (Exception ex)
+        {
+            await DisplayAlertAsync("Erro!", ex.Message, "OK");
+        }
     }
 }

@@ -23,11 +23,24 @@
     <ContentView.Content>
         <Grid ColumnDefinitions="*" RowDefinitions="Auto,Auto,*">
             <VerticalStackLayout BackgroundColor="{ DynamicResource Base300 }" Padding="15">
-                <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto" Grid.Column="0" Grid.Row="0" ColumnSpacing="15" BackgroundColor="{ DynamicResource Base300 }">
-                    <Border Grid.Column="0" Grid.Row="0" Stroke="{ DynamicResource BaseContent }">
-                        <Border.Content>
-                            <Image x:Name="img_user_photo" Source="logo.png" WidthRequest="100" Aspect="AspectFill"/>
-                        </Border.Content>
+                <Grid ColumnDefinitions="Auto,*,Auto" RowDefinitions="Auto" Grid.Column="0" Grid.Row="0" ColumnSpacing="15" BackgroundColor="{ DynamicResource Base300 }">
+
+                    <Border Grid.Column="0" Grid.Row="0"
+                            Stroke="{ DynamicResource BaseContent }"
+                            HeightRequest="100"
+                            WidthRequest="100"
+                            Padding="0">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="50"/>
+                        </Border.StrokeShape>
+                        <Border.Clip>
+                            <EllipseGeometry Center="50,50" RadiusX="50" RadiusY="50"/>
+                        </Border.Clip>
+                        <Image x:Name="img_user_photo"
+                               Source="logo.png"
+                               HeightRequest="100"
+                               WidthRequest="100"
+                               Aspect="AspectFill"/>
                     </Border>
 
                     <Grid ColumnDefinitions="Auto,*" RowDefinitions="*,*" Grid.Column="1" Grid.Row="0" ColumnSpacing="15" RowSpacing="15">
@@ -39,6 +52,35 @@
                             <Label x:Name="lbl_user_name" Text="@Usuário"/>
                         </Border>
                     </Grid>
+
+                    <!-- Botões editar perfil e logout empilhados -->
+                    <VerticalStackLayout Grid.Column="2" Grid.Row="0" Spacing="8" VerticalOptions="Start">
+                        <Button x:Name="btn_edit_profile"
+                                Text="&#xf304;"
+                                FontFamily="FontAwesomeFreeSolid900"
+                                BackgroundColor="Transparent"
+                                BorderColor="{ DynamicResource Primary }"
+                                BorderWidth="1"
+                                TextColor="{ DynamicResource Primary }"
+                                CornerRadius="8"
+                                WidthRequest="42"
+                                HeightRequest="42"
+                                Padding="0"
+                                Clicked="btn_edit_profile_Clicked"/>
+
+                        <Button x:Name="btn_logout"
+                                Text="&#xf2f5;"
+                                FontFamily="FontAwesomeFreeSolid900"
+                                BackgroundColor="Transparent"
+                                BorderColor="#e74c3c"
+                                BorderWidth="1"
+                                TextColor="#e74c3c"
+                                CornerRadius="8"
+                                WidthRequest="42"
+                                HeightRequest="42"
+                                Padding="0"
+                                Clicked="btn_logout_Clicked"/>
+                    </VerticalStackLayout>
                 </Grid>
 
                 <Grid ColumnDefinitions="*,*" RowDefinitions="Auto" Grid.Column="0" Grid.Row="1" ColumnSpacing="15" BackgroundColor="{ DynamicResource Base300 }">
@@ -60,9 +102,7 @@
 
             <Grid x:Name="grid_profile_tabs" ColumnDefinitions="*,*,*" RowDefinitions="Auto" Grid.Column="0" Grid.Row="1" BackgroundColor="{ DynamicResource Base300 }">
                 <Button Text="&#xf249;" Grid.Column="0" Grid.Row="0" Style="{ StaticResource btn_profile_tabs_grid }" Clicked="tab_Clicked"/>
-
                 <Button Text="&#xf017;" Grid.Column="1" Grid.Row="0" Style="{ StaticResource btn_profile_tabs_grid }" Clicked="tab_Clicked"/>
-
                 <Button Text="&#xf004;" Grid.Column="2" Grid.Row="0" Style="{ StaticResource btn_profile_tabs_grid }" Clicked="tab_Clicked"/>
             </Grid>
 

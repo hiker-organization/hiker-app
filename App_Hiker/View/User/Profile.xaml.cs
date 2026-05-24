@@ -28,8 +28,16 @@ public partial class Profile : ContentView
 		InitializeComponent();
 
         this.internal_context = context;
+    }
 
-        InitializeResources();
+    protected override void OnHandlerChanged()
+    {
+        base.OnHandlerChanged();
+
+        if (Handler != null) // Handler != null significa que a view foi anexada à tela
+        {
+            InitializeResources();
+        }
     }
 
     private async void InitializeResources()
@@ -155,7 +163,45 @@ public partial class Profile : ContentView
             this.current_profile_tab_index = (InternalTabs)Grid.GetColumn(selected_tab);
 
             LoadTab();
+        }
+        catch (Exception ex)
+        {
+            App.ShowInDebugConsole(ex.Message); // Temporário.
+        }
+    }
 
+    private void btn_edit_profile_Clicked(object sender, EventArgs e)
+    {
+        try
+        {
+            EditProfileRequested?.Invoke(this, EventArgs.Empty);
+        }
+        catch (Exception ex)
+        {
+            App.ShowInDebugConsole(ex.Message); // Temporário.
+        }
+    }
+
+    public event EventHandler? EditProfileRequested;
+
+    public event EventHandler? LogoutRequested;
+
+    private async void btn_logout_Clicked(object sender, EventArgs e)
+    {
+        try
+        {
+            bool confirmed = await Application.Current!.Windows[0].Page!.DisplayAlertAsync(
+                "Sair",
+                "Tem certeza que deseja sair?",
+                "Sair",
+                "Cancelar"
+            );
+
+            if (!confirmed) return;
+
+            SecureStorage.Remove("token");
+
+            LogoutRequested?.Invoke(this, EventArgs.Empty);
         }
         catch (Exception ex)
         {

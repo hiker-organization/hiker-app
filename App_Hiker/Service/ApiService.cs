@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -44,8 +44,6 @@ namespace App_Hiker.Service
 
                 App.ShowInDebugConsole(api_response_json);
 
-                // Dispara uma exceção, caso ocorra um erro.
-
                 api_response.EnsureSuccessStatusCode();
             }
 
@@ -66,7 +64,25 @@ namespace App_Hiker.Service
 
                 App.ShowInDebugConsole(api_response_json);
 
-                // Dispara uma exceção, caso ocorra um erro.
+                api_response.EnsureSuccessStatusCode();
+            }
+
+            return api_response_json;
+        }
+
+        internal static async Task<string> PostMultipart(string endpoint, MultipartFormDataContent form_data)
+        {
+            await CreateConnection();
+
+            string api_response_json = "";
+
+            if (connection != null)
+            {
+                HttpResponseMessage api_response = await connection.PostAsync(endpoint, form_data);
+
+                api_response_json = await api_response.Content.ReadAsStringAsync();
+
+                App.ShowInDebugConsole(api_response_json);
 
                 api_response.EnsureSuccessStatusCode();
             }
@@ -88,8 +104,6 @@ namespace App_Hiker.Service
 
                 App.ShowInDebugConsole(api_response_json);
 
-                // Dispara uma exceção, caso ocorra um erro.
-
                 api_response.EnsureSuccessStatusCode();
             }
 
@@ -110,7 +124,30 @@ namespace App_Hiker.Service
 
                 App.ShowInDebugConsole(api_response_json);
 
-                // Dispara uma exceção, caso ocorra um erro.
+                api_response.EnsureSuccessStatusCode();
+            }
+
+            return api_response_json;
+        }
+
+        internal static async Task<string> PatchMultipart(string endpoint, MultipartFormDataContent form_data)
+        {
+            await CreateConnection();
+
+            string api_response_json = "";
+
+            if (connection != null)
+            {
+                HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Patch, endpoint)
+                {
+                    Content = form_data
+                };
+
+                HttpResponseMessage api_response = await connection.SendAsync(request);
+
+                api_response_json = await api_response.Content.ReadAsStringAsync();
+
+                App.ShowInDebugConsole(api_response_json);
 
                 api_response.EnsureSuccessStatusCode();
             }
@@ -131,8 +168,6 @@ namespace App_Hiker.Service
                 api_response_json = await api_response.Content.ReadAsStringAsync();
 
                 App.ShowInDebugConsole(api_response_json);
-
-                // Dispara uma exceção, caso ocorra um erro.
 
                 api_response.EnsureSuccessStatusCode();
             }

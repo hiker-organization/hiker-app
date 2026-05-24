@@ -12,28 +12,34 @@
 
                     <!-- Foto de perfil ocupando as 2 linhas -->
                     <Image Source="logo.png"
-                       Grid.Column="0"
-                       Grid.Row="0"
-                       Grid.RowSpan="2"
-                       WidthRequest="50"
-                       HeightRequest="50"/>
+                           x:Name="img_user_photo"
+                           Grid.Column="0"
+                           Grid.Row="0"
+                           Grid.RowSpan="2"
+                           WidthRequest="50"
+                           HeightRequest="50"/>
 
                     <!-- Nome do usuário -->
-                    <Label Text="Maite Hiker"
-                       Grid.Column="1"
-                       Grid.Row="0"
-                       FontAttributes="Bold"
-                       VerticalOptions="Center"
-                       Margin="8,0,0,0"/>
+                    <Label Text="Usuário"
+                           x:Name="lbl_user_real_name"
+                           Grid.Column="1"
+                           Grid.Row="0"
+                           FontAttributes="Bold"
+                           VerticalOptions="Center"
+                           HorizontalOptions="Start"
+                           Margin="8,0,0,0"/>
 
                     <!-- Picker Público/Privado -->
                     <Picker x:Name="PickerVisibility"
-                       Grid.Column="1"
-                       Grid.Row="1"
-                       Margin="4,0,0,0"
-                       WidthRequest="100"
-                       HorizontalOptions="Start"
-                       SelectedIndexChanged="PickerVisibility_Changed"/>
+                           Grid.Column="1"
+                           TextColor="{DynamicResource Primary}"
+                           Grid.Row="1"
+                           Margin="4,0,0,0"
+                           HeightRequest="30"
+                           MinimumHeightRequest="2"
+                           WidthRequest="105"
+                           HorizontalOptions="Start"
+                           SelectedIndexChanged="PickerVisibility_Changed"/>
 
                     <!-- Estrelas interativas -->
                     <HorizontalStackLayout x:Name="StarsLayout"
@@ -42,11 +48,11 @@
                                            Grid.RowSpan="2"
                                            VerticalOptions="Center"
                                            Spacing="2">
-                        <Label Text="★" FontSize="28" TextColor="LightGray" x:Name="Star1"/>
-                        <Label Text="★" FontSize="28" TextColor="LightGray" x:Name="Star2"/>
-                        <Label Text="★" FontSize="28" TextColor="LightGray" x:Name="Star3"/>
-                        <Label Text="★" FontSize="28" TextColor="LightGray" x:Name="Star4"/>
-                        <Label Text="★" FontSize="28" TextColor="LightGray" x:Name="Star5"/>
+                        <Label Text="★" FontSize="22" TextColor="LightGray" x:Name="Star1"/>
+                        <Label Text="★" FontSize="22" TextColor="LightGray" x:Name="Star2"/>
+                        <Label Text="★" FontSize="22" TextColor="LightGray" x:Name="Star3"/>
+                        <Label Text="★" FontSize="22" TextColor="LightGray" x:Name="Star4"/>
+                        <Label Text="★" FontSize="22" TextColor="LightGray" x:Name="Star5"/>
                     </HorizontalStackLayout>
                 </Grid>
                 <Entry x:Name="CityEntry"

@@ -1,7 +1,8 @@
 using App_Hiker.Model.Api;
 using App_Hiker.Model.Review.Request;
 using App_Hiker.Model.Review.Response;
-
+using App_Hiker.Model.User.Response;
+using App_Hiker.Service.Auth;
 using App_Hiker.Service.Review;
 
 using System.Text.Json;
@@ -16,17 +17,74 @@ public partial class NewReview : ContentView
 
     private int _selectedRating = 1;
     private readonly List<Label> _stars = new();
+    private string internal_context = String.Empty;
+    private UserDataResponse? user_data = new();
     private readonly List<ImageSource> _imagensSelecionadas = new();
 
     private bool _isPrivate = false;
     private string? _selectedPlaceId; // armazena o place_id selecionado
 
-    public NewReview()
+    public NewReview(string context)
     {
         InitializeComponent();
         SetupPicker();
         SetupStars();
         SetRating(_selectedRating);
+
+        this.internal_context = context;
+
+        InitializeResources();
+    }
+
+    private async void InitializeResources()
+    {
+        try
+        {
+            await LoadUserData();
+        }
+        catch (Exception ex)
+        {
+            App.ShowInDebugConsole(ex.Message); // Temporário.
+        }
+    }
+
+    private void SetUserData(UserDataResponse data)
+    {
+        try
+        {
+            lbl_user_real_name.Text = data.nome_exibicao;
+            //lbl_user_name.Text = data.nome_usuario;
+            if (data.foto_url != null)
+                img_user_photo.Source = data.foto_url;
+        }
+        catch (Exception ex)
+        {
+            App.ShowInDebugConsole(ex.Message); // Temporário.
+        }
+    }
+
+    private async Task LoadUserData()
+    {
+        try
+        {
+            DataResponse<UserDataResponse> response = new DataResponse<UserDataResponse>();
+
+            if (this.internal_context == "AuthUserContext")
+            {
+                response = await AuthService.Me();
+            }
+
+            this.user_data = response.data;
+
+            if (response.data != null)
+            {
+                SetUserData(response.data);
+            }
+        }
+        catch (Exception ex)
+        {
+            App.ShowInDebugConsole(ex.Message); // Temporário.
+        }
     }
 
     // ── Picker Público / Privado ──────────────────────────────────────
@@ -43,6 +101,11 @@ public partial class NewReview : ContentView
         // Use 'selected' conforme precisar ("Público" ou "Privado")
 
         _isPrivate = string.Equals(selected, "Privado", StringComparison.OrdinalIgnoreCase);
+    }
+
+    private void OnPickerIconTapped(object? sender, EventArgs e)
+    {
+        PickerVisibility?.Focus();
     }
 
     // ── Estrelas interativas ──────────────────────────────────────────

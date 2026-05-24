@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="App_Hiker.View.User.EditProfile">
+
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Label" x:Key="lbl_field_title">
+                <Setter Property="FontSize" Value="13"/>
+                <Setter Property="TextColor" Value="{ DynamicResource BaseContent }"/>
+                <Setter Property="Margin" Value="0,0,0,4"/>
+            </Style>
+
+            <Style TargetType="Entry" x:Key="entry_field">
+                <Setter Property="BackgroundColor" Value="{ DynamicResource Base100 }"/>
+                <Setter Property="TextColor" Value="{ DynamicResource BaseContent }"/>
+                <Setter Property="PlaceholderColor" Value="{ DynamicResource BaseContent }"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentView.Resources>
+
+    <ContentView.Content>
+        <Grid RowDefinitions="Auto,*">
+
+            <!-- Cabeçalho com botão voltar -->
+            <Grid ColumnDefinitions="Auto,*"
+                  BackgroundColor="{ DynamicResource Base300 }"
+                  Padding="10,15"
+                  Grid.Row="0">
+
+                <Button Grid.Column="0"
+                        x:Name="btn_back"
+                        Text="&#xf060;"
+                        FontFamily="FontAwesomeFreeSolid900"
+                        BackgroundColor="Transparent"
+                        BorderColor="Transparent"
+                        TextColor="{ DynamicResource Primary }"
+                        CornerRadius="0"
+                        Padding="0"
+                        WidthRequest="36"
+                        Clicked="btn_back_Clicked"/>
+
+                <Label Grid.Column="1"
+                       Text="Editar perfil"
+                       FontAttributes="Bold"
+                       FontSize="16"
+                       VerticalOptions="Center"
+                       HorizontalOptions="End"
+                       TextColor="{ DynamicResource BaseContent }"/>
+            </Grid>
+
+            <!-- Conteúdo -->
+            <ScrollView Padding="15" Grid.Row="1">
+                <VerticalStackLayout Spacing="20">
+
+                    <!-- Foto de perfil -->
+                    <VerticalStackLayout HorizontalOptions="Center" Spacing="10">
+                        <Border Stroke="{ DynamicResource BaseContent }"
+                                HorizontalOptions="Center">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="60"/>
+                            </Border.StrokeShape>
+                            <Image x:Name="img_user_photo"
+                                   Source="logo.png"
+                                   WidthRequest="110"
+                                   HeightRequest="110"
+                                   Aspect="AspectFill"/>
+                        </Border>
+
+                        <Button x:Name="btn_change_photo"
+                                Text="&#xf030;  Alterar foto"
+                                FontFamily="FontAwesomeFreeSolid900"
+                                BackgroundColor="Transparent"
+                                TextColor="{ DynamicResource Primary }"
+                                BorderColor="{ DynamicResource Primary }"
+                                BorderWidth="1"
+                                CornerRadius="8"
+                                FontSize="13"
+                                HorizontalOptions="Center"
+                                Clicked="btn_change_photo_Clicked"/>
+                    </VerticalStackLayout>
+
+                    <!-- Separador -->
+                    <BoxView HeightRequest="1"
+                             BackgroundColor="{ DynamicResource Base300 }"/>
+
+                    <!-- Campo: Nome de exibição -->
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Nome de exibição"
+                               Style="{ StaticResource lbl_field_title }"/>
+
+                        <Border BackgroundColor="{ DynamicResource Base100 }"
+                                Padding="10,0"
+                                Stroke="{ DynamicResource BaseContent }"
+                                StrokeShape="{ RoundRectangle CornerRadius=5 }">
+                            <Entry x:Name="entry_nome_exibicao"
+                                   Placeholder="Seu nome de exibição"
+                                   Style="{ StaticResource entry_field }"/>
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <!-- Botão Salvar -->
+                    <Button x:Name="btn_save"
+                            Text="Salvar alterações"
+                            BackgroundColor="{ DynamicResource Primary }"
+                            TextColor="White"
+                            FontAttributes="Bold"
+                            CornerRadius="8"
+                            Margin="0,10,0,0"
+                            Clicked="btn_save_Clicked"/>
+
+                </VerticalStackLayout>
+            </ScrollView>
+
+        </Grid>
+    </ContentView.Content>
+</ContentView>
