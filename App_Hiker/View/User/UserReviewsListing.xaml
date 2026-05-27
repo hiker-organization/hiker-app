@@ -18,23 +18,23 @@
     </ContentView.Resources>
 
     <ContentView.Content>
-        <Grid ColumnDefinitions="*" RowDefinitions="*" Padding="5">
-            <CollectionView x:Name="clview_posts_usuario" Grid.Column="0" Grid.Row="0">
+        <ScrollView Padding="15">
+            <CollectionView x:Name="clview_posts_usuario" Grid.Column="0" Grid.Row="0" HorizontalScrollBarVisibility="Never" VerticalScrollBarVisibility="Never">
                 <CollectionView.EmptyView>
-                    <Label Text="Nenhum post para ser exibido."/>
+                    <Label Text="Nenhum post para ser exibido." Padding="5"/>
                 </CollectionView.EmptyView>
 
                 <CollectionView.Header>
-                    <Label Text="Meus Posts" FontSize="Small" Padding="10"/>
+                    <Label Text="Meus Posts" FontSize="Small" Padding="5"/>
                 </CollectionView.Header>
 
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Border BackgroundColor="{ DynamicResource Base300 }" StrokeShape="{ RoundRectangle CornerRadius=15 }" Padding="15">
+                        <Border BackgroundColor="{ DynamicResource Base300 }" StrokeShape="{ RoundRectangle CornerRadius=15 }">
                             <Border.Content>
-                                <VerticalStackLayout>
+                                <VerticalStackLayout Padding="15">
                                     <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto" ColumnSpacing="10">
-                                        <Border Grid.Column="0" Grid.Row="0" Stroke="{ DynamicResource BaseContent }">
+                                        <Border Grid.Column="0" Grid.Row="0" Stroke="{ DynamicResource BaseContent }" StrokeShape="Ellipse">
                                             <Border.Content>
                                                 <Image Source="{ Binding Source={ RelativeSource AncestorType={ x:Type parent:UserReviewsListing } },Path=BindingContext.foto_url}" Aspect="AspectFill" HeightRequest="50" WidthRequest="50"/>
                                             </Border.Content>
@@ -45,8 +45,22 @@
 
                                     <Label Text="{ Binding descricao }" HorizontalTextAlignment="Justify"/>
 
+                                    <CarouselView BackgroundColor="{ DynamicResource Neutral }" HorizontalScrollBarVisibility="Default" VerticalScrollBarVisibility="Never">
+                                        <CarouselView.EmptyView>
+                                            <Label Text="Nenhuma imagem adicionada." Padding="5"/>
+                                        </CarouselView.EmptyView>
+
+                                        <CarouselView.ItemTemplate>
+                                            <DataTemplate>
+                                                <Image Source="{ Binding url }" HeightRequest="50" WidthRequest="50"/>
+                                            </DataTemplate>
+                                        </CarouselView.ItemTemplate>
+                                    </CarouselView>
+
+                                    <IndicatorView IndicatorColor="{ DynamicResource Neutral }" SelectedIndicatorColor="{ DynamicResource Primary }"/>
+
                                     <Grid ColumnDefinitions="*,*" RowDefinitions="Auto">
-                                        <Label Grid.Column="0" Grid.Row="0" Text="{ Binding nota, StringFormat='{}{0} &#xf005;' }" FontFamily="FontAwesomeFreeSolid900" Style="{ StaticResource lbl_alignment_left }"/>
+                                        <Label Grid.Column="0" Grid.Row="0" Text="{ Binding nota, StringFormat='{}{0} &#xf005;' }" FontFamily="FontAwesomeFreeSolid900" TextColor="{ DynamicResource Primary }" Style="{ StaticResource lbl_alignment_left }"/>
 
                                         <Label Grid.Column="1" Grid.Row="0" Text="{ Binding createdAt, StringFormat='{}{0:dd/MM/yyyy}' }" Style="{ StaticResource lbl_alignment_right }"/>
                                     </Grid>
@@ -56,6 +70,6 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-        </Grid>
+        </ScrollView>
     </ContentView.Content>
 </ContentView>

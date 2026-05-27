@@ -8,6 +8,8 @@
 
         public List<UserReviewPhoto> fotos { get; set; } = new List<UserReviewPhoto>();
 
+        public List<UserReviewTag> tags { get; set; } = new List<UserReviewTag>();
+
         public string local { get; set; } = String.Empty;
 
         public float nota { get; set; } = 0f;

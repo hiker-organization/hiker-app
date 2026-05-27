@@ -12,12 +12,13 @@ public partial class Profile : ContentView
 
     private enum InternalTabs
     {
+        PersonalData,
         Posts,
         TimeLine,
         Favorites
     };
 
-    private InternalTabs current_profile_tab_index = InternalTabs.Posts;
+    private InternalTabs current_profile_tab_index = InternalTabs.PersonalData;
 
     private string internal_context = String.Empty;
 
@@ -106,6 +107,8 @@ public partial class Profile : ContentView
                         }
                     }
                 }
+
+                grid_selected_tab_marker.SetColumn(bv_selected_tab_marker, (int)this.current_profile_tab_index);
             }
         }
         catch (Exception ex)
@@ -122,6 +125,10 @@ public partial class Profile : ContentView
 
             switch (tab_option)
             {
+                case InternalTabs.PersonalData:
+                    ctv_profile_current_tab.Content = new UserPersonalData();
+                break;
+
                 case InternalTabs.Posts:
                     ctv_profile_current_tab.Content = new UserReviewsListing()
                     {
@@ -130,11 +137,11 @@ public partial class Profile : ContentView
                 break;
 
                 case InternalTabs.TimeLine:
-                    ctv_profile_current_tab.Content = new Label() { Text = "Aba 02 (Perfil)" };
+                    ctv_profile_current_tab.Content = new Label() { Text = "Aba 03 (Perfil)" };
                 break;
 
                 case InternalTabs.Favorites:
-                    ctv_profile_current_tab.Content = new Label() { Text = "Aba 03 (Perfil)" };
+                    ctv_profile_current_tab.Content = new Label() { Text = "Aba 04 (Perfil)" };
                 break;
             }
 

@@ -21,10 +21,10 @@
     </ContentView.Resources>
 
     <ContentView.Content>
-        <Grid ColumnDefinitions="*" RowDefinitions="Auto,Auto,*">
+        <Grid ColumnDefinitions="*" RowDefinitions="Auto,Auto,Auto,*">
             <VerticalStackLayout BackgroundColor="{ DynamicResource Base300 }" Padding="15">
                 <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto" Grid.Column="0" Grid.Row="0" ColumnSpacing="15" BackgroundColor="{ DynamicResource Base300 }">
-                    <Border Grid.Column="0" Grid.Row="0" Stroke="{ DynamicResource BaseContent }">
+                    <Border Grid.Column="0" Grid.Row="0" Stroke="{ DynamicResource Primary }" StrokeShape="Ellipse">
                         <Border.Content>
                             <Image x:Name="img_user_photo" Source="logo.png" WidthRequest="100" Aspect="AspectFill"/>
                         </Border.Content>
@@ -58,15 +58,22 @@
                 </Grid>
             </VerticalStackLayout>
 
-            <Grid x:Name="grid_profile_tabs" ColumnDefinitions="*,*,*" RowDefinitions="Auto" Grid.Column="0" Grid.Row="1" BackgroundColor="{ DynamicResource Base300 }">
-                <Button Text="&#xf249;" Grid.Column="0" Grid.Row="0" Style="{ StaticResource btn_profile_tabs_grid }" Clicked="tab_Clicked"/>
+            <Grid x:Name="grid_profile_tabs" ColumnDefinitions="*,*,*,*" RowDefinitions="Auto" Grid.Column="0" Grid.Row="1" BackgroundColor="{ DynamicResource Base300 }">
+                <Button Text="&#xf05a;" Grid.Column="0" Grid.Row="0" Style="{ StaticResource btn_profile_tabs_grid }" Clicked="tab_Clicked"/>
 
-                <Button Text="&#xf017;" Grid.Column="1" Grid.Row="0" Style="{ StaticResource btn_profile_tabs_grid }" Clicked="tab_Clicked"/>
+                <Button Text="&#xf249;" Grid.Column="1" Grid.Row="0" Style="{ StaticResource btn_profile_tabs_grid }" Clicked="tab_Clicked"/>
 
-                <Button Text="&#xf004;" Grid.Column="2" Grid.Row="0" Style="{ StaticResource btn_profile_tabs_grid }" Clicked="tab_Clicked"/>
+                <Button Text="&#xf017;" Grid.Column="2" Grid.Row="0" Style="{ StaticResource btn_profile_tabs_grid }" Clicked="tab_Clicked"/>
+
+                <Button Text="&#xf004;" Grid.Column="3" Grid.Row="0" Style="{ StaticResource btn_profile_tabs_grid }" Clicked="tab_Clicked"/>
             </Grid>
 
-            <ContentView x:Name="ctv_profile_current_tab" Grid.Column="0" Grid.Row="2"/>
+            <Grid x:Name="grid_selected_tab_marker" Grid.Column="0" Grid.Row="2" ColumnDefinitions="*,*,*,*" RowDefinitions="Auto">
+                <!-- O posicionamento muda via código. -->
+                <BoxView x:Name="bv_selected_tab_marker" Grid.Column="0" Grid.Row="0" BackgroundColor="{ DynamicResource Primary }" HeightRequest="1"/>
+            </Grid>
+
+            <ContentView x:Name="ctv_profile_current_tab" Grid.Column="0" Grid.Row="3"/>
         </Grid>
     </ContentView.Content>
 </ContentView>
