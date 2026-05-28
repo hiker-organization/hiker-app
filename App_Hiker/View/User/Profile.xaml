@@ -22,10 +22,43 @@
 
     <ContentView.Content>
         <Grid ColumnDefinitions="*" RowDefinitions="Auto,Auto,*">
-            <VerticalStackLayout BackgroundColor="{ DynamicResource Base300 }" Padding="15">
-                <Grid ColumnDefinitions="Auto,*,Auto" RowDefinitions="Auto" Grid.Column="0" Grid.Row="0" ColumnSpacing="15" BackgroundColor="{ DynamicResource Base300 }">
+            <VerticalStackLayout Padding="15" Spacing="12">
+                <Grid ColumnDefinitions="Auto,*,Auto" RowDefinitions="Auto" ColumnSpacing="10" >
+                    <Button x:Name="btn_back_home"
+                            Grid.Column="0"
+                            Text="&#xf053;"
+                            FontFamily="FontAwesomeFreeSolid900"
+                            BackgroundColor="Transparent"
+                            BorderColor="Transparent"
+                            BorderWidth="0"
+                            TextColor="{ DynamicResource BaseContent }"
+                            WidthRequest="42"
+                            HeightRequest="42"
+                            Padding="0"
+                            Clicked="btn_back_home_Clicked"/>
 
-                    <Border Grid.Column="0" Grid.Row="0"
+                    <Button x:Name="btn_edit_profile"
+                            Grid.Column="2"
+                            Text="&#xf304;"
+                            FontFamily="FontAwesomeFreeSolid900"
+                            BackgroundColor="Transparent"
+                            BorderColor="{ DynamicResource Primary }"
+                            BorderWidth="1"
+                            TextColor="{ DynamicResource Primary }"
+                            CornerRadius="8"
+                            WidthRequest="42"
+                            HeightRequest="42"
+                            Padding="0"
+                            Clicked="btn_edit_profile_Clicked"/>
+                </Grid>
+
+                <Grid ColumnDefinitions="*,Auto,*" RowDefinitions="Auto" ColumnSpacing="12">
+                    <VerticalStackLayout Grid.Column="0" HorizontalOptions="Center" VerticalOptions="Center" Spacing="4">
+                        <Label Text="&#xf304;" FontFamily="FontAwesomeFreeSolid900" TextColor="{ DynamicResource Primary }"/>
+                        <Label x:Name="lbl_posts_quantity" Text="0"/>
+                    </VerticalStackLayout>
+
+                    <Border Grid.Column="1"
                             Stroke="{ DynamicResource BaseContent }"
                             HeightRequest="100"
                             WidthRequest="100"
@@ -37,73 +70,37 @@
                             <EllipseGeometry Center="50,50" RadiusX="50" RadiusY="50"/>
                         </Border.Clip>
                         <Image x:Name="img_user_photo"
-                               Source="logo.png"
+                               Source="profile.png"
                                HeightRequest="100"
                                WidthRequest="100"
                                Aspect="AspectFill"/>
                     </Border>
 
-                    <Grid ColumnDefinitions="Auto,*" RowDefinitions="*,*" Grid.Column="1" Grid.Row="0" ColumnSpacing="15" RowSpacing="15">
-                        <Border Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Style="{ StaticResource brd_user_data }">
-                            <Label x:Name="lbl_user_real_name" Text="Usuário"/>
-                        </Border>
-
-                        <Border Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Style="{ StaticResource brd_user_data }">
-                            <Label x:Name="lbl_user_name" Text="@Usuário"/>
-                        </Border>
-                    </Grid>
-
-                    <!-- Botões editar perfil e logout empilhados -->
-                    <VerticalStackLayout Grid.Column="2" Grid.Row="0" Spacing="8" VerticalOptions="Start">
-                        <Button x:Name="btn_edit_profile"
-                                Text="&#xf304;"
-                                FontFamily="FontAwesomeFreeSolid900"
-                                BackgroundColor="Transparent"
-                                BorderColor="{ DynamicResource Primary }"
-                                BorderWidth="1"
-                                TextColor="{ DynamicResource Primary }"
-                                CornerRadius="8"
-                                WidthRequest="42"
-                                HeightRequest="42"
-                                Padding="0"
-                                Clicked="btn_edit_profile_Clicked"/>
-
-                        <Button x:Name="btn_logout"
-                                Text="&#xf2f5;"
-                                FontFamily="FontAwesomeFreeSolid900"
-                                BackgroundColor="Transparent"
-                                BorderColor="#e74c3c"
-                                BorderWidth="1"
-                                TextColor="#e74c3c"
-                                CornerRadius="8"
-                                WidthRequest="42"
-                                HeightRequest="42"
-                                Padding="0"
-                                Clicked="btn_logout_Clicked"/>
+                    <VerticalStackLayout Grid.Column="2" HorizontalOptions="Center" VerticalOptions="Center" Spacing="4">
+                        <Label Text="&#xf005;" FontFamily="FontAwesomeFreeSolid900" TextColor="{ DynamicResource Primary }"/>
+                        <Label x:Name="lbl_reputation" Text="0%"/>
                     </VerticalStackLayout>
                 </Grid>
 
-                <Grid ColumnDefinitions="*,*" RowDefinitions="Auto" Grid.Column="0" Grid.Row="1" ColumnSpacing="15" BackgroundColor="{ DynamicResource Base300 }">
-                    <Border Grid.Column="0" Grid.Row="0" Style="{ StaticResource brd_user_data }">
-                        <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
-                            <Label Text="&#xf304;" FontFamily="FontAwesomeFreeSolid900" TextColor="{ DynamicResource Primary }"/>
-                            <Label x:Name="lbl_posts_quantity" Text="0"/>
-                        </HorizontalStackLayout>
-                    </Border>
+                <Label x:Name="lbl_user_real_name"
+                       Text="Usuário"
+                       LineBreakMode="TailTruncation"
+                       MaxLines="1"
+                       Margin="10,0"/>
 
-                    <Border Grid.Column="1" Grid.Row="0" Style="{ StaticResource brd_user_data }">
-                        <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
-                            <Label Text="&#xf005;" FontFamily="FontAwesomeFreeSolid900" TextColor="{ DynamicResource Primary }"/>
-                            <Label x:Name="lbl_reputation" Text="0%"/>
-                        </HorizontalStackLayout>
-                    </Border>
-                </Grid>
+                <Label x:Name="lbl_user_name"
+                       LineBreakMode="TailTruncation"
+                       MaxLines="1"
+                       Text="@Usuário"
+                       Margin="10,0"/>
             </VerticalStackLayout>
 
-            <Grid x:Name="grid_profile_tabs" ColumnDefinitions="*,*,*" RowDefinitions="Auto" Grid.Column="0" Grid.Row="1" BackgroundColor="{ DynamicResource Base300 }">
-                <Button Text="&#xf249;" Grid.Column="0" Grid.Row="0" Style="{ StaticResource btn_profile_tabs_grid }" Clicked="tab_Clicked"/>
-                <Button Text="&#xf017;" Grid.Column="1" Grid.Row="0" Style="{ StaticResource btn_profile_tabs_grid }" Clicked="tab_Clicked"/>
-                <Button Text="&#xf004;" Grid.Column="2" Grid.Row="0" Style="{ StaticResource btn_profile_tabs_grid }" Clicked="tab_Clicked"/>
+            <Grid x:Name="grid_profile_tabs" ColumnDefinitions="*,Auto,*,Auto,*" RowDefinitions="Auto" Grid.Column="0" Grid.Row="1">
+                <Button Text="&#xf249;" ClassId="0" Grid.Column="0" Grid.Row="0" Style="{ StaticResource btn_profile_tabs_grid }" Clicked="tab_Clicked"/>
+                <Label Text="|" Grid.Column="1" Grid.Row="0" TextColor="{ DynamicResource Base200 }" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+                <Button Text="&#xf017;" ClassId="1" Grid.Column="2" Grid.Row="0" Style="{ StaticResource btn_profile_tabs_grid }" Clicked="tab_Clicked"/>
+                <Label Text="|" Grid.Column="3" Grid.Row="0" TextColor="{ DynamicResource Base200 }" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+                <Button Text="&#xf004;" ClassId="2" Grid.Column="4" Grid.Row="0" Style="{ StaticResource btn_profile_tabs_grid }" Clicked="tab_Clicked"/>
             </Grid>
 
             <ContentView x:Name="ctv_profile_current_tab" Grid.Column="0" Grid.Row="2"/>

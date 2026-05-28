@@ -14,8 +14,10 @@
     <Color x:Key="Neutral">#000000</Color>
     <Color x:Key="NeutralContent">#808080</Color>
 
-    <Color x:Key="Primary">#F97316</Color>
+    <Color x:Key="Primary">#FFCC00</Color>
     <Color x:Key="PrimaryContent">#2B1206</Color>
+    
+    <Color x:Key="RouteButtonText">#000000</Color>
 
     <Color x:Key="Secondary">#6B7280</Color>
     <Color x:Key="SecondaryContent">#FFFFFF</Color>
@@ -26,7 +28,7 @@
     <Color x:Key="Info">#0EA5E9</Color>
     <Color x:Key="InfoContent">#FFFFFF</Color>
 
-    <Color x:Key="Success">#22C55E</Color>
+    <Color x:Key="Success">#F48200</Color>
     <Color x:Key="SuccessContent">#FFFFFF</Color>
 
     <Color x:Key="Warning">#FACC15</Color>

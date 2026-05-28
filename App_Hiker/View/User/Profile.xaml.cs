@@ -104,7 +104,11 @@ public partial class Profile : ContentView
                 {
                     if (tab is Button button)
                     {
-                        if (Grid.GetColumn(button) == (int)current_profile_tab_index)
+                        int tabIndex = int.TryParse(button.ClassId, out int parsedIndex)
+                            ? parsedIndex
+                            : -1;
+
+                        if (tabIndex == (int)current_profile_tab_index)
                         {
                             button.TextColor = (Color)current_app.Resources["Primary"];
                         }
@@ -159,8 +163,12 @@ public partial class Profile : ContentView
         try
         {
             Button selected_tab = (Button)sender;
+            if (!int.TryParse(selected_tab.ClassId, out int selectedIndex))
+            {
+                return;
+            }
 
-            this.current_profile_tab_index = (InternalTabs)Grid.GetColumn(selected_tab);
+            this.current_profile_tab_index = (InternalTabs)selectedIndex;
 
             LoadTab();
         }
@@ -182,7 +190,21 @@ public partial class Profile : ContentView
         }
     }
 
+    private void btn_back_home_Clicked(object sender, EventArgs e)
+    {
+        try
+        {
+            BackRequested?.Invoke(this, EventArgs.Empty);
+        }
+        catch (Exception ex)
+        {
+            App.ShowInDebugConsole(ex.Message); // Temporario.
+        }
+    }
+
     public event EventHandler? EditProfileRequested;
+
+    public event EventHandler? BackRequested;
 
     public event EventHandler? LogoutRequested;
 

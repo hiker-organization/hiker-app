@@ -83,7 +83,7 @@ namespace App_Hiker
 
                 // Aplicação do tema inicial.
 
-                SetRequestedTheme(AppTheme.Dark);
+                SetRequestedTheme(AppTheme.Light);
             }
         }
     }

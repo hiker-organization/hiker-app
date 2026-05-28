@@ -5,11 +5,10 @@
              Title="Register">
     <ContentPage.Content>
         <Grid ColumnDefinitions="*" RowDefinitions="100,*">
-            <Border Grid.Column="0" Grid.Row="0" BackgroundColor="{ DynamicResource Primary }" Padding="15">
+            <Border Grid.Column="0" Grid.Row="0" BackgroundColor="{ DynamicResource Base100 }" Padding="15">
                 <Border.Content>
                     <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
                         <Image Source="logo.png" Aspect="AspectFit" />
-                        <Label Text="Cadastro" TextColor="{ DynamicResource Base100 }" Style="{ StaticResource lbl_title }"/>
                     </HorizontalStackLayout>
                 </Border.Content>
             </Border>

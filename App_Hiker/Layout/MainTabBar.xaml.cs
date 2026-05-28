@@ -12,10 +12,12 @@ public partial class MainTabBar : ContentPage
     {
         Home,
         NewReview,
+        Search,
         Profile
     };
 
     private InternalTabs current_main_tab_index = InternalTabs.Home;
+    private InternalTabs previous_main_tab_index = InternalTabs.Home;
 
     public MainTabBar()
     {
@@ -34,7 +36,11 @@ public partial class MainTabBar : ContentPage
                 {
                     if (tab is Button button)
                     {
-                        if (Grid.GetColumn(button) == (int)current_main_tab_index)
+                        int tabIndex = int.TryParse(button.ClassId, out int parsedIndex)
+                            ? parsedIndex
+                            : -1;
+
+                        if (tabIndex == (int)current_main_tab_index)
                         {
                             button.TextColor = (Color)current_app.Resources["Primary"];
                         }
@@ -68,9 +74,13 @@ public partial class MainTabBar : ContentPage
                     ctview_page.Content = new NewReview("AuthUserContext");
                     break;
 
+                case InternalTabs.Search:
+                    break;
+
                 case InternalTabs.Profile:
                     Profile profile_view = new Profile("AuthUserContext");
                     profile_view.EditProfileRequested += OnEditProfileRequested;
+                    profile_view.BackRequested += OnProfileBackRequested;
                     profile_view.LogoutRequested += OnLogoutRequested;
                     ctview_page.Content = profile_view;
                     break;
@@ -105,12 +115,26 @@ public partial class MainTabBar : ContentPage
             // Volta para o perfil recriando a view (recarrega os dados atualizados)
             Profile profile_view = new Profile("AuthUserContext");
             profile_view.EditProfileRequested += OnEditProfileRequested;
+            profile_view.BackRequested += OnProfileBackRequested;
             profile_view.LogoutRequested += OnLogoutRequested;
             ctview_page.Content = profile_view;
         }
         catch (Exception ex)
         {
             App.ShowInDebugConsole(ex.Message); // Temporário.
+        }
+    }
+
+    private void OnProfileBackRequested(object? sender, EventArgs e)
+    {
+        try
+        {
+            this.current_main_tab_index = this.previous_main_tab_index;
+            LoadTab();
+        }
+        catch (Exception ex)
+        {
+            App.ShowInDebugConsole(ex.Message); // Temporario.
         }
     }
 
@@ -132,8 +156,19 @@ public partial class MainTabBar : ContentPage
         try
         {
             Button selected_tab = (Button)sender;
+            if (!int.TryParse(selected_tab.ClassId, out int selectedIndex))
+            {
+                return;
+            }
 
-            this.current_main_tab_index = (InternalTabs)Grid.GetColumn(selected_tab);
+            InternalTabs nextTab = (InternalTabs)selectedIndex;
+
+            if (nextTab == InternalTabs.Profile && this.current_main_tab_index != InternalTabs.Profile)
+            {
+                this.previous_main_tab_index = this.current_main_tab_index;
+            }
+
+            this.current_main_tab_index = nextTab;
 
             LoadTab();
         }

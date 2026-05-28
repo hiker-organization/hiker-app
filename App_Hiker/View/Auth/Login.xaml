@@ -5,11 +5,10 @@
              Title="Login">
     <ContentPage.Content>
         <Grid ColumnDefinitions="*" RowDefinitions="100,*">
-            <Border Grid.Column="0" Grid.Row="0" BackgroundColor="{ DynamicResource Primary }" Padding="15">
+            <Border Grid.Column="0" Grid.Row="0" Padding="15">
                 <Border.Content>
                     <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
                         <Image Source="logo.png" Aspect="AspectFit" />
-                        <Label Text="Login" TextColor="{ DynamicResource Base100 }" Style="{ StaticResource lbl_title }"/>
                     </HorizontalStackLayout>
                 </Border.Content>
             </Border>
@@ -23,7 +22,10 @@
                     <Label Text="Senha:" Style="{ StaticResource lbl_form_field }"/>
                     <Entry x:Name="txt_senha" Placeholder="Digite sua senha aqui..." Keyboard="Password" IsPassword="True"/>
 
-                    <Button x:Name="btn_login" Text="Entrar" Margin="0,15,0,0" Style="{ StaticResource btn_primary }" Clicked="btn_login_Clicked"/>
+                    <Grid Margin="0,15,0,0">
+                        <Button x:Name="btn_login" Text="Entrar" Style="{ StaticResource btn_primary }" Clicked="btn_login_Clicked"/>
+                        <ActivityIndicator x:Name="btn_login_indicator" IsVisible="False" IsRunning="False" VerticalOptions="Center" HorizontalOptions="Center" Color="{DynamicResource Secondary}"/>
+                    </Grid>
 
                     <Button x:Name="btn_register" Text="Cadastrar-se" Clicked="btn_register_Clicked"/>
 

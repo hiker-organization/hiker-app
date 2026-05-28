@@ -39,9 +39,7 @@
         <Setter Property="BackgroundColor" Value="{ DynamicResource Neutral }" />
         <Setter Property="FontFamily" Value="AmikoRegular"/>
         <Setter Property="FontSize" Value="18"/>
-        <Setter Property="FontAttributes" Value="Bold"/>
-        <Setter Property="BorderWidth" Value="1"/>
-        <Setter Property="BorderColor" Value="{ DynamicResource Neutral }"/>
+        <Setter Property="FontAttributes" Value="None"/>
         <Setter Property="CornerRadius" Value="8"/>
         <Setter Property="Padding" Value="14,10"/>
         <Setter Property="MinimumHeightRequest" Value="44"/>
@@ -99,7 +97,7 @@
 
     <Style TargetType="Editor">
         <Setter Property="TextColor" Value="{ DynamicResource BaseContent }" />
-        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="BackgroundColor" Value="{ DynamicResource Base200}" />
         <Setter Property="FontFamily" Value="AmikoRegular"/>
         <Setter Property="FontSize" Value="14" />
         <Setter Property="PlaceholderColor" Value="{ DynamicResource NeutralContent }" />
@@ -121,7 +119,7 @@
 
     <Style TargetType="Entry">
         <Setter Property="TextColor" Value="{ DynamicResource BaseContent }" />
-        <Setter Property="BackgroundColor" Value="{ DynamicResource Base300 }" />
+        <Setter Property="BackgroundColor" Value="{ DynamicResource Base200 }" />
         <Setter Property="FontFamily" Value="AmikoRegular"/>
         <Setter Property="FontSize" Value="14" />
         <Setter Property="PlaceholderColor" Value="{ DynamicResource NeutralContent }" />

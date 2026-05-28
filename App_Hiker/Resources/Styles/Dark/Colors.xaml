@@ -17,6 +17,8 @@
     <Color x:Key="Primary">#FACC15</Color>
     <Color x:Key="PrimaryContent">#3A2E0A</Color>
 
+    <Color x:Key="RouteButtonText">#FACC15</Color>
+
     <Color x:Key="Secondary">#9CA3AF</Color>
     <Color x:Key="SecondaryContent">#1F2937</Color>
 
@@ -26,7 +28,7 @@
     <Color x:Key="Info">#3B82F6</Color>
     <Color x:Key="InfoContent">#1E293B</Color>
 
-    <Color x:Key="Success">#4ADE80</Color>
+    <Color x:Key="Success">#F48200</Color>
     <Color x:Key="SuccessContent">#1B3A2B</Color>
 
     <Color x:Key="Warning">#F97316</Color>

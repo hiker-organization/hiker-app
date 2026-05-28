@@ -11,13 +11,18 @@
                        Padding="10">
 
                     <!-- Foto de perfil ocupando as 2 linhas -->
-                    <Image Source="logo.png"
-                           x:Name="img_user_photo"
-                           Grid.Column="0"
-                           Grid.Row="0"
-                           Grid.RowSpan="2"
-                           WidthRequest="50"
-                           HeightRequest="50"/>
+                          <Border Grid.Column="0"
+                            Grid.Row="0"
+                            Grid.RowSpan="2"
+                            WidthRequest="50"
+                            HeightRequest="50"
+                            Padding="0"
+                            StrokeThickness="0"
+                            StrokeShape="Ellipse">
+                           <Image Source="profile.png"
+                               x:Name="img_user_photo"
+                               Aspect="AspectFill"/>
+                          </Border>
 
                     <!-- Nome do usuário -->
                     <Label Text="Usuário"
@@ -27,18 +32,24 @@
                            FontAttributes="Bold"
                            VerticalOptions="Center"
                            HorizontalOptions="Start"
+                           LineBreakMode="TailTruncation"
+                           MaxLines="1"
                            Margin="8,0,0,0"/>
 
                     <!-- Picker Público/Privado -->
                     <Picker x:Name="PickerVisibility"
                            Grid.Column="1"
-                           TextColor="{DynamicResource Primary}"
+                           BackgroundColor="#FFF6AF"
+                           TitleColor="#E48500"
+                           TextColor="#E48500"
+                           FontSize="12"
                            Grid.Row="1"
                            Margin="4,0,0,0"
-                           HeightRequest="30"
-                           MinimumHeightRequest="2"
-                           WidthRequest="105"
-                           HorizontalOptions="Start"
+                           HeightRequest="34"
+                           MinimumHeightRequest="34"
+                           HorizontalOptions="Fill"
+                           VerticalOptions="Center"
+                           HorizontalTextAlignment="Start"
                            SelectedIndexChanged="PickerVisibility_Changed"/>
 
                     <!-- Estrelas interativas -->
@@ -76,17 +87,30 @@
                 <Entry x:Name="TagsEntry"
                        Placeholder="Palavras que definem a cidade, separadas por vírgula" />
                 <!-- Botão adicionar imagem -->
-                <HorizontalStackLayout Spacing="10" Margin="0,8,0,0">
-                    <Button x:Name="AddImageButton"
-                            Text="+ Adicionar Imagem (0/5)"
-                            Clicked="AddImage_Clicked"
-                            BackgroundColor="Transparent"
-                            TextColor="#FFC107"
-                            BorderColor="#FFC107"
-                            BorderWidth="1"
-                            CornerRadius="8"
-                            Margin="0,8,0,0"/>
-                </HorizontalStackLayout>
+                <Border Margin="0,8,0,0"
+                        Padding="14,12"
+                        BackgroundColor="{DynamicResource Base200}"
+                        StrokeThickness="0"
+                        StrokeShape="RoundRectangle 8">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="AddImage_Clicked"/>
+                    </Border.GestureRecognizers>
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label x:Name="AddImageButtonText"
+                               Grid.Column="0"
+                               Text="Adicione imagens"
+                               TextColor="{DynamicResource NeutralContent}"
+                               HorizontalTextAlignment="Start"
+                               VerticalTextAlignment="Center"
+                               HorizontalOptions="Fill"/>
+                        <Label x:Name="AddImageButtonCount"
+                               Grid.Column="1"
+                               Text="+"
+                               TextColor="{DynamicResource NeutralContent}"
+                               HorizontalTextAlignment="End"
+                               VerticalTextAlignment="Center"/>
+                    </Grid>
+                </Border>
 
 
                 <!-- Preview das imagens em linha -->
@@ -96,10 +120,9 @@
                     <HorizontalStackLayout x:Name="ImagesContainer"
                                            Spacing="8"/>
                 </ScrollView>
-                <Button Text="Publicar"
+                <Button Text="Compartilhar"
                         BackgroundColor="{StaticResource Primary}"
                         TextColor="White"
-                        FontAttributes="Bold"
                         CornerRadius="8"
                         Margin="0,16,0,0"
                         Clicked="Button_Clicked_Post"/>

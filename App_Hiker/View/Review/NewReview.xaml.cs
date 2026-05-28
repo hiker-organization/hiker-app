@@ -244,7 +244,7 @@ public partial class NewReview : ContentView
                 });
             }
 
-            AddImageButton.Text = $"+ Adicionar Imagem ({_imagensSelecionadas.Count}/5)";
+            AddImageButtonCount.Text = $"+ ({_imagensSelecionadas.Count}/5)";
         }
         catch (PermissionException)
         {

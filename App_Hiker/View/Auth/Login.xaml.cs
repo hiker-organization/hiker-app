@@ -63,8 +63,18 @@ public partial class Login : ContentPage
 
     private async void btn_login_Clicked(object sender, EventArgs e)
     {
+        string originalText = btn_login?.Text ?? "Entrar";
         try
         {
+            // show loading
+            btn_login.IsEnabled = false;
+            btn_login.Text = string.Empty;
+            if (btn_login_indicator != null)
+            {
+                btn_login_indicator.IsVisible = true;
+                btn_login_indicator.IsRunning = true;
+            }
+
             LoginRequest payload = new LoginRequest
             {
                 email = txt_email.Text,
@@ -77,14 +87,27 @@ public partial class Login : ContentPage
             {
                 await SecureStorage.SetAsync("token", api_response.access_token);
 
-                await DisplayAlertAsync("Sucesso!", "Seja bem vindo ao Hiker.", "OK");
-
                 await Shell.Current.GoToAsync("//Home");
             }
         }
         catch (Exception ex)
         {
             await DisplayAlertAsync("Erro!", ex.Message, "OK");
+        }
+        finally
+        {
+            // restore UI if still on this page
+            try
+            {
+                btn_login.IsEnabled = true;
+                btn_login.Text = originalText;
+                if (btn_login_indicator != null)
+                {
+                    btn_login_indicator.IsRunning = false;
+                    btn_login_indicator.IsVisible = false;
+                }
+            }
+            catch { /* ignore restore errors */ }
         }
     }
 
