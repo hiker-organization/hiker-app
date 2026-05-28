@@ -45,9 +45,9 @@
 
                                     <Label Text="{ Binding descricao }" HorizontalTextAlignment="Justify"/>
 
-                                    <CarouselView BackgroundColor="{ DynamicResource Neutral }" HorizontalScrollBarVisibility="Default" VerticalScrollBarVisibility="Never">
+                                    <CarouselView HorizontalScrollBarVisibility="Default" VerticalScrollBarVisibility="Never">
                                         <CarouselView.EmptyView>
-                                            <Label Text="Nenhuma imagem adicionada." Padding="5"/>
+                                            <Label Text="Nenhuma imagem adicionada." Padding="5" Opacity="0.5"/>
                                         </CarouselView.EmptyView>
 
                                         <CarouselView.ItemTemplate>
