@@ -101,6 +101,9 @@
 	  <MauiXaml Update="View\User\Profile.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="View\User\UserPersonalData.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="View\User\UserReviewsListing.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

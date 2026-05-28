@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="App_Hiker.View.User.UserPersonalData">
+    <ScrollView BackgroundColor="{ DynamicResource Base300 }" Padding="15">
+        <VerticalStackLayout>
+            <Label Text="Usuário:" Style="{ StaticResource lbl_form_field }"/>
+            <Entry x:Name="txt_usuario" Placeholder="Crie um nome de usuário..." Keyboard="Text"/>
+
+            <Label Text="Nome Completo:" Style="{ StaticResource lbl_form_field }"/>
+            <Entry x:Name="txt_nome_completo" Placeholder="Digite seu nome completo aqui..." Keyboard="Text"/>
+
+            <Label Text="E-mail:" Style="{ StaticResource lbl_form_field }"/>
+            <Entry x:Name="txt_email" Placeholder="Digite seu e-mail aqui..." Keyboard="Email"/>
+
+            <Label Text="Número de Celular:" Style="{ StaticResource lbl_form_field }"/>
+            <Entry x:Name="txt_numero_celular" Placeholder="(XX) XXXXX-XXXX" Keyboard="Telephone"/>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentView>

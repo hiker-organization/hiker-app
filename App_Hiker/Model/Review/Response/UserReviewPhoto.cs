@@ -2,6 +2,6 @@
 {
     public class UserReviewPhoto
     {
-        public string url = String.Empty;
+        public string url { get; set; } = String.Empty;
     }
 }

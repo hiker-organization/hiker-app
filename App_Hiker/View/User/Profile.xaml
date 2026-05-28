@@ -103,7 +103,12 @@
                 <Button Text="&#xf004;" ClassId="2" Grid.Column="4" Grid.Row="0" Style="{ StaticResource btn_profile_tabs_grid }" Clicked="tab_Clicked"/>
             </Grid>
 
-            <ContentView x:Name="ctv_profile_current_tab" Grid.Column="0" Grid.Row="2"/>
+            <Grid x:Name="grid_selected_tab_marker" Grid.Column="0" Grid.Row="2" ColumnDefinitions="*,*,*,*" RowDefinitions="Auto">
+                <!-- O posicionamento muda via código. -->
+                <BoxView x:Name="bv_selected_tab_marker" Grid.Column="0" Grid.Row="0" BackgroundColor="{ DynamicResource Primary }" HeightRequest="1"/>
+            </Grid>
+
+            <ContentView x:Name="ctv_profile_current_tab" Grid.Column="0" Grid.Row="3"/>
         </Grid>
     </ContentView.Content>
 </ContentView>
