@@ -19,7 +19,7 @@ public partial class NewReview : ContentView
     private readonly List<Label> _stars = new();
     private string internal_context = String.Empty;
     private UserDataResponse? user_data = new();
-    private readonly List<ImageSource> _imagensSelecionadas = new();
+    private readonly List<FileResult> _arquivosSelecionados = new();
 
     private bool _isPrivate = false;
     private string? _selectedPlaceId; // armazena o place_id selecionado
@@ -205,7 +205,7 @@ public partial class NewReview : ContentView
 
     private async void AddImage_Clicked(object sender, EventArgs e)
     {
-        if (_imagensSelecionadas.Count >= 5)
+        if (_arquivosSelecionados.Count >= 5)
         {
             await ShowAlert("Limite atingido", "Você pode adicionar no máximo 5 imagens.", "OK");
             return;
@@ -222,8 +222,7 @@ public partial class NewReview : ContentView
 
             if (results == null || !results.Any()) return;
 
-            // Quantas ainda cabem
-            int vagas = 5 - _imagensSelecionadas.Count;
+            int vagas = 5 - _arquivosSelecionados.Count;
             var lista = results.Take(vagas).ToList();
 
             if (results.Count() > vagas)
@@ -231,20 +230,18 @@ public partial class NewReview : ContentView
 
             foreach (var file in lista)
             {
-                var stream = await file.OpenReadAsync();
-                var imageSource = ImageSource.FromStream(() => stream);
-                _imagensSelecionadas.Add(imageSource);
+                _arquivosSelecionados.Add(file);
 
                 ImagesContainer.Children.Add(new Image
                 {
-                    Source = imageSource,
+                    Source = ImageSource.FromFile(file.FullPath),
                     HeightRequest = 100,
                     WidthRequest = 100,
                     Aspect = Aspect.AspectFill
                 });
             }
 
-            AddImageButtonCount.Text = $"+ ({_imagensSelecionadas.Count}/5)";
+            AddImageButtonCount.Text = $"+ ({_arquivosSelecionados.Count}/5)";
         }
         catch (PermissionException)
         {
@@ -285,7 +282,10 @@ public partial class NewReview : ContentView
                 tags = TagsEntry.Text,
             };
 
-            DataResponse<CreateReviewResponse> response = await ReviewService.Create(payload);
+            DataResponse<CreateReviewResponse> response = _arquivosSelecionados.Count > 0
+                ? await ReviewService.CreateWithPhotos(payload, _arquivosSelecionados)
+                : await ReviewService.Create(payload);
+
             if (response.statusCode == 201)
             {
                 await ShowAlert("Sucesso!", "Sua review foi criada com sucesso.", "OK");

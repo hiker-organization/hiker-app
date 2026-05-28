@@ -67,7 +67,7 @@ public partial class MainTabBar : ContentPage
             switch (tab_option)
             {
                 case InternalTabs.Home:
-                    ctview_page.Content = new Label() { Text = "Aba 01" };
+                    ctview_page.Content = new Feed();
                     break;
 
                 case InternalTabs.NewReview:

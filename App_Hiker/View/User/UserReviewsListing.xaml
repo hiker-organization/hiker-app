@@ -30,7 +30,7 @@
 
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Border BackgroundColor="{ DynamicResource Base300 }" StrokeShape="{ RoundRectangle CornerRadius=15 }">
+                        <Border BackgroundColor="Transparent" StrokeShape="{ RoundRectangle CornerRadius=15 }" StrokeThickness="0">
                             <Border.Content>
                                 <VerticalStackLayout Padding="15">
                                     <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto" ColumnSpacing="10">
@@ -45,10 +45,30 @@
 
                                     <Label Text="{ Binding descricao }" HorizontalTextAlignment="Justify"/>
 
+                                    <CollectionView ItemsSource="{ Binding tags }"
+                                                    SelectionMode="None"
+                                                    HorizontalScrollBarVisibility="Never"
+                                                    Margin="0,6,0,0">
+                                        <CollectionView.ItemsLayout>
+                                            <LinearItemsLayout Orientation="Horizontal" ItemSpacing="8" />
+                                        </CollectionView.ItemsLayout>
+                                        <CollectionView.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border BackgroundColor="{ DynamicResource Base200 }"
+                                                        StrokeThickness="0"
+                                                        StrokeShape="RoundRectangle 999"
+                                                        Padding="10,4">
+                                                       <Label Text="{ Binding descritivo }"
+                                                           FontSize="12"
+                                                           TextColor="{ DynamicResource BaseContent }"
+                                                           HorizontalTextAlignment="Center"
+                                                           VerticalTextAlignment="Center"/>
+                                                </Border>
+                                            </DataTemplate>
+                                        </CollectionView.ItemTemplate>
+                                    </CollectionView>
+
                                     <CarouselView HorizontalScrollBarVisibility="Default" VerticalScrollBarVisibility="Never">
-                                        <CarouselView.EmptyView>
-                                            <Label Text="Nenhuma imagem adicionada." Padding="5" Opacity="0.5"/>
-                                        </CarouselView.EmptyView>
 
                                         <CarouselView.ItemTemplate>
                                             <DataTemplate>
