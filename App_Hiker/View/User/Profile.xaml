@@ -26,7 +26,7 @@
                 <Grid ColumnDefinitions="Auto,*,Auto" RowDefinitions="Auto" ColumnSpacing="10" >
                     <Button x:Name="btn_back_home"
                             Grid.Column="0"
-                            Text="&#xf053;"
+                            Text="&#xf060;"
                             FontFamily="FontAwesomeFreeSolid900"
                             BackgroundColor="Transparent"
                             BorderColor="Transparent"
@@ -42,9 +42,8 @@
                             Text="&#xf304;"
                             FontFamily="FontAwesomeFreeSolid900"
                             BackgroundColor="Transparent"
-                            BorderColor="{ DynamicResource Primary }"
-                            BorderWidth="1"
-                            TextColor="{ DynamicResource Primary }"
+                            BorderWidth="0"
+                            TextColor="{ DynamicResource Neutral }"
                             CornerRadius="8"
                             WidthRequest="42"
                             HeightRequest="42"
@@ -103,7 +102,7 @@
                 <Button Text="&#xf004;" ClassId="2" Grid.Column="4" Grid.Row="0" Style="{ StaticResource btn_profile_tabs_grid }" Clicked="tab_Clicked"/>
             </Grid>
 
-            <Grid x:Name="grid_selected_tab_marker" Grid.Column="0" Grid.Row="2" ColumnDefinitions="*,*,*,*" RowDefinitions="Auto">
+            <Grid x:Name="grid_selected_tab_marker" Grid.Column="0" Grid.Row="2" ColumnDefinitions="*,*,*" RowDefinitions="Auto">
                 <!-- O posicionamento muda via código. -->
                 <BoxView x:Name="bv_selected_tab_marker" Grid.Column="0" Grid.Row="0" BackgroundColor="{ DynamicResource Primary }" HeightRequest="1"/>
             </Grid>

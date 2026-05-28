@@ -24,7 +24,6 @@
 
             <!-- Cabeçalho com botão voltar -->
             <Grid ColumnDefinitions="Auto,*"
-                  BackgroundColor="{ DynamicResource Base300 }"
                   Padding="10,15"
                   Grid.Row="0">
 
@@ -34,7 +33,7 @@
                         FontFamily="FontAwesomeFreeSolid900"
                         BackgroundColor="Transparent"
                         BorderColor="Transparent"
-                        TextColor="{ DynamicResource Primary }"
+                        TextColor="{ DynamicResource BaseContent }"
                         CornerRadius="0"
                         Padding="0"
                         WidthRequest="36"

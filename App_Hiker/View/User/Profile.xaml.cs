@@ -12,13 +12,12 @@ public partial class Profile : ContentView
 
     private enum InternalTabs
     {
-        PersonalData,
         Posts,
         TimeLine,
         Favorites
     };
 
-    private InternalTabs current_profile_tab_index = InternalTabs.PersonalData;
+    private InternalTabs current_profile_tab_index = InternalTabs.Posts;
 
     private string internal_context = String.Empty;
 
@@ -137,9 +136,9 @@ public partial class Profile : ContentView
 
             switch (tab_option)
             {
-                case InternalTabs.PersonalData:
-                    ctv_profile_current_tab.Content = new UserPersonalData();
-                break;
+                //case InternalTabs.PersonalData:
+                //    ctv_profile_current_tab.Content = new UserPersonalData();
+                //break;
 
                 case InternalTabs.Posts:
                     ctv_profile_current_tab.Content = new UserReviewsListing()
