@@ -17,29 +17,29 @@
                     <Label Text="Especifique os dados exigidos abaixo para criar o seu cadastro do aplicativo."/>
 
                     <Label Text="Usuário:" Style="{ StaticResource lbl_form_field }"/>
-                    <Entry x:Name="txt_usuario" Placeholder="Crie um nome de usuário..." Keyboard="Text"/>
+                    <Entry Text="{ Binding NomeUsuario }" Placeholder="Crie um nome de usuário..." Keyboard="Text"/>
 
                     <Label Text="Nome Completo:" Style="{ StaticResource lbl_form_field }"/>
-                    <Entry x:Name="txt_nome_completo" Placeholder="Digite seu nome completo aqui..." Keyboard="Text"/>
+                    <Entry Text="{ Binding NomeCompleto }" Placeholder="Digite seu nome completo aqui..." Keyboard="Text"/>
 
                     <Label Text="E-mail:" Style="{ StaticResource lbl_form_field }"/>
-                    <Entry x:Name="txt_email" Placeholder="Digite seu e-mail aqui..." Keyboard="Email"/>
+                    <Entry Text="{ Binding Email }" Placeholder="Digite seu e-mail aqui..." Keyboard="Email"/>
 
                     <Label Text="Número de Celular:" Style="{ StaticResource lbl_form_field }"/>
-                    <Entry x:Name="txt_numero_celular" Placeholder="(XX) XXXXX-XXXX" Keyboard="Telephone"/>
+                    <Entry Text="{ Binding NumeroCelular }" Placeholder="(XX) XXXXX-XXXX" Keyboard="Telephone"/>
 
                     <Label Text="Data de Nascimento:" Style="{ StaticResource lbl_form_field }"/>
-                    <DatePicker x:Name="dtpck_data_nascimento" HorizontalOptions="Fill"/>
+                    <DatePicker Date="{ Binding DataNascimento }" HorizontalOptions="Fill"/>
 
                     <Label Text="Senha:" Style="{ StaticResource lbl_form_field }"/>
-                    <Entry x:Name="txt_senha" Placeholder="Crie uma senha..." Keyboard="Password" IsPassword="True"/>
+                    <Entry Text="{ Binding Senha }" Placeholder="Crie uma senha..." Keyboard="Password" IsPassword="True"/>
 
                     <Label Text="Confirmação da Senha:" Style="{ StaticResource lbl_form_field }"/>
-                    <Entry x:Name="txt_confirmacao_senha" Placeholder="Confirme a senha digitada..." Keyboard="Password" IsPassword="True"/>
+                    <Entry Text="{ Binding ConfirmacaoSenha }" Placeholder="Confirme a senha digitada..." Keyboard="Password" IsPassword="True"/>
 
-                    <Button x:Name="btn_register" Text="Cadastrar-se" Margin="0,15,0,0" Style="{ StaticResource btn_primary }" Clicked="btn_register_Clicked"/>
+                    <Button Text="Cadastrar-se" Margin="0,15,0,0" Style="{ StaticResource btn_primary }" Command="{ Binding RegisterCommand }"/>
 
-                    <Button x:Name="btn_login" Text="Já possui uma conta? Clique aqui." Style="{ StaticResource btn_route }" Clicked="btn_login_Clicked"/>
+                    <Button Text="Já possui uma conta? Clique aqui." Style="{ StaticResource btn_route }" Command="{ Binding BackToLoginCommand }"/>
                 </VerticalStackLayout>
             </ScrollView>
         </Grid>

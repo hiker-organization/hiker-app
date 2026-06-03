@@ -17,19 +17,22 @@
                     <Label Text="Preencha com seus dados já cadastrados para efetuar login no aplicativo."/>
 
                     <Label Text="E-mail:" Style="{ StaticResource lbl_form_field }"/>
-                    <Entry x:Name="txt_email" Placeholder="Digite seu e-mail aqui..." Keyboard="Email"/>
+                    <Entry Text="{ Binding Email }" Placeholder="Digite seu e-mail aqui..." Keyboard="Email"/>
 
                     <Label Text="Senha:" Style="{ StaticResource lbl_form_field }"/>
-                    <Entry x:Name="txt_senha" Placeholder="Digite sua senha aqui..." Keyboard="Password" IsPassword="True"/>
+                    <Entry Text="{ Binding Password }" Placeholder="Digite sua senha aqui..." Keyboard="Password" IsPassword="True"/>
 
                     <Grid Margin="0,15,0,0">
-                        <Button x:Name="btn_login" Text="Entrar" Style="{ StaticResource btn_primary }" Clicked="btn_login_Clicked"/>
-                        <ActivityIndicator x:Name="btn_login_indicator" IsVisible="False" IsRunning="False" VerticalOptions="Center" HorizontalOptions="Center" Color="{DynamicResource Secondary}"/>
+                        <Button Text="Entrar"
+                                Style="{ StaticResource btn_primary }"
+                                Command="{ Binding LoginCommand }"
+                                IsVisible="{ Binding IsBusy, Converter={StaticResource InverseBoolConverter} }"/>
+                        <ActivityIndicator IsVisible="{ Binding IsBusy }" IsRunning="{ Binding IsBusy }" VerticalOptions="Center" HorizontalOptions="Center" Color="{DynamicResource Secondary}"/>
                     </Grid>
 
-                    <Button x:Name="btn_register" Text="Cadastrar-se" Clicked="btn_register_Clicked"/>
+                    <Button Text="Cadastrar-se" Command="{ Binding RegisterCommand }"/>
 
-                    <Button x:Name="btn_alterar_senha" Text="Esqueceu a senha? Clique aqui." Style="{ StaticResource btn_route }" Clicked="btn_alterar_senha_Clicked"/>
+                    <Button Text="Esqueceu a senha? Clique aqui." Style="{ StaticResource btn_route }" Command="{ Binding ForgotPasswordCommand }"/>
                 </VerticalStackLayout>
             </ScrollView>
         </Grid>

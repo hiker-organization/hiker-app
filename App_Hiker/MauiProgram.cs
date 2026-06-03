@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using CommunityToolkit.Maui;
+
+using Microsoft.Extensions.Logging;
 
 namespace App_Hiker
 {
@@ -9,6 +11,7 @@ namespace App_Hiker
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                .UseMauiCommunityToolkit()
                 .ConfigureFonts(fonts =>
                 {
                     // Texto.

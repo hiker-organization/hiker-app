@@ -1,83 +1,55 @@
+using System.ComponentModel;
+
+using App_Hiker.View.Auth;
 using App_Hiker.View.Review;
 using App_Hiker.View.User;
-using App_Hiker.View.Auth;
+using App_Hiker.ViewModel.Layout;
 
 namespace App_Hiker.Layout;
 
 public partial class MainTabBar : ContentPage
 {
-    private Application? current_app = (Application?)App.Current;
-
-    private enum InternalTabs
-    {
-        Home,
-        NewReview,
-        Search,
-        Profile
-    };
-
-    private InternalTabs current_main_tab_index = InternalTabs.Home;
-    private InternalTabs previous_main_tab_index = InternalTabs.Home;
+    private readonly MainTabBarViewModel _viewModel;
 
     public MainTabBar()
     {
         InitializeComponent();
 
+        _viewModel = new MainTabBarViewModel();
+        _viewModel.PropertyChanged += OnViewModelPropertyChanged;
+
+        BindingContext = _viewModel;
+
         LoadTab();
     }
 
-    private async void ApplyTabsStyles()
+    private void OnViewModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        try
+        if (e.PropertyName == nameof(MainTabBarViewModel.CurrentTabIndex))
         {
-            if (current_app != null)
-            {
-                foreach (IView tab in grid_main_tabs.Children)
-                {
-                    if (tab is Button button)
-                    {
-                        int tabIndex = int.TryParse(button.ClassId, out int parsedIndex)
-                            ? parsedIndex
-                            : -1;
-
-                        if (tabIndex == (int)current_main_tab_index)
-                        {
-                            button.TextColor = (Color)current_app.Resources["Primary"];
-                        }
-                        else
-                        {
-                            button.TextColor = (Color)current_app.Resources["BaseContent"];
-                        }
-                    }
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            await DisplayAlertAsync("Erro!", ex.Message, "OK");
+            LoadTab();
         }
     }
 
-    private async void LoadTab()
+    // Composição/host de view: troca o conteúdo conforme a aba ativa.
+    private void LoadTab()
     {
         try
         {
-            InternalTabs tab_option = this.current_main_tab_index;
-
-            switch (tab_option)
+            switch (_viewModel.CurrentTabIndex)
             {
-                case InternalTabs.Home:
+                case 0:
                     ctview_page.Content = new Feed();
                     break;
 
-                case InternalTabs.NewReview:
+                case 1:
                     ctview_page.Content = new NewReview("AuthUserContext");
                     break;
 
-                case InternalTabs.Search:
+                case 2:
                     break;
 
-                case InternalTabs.Profile:
+                case 3:
                     Profile profile_view = new Profile("AuthUserContext");
                     profile_view.EditProfileRequested += OnEditProfileRequested;
                     profile_view.BackRequested += OnProfileBackRequested;
@@ -85,12 +57,10 @@ public partial class MainTabBar : ContentPage
                     ctview_page.Content = profile_view;
                     break;
             }
-
-            ApplyTabsStyles();
         }
         catch (Exception ex)
         {
-            await DisplayAlertAsync("Erro!", ex.Message, "OK");
+            App.ShowInDebugConsole(ex.Message); // Temporário.
         }
     }
 
@@ -129,16 +99,15 @@ public partial class MainTabBar : ContentPage
     {
         try
         {
-            this.current_main_tab_index = this.previous_main_tab_index;
-            LoadTab();
+            _viewModel.GoToPreviousTab();
         }
         catch (Exception ex)
         {
-            App.ShowInDebugConsole(ex.Message); // Temporario.
+            App.ShowInDebugConsole(ex.Message); // Temporário.
         }
     }
 
-    private async void OnLogoutRequested(object? sender, EventArgs e)
+    private void OnLogoutRequested(object? sender, EventArgs e)
     {
         try
         {
@@ -148,33 +117,6 @@ public partial class MainTabBar : ContentPage
         catch (Exception ex)
         {
             App.ShowInDebugConsole(ex.Message); // Temporário.
-        }
-    }
-
-    private async void tab_Clicked(object sender, EventArgs e)
-    {
-        try
-        {
-            Button selected_tab = (Button)sender;
-            if (!int.TryParse(selected_tab.ClassId, out int selectedIndex))
-            {
-                return;
-            }
-
-            InternalTabs nextTab = (InternalTabs)selectedIndex;
-
-            if (nextTab == InternalTabs.Profile && this.current_main_tab_index != InternalTabs.Profile)
-            {
-                this.previous_main_tab_index = this.current_main_tab_index;
-            }
-
-            this.current_main_tab_index = nextTab;
-
-            LoadTab();
-        }
-        catch (Exception ex)
-        {
-            await DisplayAlertAsync("Erro!", ex.Message, "OK");
         }
     }
 }

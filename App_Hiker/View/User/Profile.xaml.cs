@@ -1,235 +1,73 @@
-using App_Hiker.Model.Api;
-using App_Hiker.Model.User.Response;
+using System.ComponentModel;
 
-using App_Hiker.Service.Auth;
-using App_Hiker.Service.User;
+using App_Hiker.ViewModel.User;
 
 namespace App_Hiker.View.User;
 
 public partial class Profile : ContentView
 {
-    private Application? current_app = (Application?)App.Current;
+    private readonly ProfileViewModel _viewModel;
 
-    private enum InternalTabs
+    public event EventHandler? EditProfileRequested;
+    public event EventHandler? BackRequested;
+    public event EventHandler? LogoutRequested;
+
+    public Profile(string context)
     {
-        Posts,
-        TimeLine,
-        Favorites
-    };
+        InitializeComponent();
 
-    private InternalTabs current_profile_tab_index = InternalTabs.Posts;
+        _viewModel = new ProfileViewModel(context);
 
-    private string internal_context = String.Empty;
+        _viewModel.EditProfileRequested += () => EditProfileRequested?.Invoke(this, EventArgs.Empty);
+        _viewModel.BackRequested += () => BackRequested?.Invoke(this, EventArgs.Empty);
+        _viewModel.LogoutRequested += () => LogoutRequested?.Invoke(this, EventArgs.Empty);
+        _viewModel.PropertyChanged += OnViewModelPropertyChanged;
 
-    private UserDataResponse? user_data = new UserDataResponse();
-
-	public Profile(string context)
-	{
-		InitializeComponent();
-
-        this.internal_context = context;
+        BindingContext = _viewModel;
     }
 
-    protected override void OnHandlerChanged()
+    protected override async void OnHandlerChanged()
     {
         base.OnHandlerChanged();
 
-        if (Handler != null) // Handler != null significa que a view foi anexada à tela
+        if (Handler != null)
         {
-            InitializeResources();
-        }
-    }
-
-    private async void InitializeResources()
-    {
-        try
-        {
-            await LoadUserData();
+            await _viewModel.LoadAsync();
 
             LoadTab();
         }
-        catch (Exception ex)
+    }
+
+    private void OnViewModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(ProfileViewModel.CurrentTabIndex))
         {
-            App.ShowInDebugConsole(ex.Message); // Temporário.
+            LoadTab();
         }
     }
 
-    private void SetUserData(UserDataResponse data)
+    // Composição/host de view: troca o conteúdo da aba selecionada.
+    private void LoadTab()
     {
         try
         {
-            lbl_user_real_name.Text = data.nome_exibicao;
-            lbl_user_name.Text = data.nome_usuario;
-            lbl_posts_quantity.Text = data.reviews.Count.ToString();
-            lbl_reputation.Text = data.reputacao_normalizada;
-            img_user_photo.Source = data.foto_url;
-        }
-        catch (Exception ex)
-        {
-            App.ShowInDebugConsole(ex.Message); // Temporário.
-        }
-    }
-
-    private async Task LoadUserData()
-    {
-        try
-        {
-            DataResponse<UserDataResponse> response = new DataResponse<UserDataResponse>();
-
-            if (this.internal_context == "AuthUserContext")
+            switch (_viewModel.CurrentTabIndex)
             {
-                response = await AuthService.Me();
-            }
-
-            this.user_data = response.data;
-
-            if (response.data != null)
-            {
-                SetUserData(response.data);
-            }
-        }
-        catch (Exception ex)
-        {
-            App.ShowInDebugConsole(ex.Message); // Temporário.
-        }
-    }
-
-    private async void ApplyTabsStyles()
-    {
-        try
-        {
-            if (current_app != null)
-            {
-                foreach (IView tab in grid_profile_tabs.Children)
-                {
-                    if (tab is Button button)
+                case 0:
+                    ctv_profile_current_tab.Content = new UserReviewsListing
                     {
-                        int tabIndex = int.TryParse(button.ClassId, out int parsedIndex)
-                            ? parsedIndex
-                            : -1;
-
-                        if (tabIndex == (int)current_profile_tab_index)
-                        {
-                            button.TextColor = (Color)current_app.Resources["Primary"];
-                        }
-                        else
-                        {
-                            button.TextColor = (Color)current_app.Resources["BaseContent"];
-                        }
-                    }
-                }
-
-                grid_selected_tab_marker.SetColumn(bv_selected_tab_marker, (int)this.current_profile_tab_index);
-            }
-        }
-        catch (Exception ex)
-        {
-            App.ShowInDebugConsole(ex.Message); // Temporário.
-        }
-    }
-
-    private async void LoadTab()
-    {
-        try
-        {
-            InternalTabs tab_option = this.current_profile_tab_index;
-
-            switch (tab_option)
-            {
-                //case InternalTabs.PersonalData:
-                //    ctv_profile_current_tab.Content = new UserPersonalData();
-                //break;
-
-                case InternalTabs.Posts:
-                    ctv_profile_current_tab.Content = new UserReviewsListing()
-                    {
-                        BindingContext = this.user_data,
+                        BindingContext = _viewModel.UserData
                     };
-                break;
+                    break;
 
-                case InternalTabs.TimeLine:
-                    ctv_profile_current_tab.Content = new Label() { Text = "Aba 03 (Perfil)" };
-                break;
+                case 1:
+                    ctv_profile_current_tab.Content = new Label { Text = "Aba 03 (Perfil)" };
+                    break;
 
-                case InternalTabs.Favorites:
-                    ctv_profile_current_tab.Content = new Label() { Text = "Aba 04 (Perfil)" };
-                break;
+                case 2:
+                    ctv_profile_current_tab.Content = new Label { Text = "Aba 04 (Perfil)" };
+                    break;
             }
-
-            ApplyTabsStyles();
-        }
-        catch (Exception ex)
-        {
-            App.ShowInDebugConsole(ex.Message); // Temporário.
-        }
-    }
-
-    private async void tab_Clicked(object sender, EventArgs e)
-    {
-        try
-        {
-            Button selected_tab = (Button)sender;
-            if (!int.TryParse(selected_tab.ClassId, out int selectedIndex))
-            {
-                return;
-            }
-
-            this.current_profile_tab_index = (InternalTabs)selectedIndex;
-
-            LoadTab();
-        }
-        catch (Exception ex)
-        {
-            App.ShowInDebugConsole(ex.Message); // Temporário.
-        }
-    }
-
-    private void btn_edit_profile_Clicked(object sender, EventArgs e)
-    {
-        try
-        {
-            EditProfileRequested?.Invoke(this, EventArgs.Empty);
-        }
-        catch (Exception ex)
-        {
-            App.ShowInDebugConsole(ex.Message); // Temporário.
-        }
-    }
-
-    private void btn_back_home_Clicked(object sender, EventArgs e)
-    {
-        try
-        {
-            BackRequested?.Invoke(this, EventArgs.Empty);
-        }
-        catch (Exception ex)
-        {
-            App.ShowInDebugConsole(ex.Message); // Temporario.
-        }
-    }
-
-    public event EventHandler? EditProfileRequested;
-
-    public event EventHandler? BackRequested;
-
-    public event EventHandler? LogoutRequested;
-
-    private async void btn_logout_Clicked(object sender, EventArgs e)
-    {
-        try
-        {
-            bool confirmed = await Application.Current!.Windows[0].Page!.DisplayAlertAsync(
-                "Sair",
-                "Tem certeza que deseja sair?",
-                "Sair",
-                "Cancelar"
-            );
-
-            if (!confirmed) return;
-
-            SecureStorage.Remove("token");
-
-            LogoutRequested?.Invoke(this, EventArgs.Empty);
         }
         catch (Exception ex)
         {

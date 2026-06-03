@@ -23,17 +23,17 @@
         <Grid ColumnDefinitions="*" RowDefinitions="*,60">
             <ContentView x:Name="ctview_page" Grid.Column="0" Grid.Row="0"/>
 
-            <Grid x:Name="grid_main_tabs" ColumnDefinitions="*,Auto,*,Auto,*,Auto,*" RowDefinitions="*" Grid.Column="0" Grid.Row="1" Style="{ DynamicResource grid_main_tabs }">
-                <Button Text="&#xf015;" ClassId="0" Grid.Column="0" Grid.Row="0" Style="{ StaticResource btn_grid_main_tabs }" Clicked="tab_Clicked"/>
+            <Grid ColumnDefinitions="*,Auto,*,Auto,*,Auto,*" RowDefinitions="*" Grid.Column="0" Grid.Row="1" Style="{ DynamicResource grid_main_tabs }">
+                <Button Text="&#xf015;" Grid.Column="0" Grid.Row="0" Style="{ StaticResource btn_grid_main_tabs }" Command="{ Binding SelectTabCommand }" CommandParameter="0" TextColor="{ Binding CurrentTabIndex, Converter={StaticResource IndexToColorConverter}, ConverterParameter=0 }"/>
                 <Label Text="|" Grid.Column="1" Grid.Row="0" TextColor="{ DynamicResource Base200 }" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
 
-                <Button Text="&#x2b;" ClassId="1" Grid.Column="2" Grid.Row="0" Style="{ StaticResource btn_grid_main_tabs }" Clicked="tab_Clicked"/>
+                <Button Text="&#x2b;" Grid.Column="2" Grid.Row="0" Style="{ StaticResource btn_grid_main_tabs }" Command="{ Binding SelectTabCommand }" CommandParameter="1" TextColor="{ Binding CurrentTabIndex, Converter={StaticResource IndexToColorConverter}, ConverterParameter=1 }"/>
                 <Label Text="|" Grid.Column="3" Grid.Row="0" TextColor="{ DynamicResource Base200 }" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
 
-                <Button Text="&#xf002;" ClassId="2" Grid.Column="4" Grid.Row="0" Style="{ StaticResource btn_grid_main_tabs }" Clicked="tab_Clicked" />
+                <Button Text="&#xf002;" Grid.Column="4" Grid.Row="0" Style="{ StaticResource btn_grid_main_tabs }" Command="{ Binding SelectTabCommand }" CommandParameter="2" TextColor="{ Binding CurrentTabIndex, Converter={StaticResource IndexToColorConverter}, ConverterParameter=2 }"/>
                 <Label Text="|" Grid.Column="5" Grid.Row="0" TextColor="{ DynamicResource Base200 }" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
 
-                <Button Text="&#xf007;" ClassId="3" Grid.Column="6" Grid.Row="0" Style="{ StaticResource btn_grid_main_tabs }" Clicked="tab_Clicked"/>
+                <Button Text="&#xf007;" Grid.Column="6" Grid.Row="0" Style="{ StaticResource btn_grid_main_tabs }" Command="{ Binding SelectTabCommand }" CommandParameter="3" TextColor="{ Binding CurrentTabIndex, Converter={StaticResource IndexToColorConverter}, ConverterParameter=3 }"/>
             </Grid>
         </Grid>
     </ContentPage.Content>

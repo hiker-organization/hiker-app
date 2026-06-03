@@ -2,7 +2,8 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:review="clr-namespace:App_Hiker.Model.Review.Response"
-             x:Class="App_Hiker.View.User.Feed">
+             x:Class="App_Hiker.View.User.Feed"
+             x:Name="FeedRoot">
     <ContentView.Resources>
         <ResourceDictionary>
             <Style TargetType="Label" x:Key="lbl_feed_meta_left">
@@ -50,7 +51,7 @@
             </VerticalStackLayout>
         </Border>
 
-        <CollectionView x:Name="clview_feed"
+        <CollectionView ItemsSource="{ Binding Reviews }"
                         Grid.Row="1"
                         Margin="15,12,15,20"
                         SelectionMode="None"
@@ -176,10 +177,10 @@
                                                        HorizontalOptions="End"
                                                        VerticalOptions="End">
                                     <Button Text="&#xf004;"
-                                            ClassId="like"
                                             Style="{ StaticResource btn_feed_reaction }"
                                             TextColor="{ DynamicResource BaseContent }"
-                                            Clicked="Reaction_Clicked">
+                                            Command="{ Binding BindingContext.LikeCommand, Source={x:Reference FeedRoot} }"
+                                            CommandParameter="{ Binding . }">
                                         <Button.Triggers>
                                             <DataTrigger TargetType="Button" Binding="{ Binding liked }" Value="True">
                                                 <Setter Property="TextColor" Value="{ DynamicResource Primary }"/>
@@ -191,10 +192,10 @@
                                     </Button>
 
                                     <Button Text="&#xf00d;"
-                                            ClassId="dislike"
                                             Style="{ StaticResource btn_feed_reaction }"
                                             TextColor="{ DynamicResource BaseContent }"
-                                            Clicked="Reaction_Clicked">
+                                            Command="{ Binding BindingContext.DislikeCommand, Source={x:Reference FeedRoot} }"
+                                            CommandParameter="{ Binding . }">
                                         <Button.Triggers>
                                             <DataTrigger TargetType="Button" Binding="{ Binding disliked }" Value="True">
                                                 <Setter Property="TextColor" Value="{ DynamicResource Primary }"/>

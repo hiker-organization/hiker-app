@@ -28,7 +28,6 @@
                   Grid.Row="0">
 
                 <Button Grid.Column="0"
-                        x:Name="btn_back"
                         Text="&#xf060;"
                         FontFamily="FontAwesomeFreeSolid900"
                         BackgroundColor="Transparent"
@@ -37,7 +36,7 @@
                         CornerRadius="0"
                         Padding="0"
                         WidthRequest="36"
-                        Clicked="btn_back_Clicked"/>
+                        Command="{ Binding BackCommand }"/>
 
                 <Label Grid.Column="1"
                        Text="Editar perfil"
@@ -59,15 +58,13 @@
                             <Border.StrokeShape>
                                 <RoundRectangle CornerRadius="60"/>
                             </Border.StrokeShape>
-                            <Image x:Name="img_user_photo"
-                                   Source="logo.png"
+                            <Image Source="{ Binding FotoUrl }"
                                    WidthRequest="110"
                                    HeightRequest="110"
                                    Aspect="AspectFill"/>
                         </Border>
 
-                        <Button x:Name="btn_change_photo"
-                                Text="&#xf030;  Alterar foto"
+                        <Button Text="&#xf030;  Alterar foto"
                                 FontFamily="FontAwesomeFreeSolid900"
                                 BackgroundColor="Transparent"
                                 TextColor="{ DynamicResource Neutral }"
@@ -76,7 +73,7 @@
                                 CornerRadius="8"
                                 FontSize="13"
                                 HorizontalOptions="Center"
-                                Clicked="btn_change_photo_Clicked"/>
+                                Command="{ Binding ChangePhotoCommand }"/>
                     </VerticalStackLayout>
 
                     <!-- Separador -->
@@ -92,21 +89,20 @@
                                 Padding="10,0"
                                 Stroke="{ DynamicResource BaseContent }"
                                 StrokeShape="{ RoundRectangle CornerRadius=5 }">
-                            <Entry x:Name="entry_nome_exibicao"
+                            <Entry Text="{ Binding NomeExibicao }"
                                    Placeholder="Seu nome de exibição"
                                    Style="{ StaticResource entry_field }"/>
                         </Border>
                     </VerticalStackLayout>
 
                     <!-- Botão Salvar -->
-                    <Button x:Name="btn_save"
-                            Text="Salvar alterações"
+                    <Button Text="Salvar alterações"
                             BackgroundColor="{ DynamicResource Success }"
                             TextColor="White"
                             FontAttributes="Bold"
                             CornerRadius="8"
                             Margin="0,10,0,0"
-                            Clicked="btn_save_Clicked"/>
+                            Command="{ Binding SaveCommand }"/>
 
                 </VerticalStackLayout>
             </ScrollView>

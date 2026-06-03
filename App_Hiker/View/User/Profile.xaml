@@ -24,8 +24,7 @@
         <Grid ColumnDefinitions="*" RowDefinitions="Auto,Auto,*">
             <VerticalStackLayout Padding="15" Spacing="12">
                 <Grid ColumnDefinitions="Auto,*,Auto" RowDefinitions="Auto" ColumnSpacing="10" >
-                    <Button x:Name="btn_back_home"
-                            Grid.Column="0"
+                    <Button Grid.Column="0"
                             Text="&#xf060;"
                             FontFamily="FontAwesomeFreeSolid900"
                             BackgroundColor="Transparent"
@@ -35,10 +34,9 @@
                             WidthRequest="42"
                             HeightRequest="42"
                             Padding="0"
-                            Clicked="btn_back_home_Clicked"/>
+                            Command="{ Binding BackCommand }"/>
 
-                    <Button x:Name="btn_edit_profile"
-                            Grid.Column="2"
+                    <Button Grid.Column="2"
                             Text="&#xf304;"
                             FontFamily="FontAwesomeFreeSolid900"
                             BackgroundColor="Transparent"
@@ -48,13 +46,13 @@
                             WidthRequest="42"
                             HeightRequest="42"
                             Padding="0"
-                            Clicked="btn_edit_profile_Clicked"/>
+                            Command="{ Binding EditProfileCommand }"/>
                 </Grid>
 
                 <Grid ColumnDefinitions="*,Auto,*" RowDefinitions="Auto" ColumnSpacing="12">
                     <VerticalStackLayout Grid.Column="0" HorizontalOptions="Center" VerticalOptions="Center" Spacing="4">
                         <Label Text="&#xf304;" FontFamily="FontAwesomeFreeSolid900" TextColor="{ DynamicResource Primary }"/>
-                        <Label x:Name="lbl_posts_quantity" Text="0"/>
+                        <Label Text="{ Binding PostsQuantidade }"/>
                     </VerticalStackLayout>
 
                     <Border Grid.Column="1"
@@ -68,8 +66,7 @@
                         <Border.Clip>
                             <EllipseGeometry Center="50,50" RadiusX="50" RadiusY="50"/>
                         </Border.Clip>
-                        <Image x:Name="img_user_photo"
-                               Source="profile.png"
+                        <Image Source="{ Binding FotoUrl }"
                                HeightRequest="100"
                                WidthRequest="100"
                                Aspect="AspectFill"/>
@@ -77,34 +74,31 @@
 
                     <VerticalStackLayout Grid.Column="2" HorizontalOptions="Center" VerticalOptions="Center" Spacing="4">
                         <Label Text="&#xf005;" FontFamily="FontAwesomeFreeSolid900" TextColor="{ DynamicResource Primary }"/>
-                        <Label x:Name="lbl_reputation" Text="0%"/>
+                        <Label Text="{ Binding Reputacao }"/>
                     </VerticalStackLayout>
                 </Grid>
 
-                <Label x:Name="lbl_user_real_name"
-                       Text="Usuário"
+                <Label Text="{ Binding DisplayName }"
                        LineBreakMode="TailTruncation"
                        MaxLines="1"
                        Margin="10,0"/>
 
-                <Label x:Name="lbl_user_name"
-                       LineBreakMode="TailTruncation"
+                <Label LineBreakMode="TailTruncation"
                        MaxLines="1"
-                       Text="@Usuário"
+                       Text="{ Binding UserName }"
                        Margin="10,0"/>
             </VerticalStackLayout>
 
-            <Grid x:Name="grid_profile_tabs" ColumnDefinitions="*,Auto,*,Auto,*" RowDefinitions="Auto" Grid.Column="0" Grid.Row="1">
-                <Button Text="&#xf249;" ClassId="0" Grid.Column="0" Grid.Row="0" Style="{ StaticResource btn_profile_tabs_grid }" Clicked="tab_Clicked"/>
+            <Grid ColumnDefinitions="*,Auto,*,Auto,*" RowDefinitions="Auto" Grid.Column="0" Grid.Row="1">
+                <Button Text="&#xf249;" Grid.Column="0" Grid.Row="0" Style="{ StaticResource btn_profile_tabs_grid }" Command="{ Binding SelectTabCommand }" CommandParameter="0" TextColor="{ Binding CurrentTabIndex, Converter={StaticResource IndexToColorConverter}, ConverterParameter=0 }"/>
                 <Label Text="|" Grid.Column="1" Grid.Row="0" TextColor="{ DynamicResource Base200 }" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
-                <Button Text="&#xf017;" ClassId="1" Grid.Column="2" Grid.Row="0" Style="{ StaticResource btn_profile_tabs_grid }" Clicked="tab_Clicked"/>
+                <Button Text="&#xf017;" Grid.Column="2" Grid.Row="0" Style="{ StaticResource btn_profile_tabs_grid }" Command="{ Binding SelectTabCommand }" CommandParameter="1" TextColor="{ Binding CurrentTabIndex, Converter={StaticResource IndexToColorConverter}, ConverterParameter=1 }"/>
                 <Label Text="|" Grid.Column="3" Grid.Row="0" TextColor="{ DynamicResource Base200 }" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
-                <Button Text="&#xf004;" ClassId="2" Grid.Column="4" Grid.Row="0" Style="{ StaticResource btn_profile_tabs_grid }" Clicked="tab_Clicked"/>
+                <Button Text="&#xf004;" Grid.Column="4" Grid.Row="0" Style="{ StaticResource btn_profile_tabs_grid }" Command="{ Binding SelectTabCommand }" CommandParameter="2" TextColor="{ Binding CurrentTabIndex, Converter={StaticResource IndexToColorConverter}, ConverterParameter=2 }"/>
             </Grid>
 
-            <Grid x:Name="grid_selected_tab_marker" Grid.Column="0" Grid.Row="2" ColumnDefinitions="*,*,*" RowDefinitions="Auto">
-                <!-- O posicionamento muda via código. -->
-                <BoxView x:Name="bv_selected_tab_marker" Grid.Column="0" Grid.Row="0" BackgroundColor="{ DynamicResource Primary }" HeightRequest="1"/>
+            <Grid Grid.Column="0" Grid.Row="2" ColumnDefinitions="*,*,*" RowDefinitions="Auto">
+                <BoxView Grid.Column="{ Binding CurrentTabIndex }" Grid.Row="0" BackgroundColor="{ DynamicResource Primary }" HeightRequest="1"/>
             </Grid>
 
             <ContentView x:Name="ctv_profile_current_tab" Grid.Column="0" Grid.Row="3"/>
