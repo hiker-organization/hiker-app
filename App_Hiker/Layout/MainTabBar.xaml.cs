@@ -47,6 +47,7 @@ public partial class MainTabBar : ContentPage
                     break;
 
                 case 2:
+                    ctview_page.Content = new Search();
                     break;
 
                 case 3:

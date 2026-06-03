@@ -68,16 +68,20 @@
                                         </CollectionView.ItemTemplate>
                                     </CollectionView>
 
-                                    <CarouselView HorizontalScrollBarVisibility="Default" VerticalScrollBarVisibility="Never">
-
-                                        <CarouselView.ItemTemplate>
-                                            <DataTemplate>
-                                                <Image Source="{ Binding url }" HeightRequest="50" WidthRequest="50"/>
-                                            </DataTemplate>
-                                        </CarouselView.ItemTemplate>
-                                    </CarouselView>
-
-                                    <IndicatorView IndicatorColor="{ DynamicResource Neutral }" SelectedIndicatorColor="{ DynamicResource Primary }"/>
+                                    <ScrollView Orientation="Horizontal"
+                                                HorizontalScrollBarVisibility="Never">
+                                        <HorizontalStackLayout BindableLayout.ItemsSource="{ Binding fotos }"
+                                                               Spacing="6">
+                                            <BindableLayout.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Image Source="{ Binding url }"
+                                                           HeightRequest="180"
+                                                           WidthRequest="280"
+                                                           Aspect="AspectFill"/>
+                                                </DataTemplate>
+                                            </BindableLayout.ItemTemplate>
+                                        </HorizontalStackLayout>
+                                    </ScrollView>
 
                                     <Grid ColumnDefinitions="*,*" RowDefinitions="Auto">
                                         <Label Grid.Column="0" Grid.Row="0" Text="{ Binding nota, StringFormat='{}{0} &#xf005;' }" FontFamily="FontAwesomeFreeSolid900" TextColor="{ DynamicResource Primary }" Style="{ StaticResource lbl_alignment_left }"/>

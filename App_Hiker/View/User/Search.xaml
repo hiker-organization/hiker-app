@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="App_Hiker.View.User.Search"
+             x:Name="SearchRoot">
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Label" x:Key="lbl_search_meta_left">
+                <Setter Property="HorizontalTextAlignment" Value="Start"/>
+                <Setter Property="VerticalTextAlignment" Value="Center"/>
+            </Style>
+
+            <Style TargetType="Label" x:Key="lbl_search_meta_right">
+                <Setter Property="HorizontalTextAlignment" Value="End"/>
+                <Setter Property="VerticalTextAlignment" Value="Center"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentView.Resources>
+
+    <Grid RowDefinitions="Auto,*">
+        <Border Grid.Row="0"
+                BackgroundColor="{ DynamicResource Neutral }"
+                StrokeThickness="0"
+                Padding="15,18,15,14">
+            <Border BackgroundColor="{ DynamicResource Base100 }"
+                    StrokeThickness="0"
+                    StrokeShape="RoundRectangle 14"
+                    Padding="10,0">
+                <SearchBar Placeholder="Buscar cidades ou tags..."
+                           Text="{ Binding SearchText }"
+                           SearchCommand="{ Binding SearchCommand }"
+                           BackgroundColor="Transparent"
+                           TextColor="{ DynamicResource BaseContent }"
+                           PlaceholderColor="{ DynamicResource NeutralContent }"/>
+            </Border>
+        </Border>
+
+        <CollectionView ItemsSource="{ Binding Reviews }"
+                        Grid.Row="1"
+                        Margin="15,12,15,20"
+                        SelectionMode="None"
+                        HorizontalScrollBarVisibility="Never"
+                        VerticalScrollBarVisibility="Never">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="16"/>
+            </CollectionView.ItemsLayout>
+
+            <CollectionView.EmptyView>
+                <Label Text="Nenhuma review encontrada para sua busca."
+                       Padding="5"
+                       HorizontalTextAlignment="Center"/>
+            </CollectionView.EmptyView>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Border StrokeThickness="0"
+                            StrokeShape="RoundRectangle 15">
+                        <VerticalStackLayout Padding="15" Spacing="10">
+                            <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto" ColumnSpacing="10">
+                                <Border Grid.Column="0"
+                                        Grid.Row="0"
+                                        Stroke="{ DynamicResource BaseContent }"
+                                        StrokeShape="Ellipse">
+                                    <Image Source="{ Binding autor.foto_url, TargetNullValue=profile.png }"
+                                           Aspect="AspectFill"
+                                           HeightRequest="50"
+                                           WidthRequest="50"/>
+                                </Border>
+
+                                <VerticalStackLayout Grid.Column="1"
+                                            Grid.Row="0"
+                                            Spacing="2"
+                                            VerticalOptions="Center">
+                                 <Label Text="{ Binding autor.nome_exibicao }"
+                                     FontAttributes="Bold"
+                                     FontSize="14"
+                                     HorizontalTextAlignment="Start"/>
+
+                                 <Label Text="{ Binding autor.nome_usuario }"
+                                     FontSize="12"
+                                     Opacity="0.7"
+                                     HorizontalTextAlignment="Start"/>
+
+                                 <Label Text="{ Binding local }"
+                                     FontSize="12"
+                                     HorizontalTextAlignment="Start"/>
+                                </VerticalStackLayout>
+                            </Grid>
+
+                            <Label Text="{ Binding descricao }"
+                                   HorizontalTextAlignment="Justify"/>
+
+                            <CollectionView ItemsSource="{ Binding tags }"
+                                            SelectionMode="None"
+                                            HorizontalScrollBarVisibility="Never"
+                                            Margin="0,2,0,0">
+                                <CollectionView.ItemsLayout>
+                                    <LinearItemsLayout Orientation="Horizontal" ItemSpacing="8"/>
+                                </CollectionView.ItemsLayout>
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border BackgroundColor="{ DynamicResource Base200 }"
+                                                StrokeThickness="0"
+                                                StrokeShape="RoundRectangle 999"
+                                                Padding="10,4">
+                                              <Label Text="{ Binding descritivo }"
+                                                  FontSize="12"
+                                                  TextColor="{ DynamicResource BaseContent }"
+                                                  HorizontalTextAlignment="Center"
+                                                  VerticalTextAlignment="Center"/>
+                                        </Border>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+
+                            <ScrollView Orientation="Horizontal"
+                                        HorizontalScrollBarVisibility="Never">
+                                <HorizontalStackLayout BindableLayout.ItemsSource="{ Binding fotos }"
+                                                       Spacing="6">
+                                    <BindableLayout.ItemTemplate>
+                                        <DataTemplate>
+                                            <Image Source="{ Binding url }"
+                                                   HeightRequest="180"
+                                                   WidthRequest="280"
+                                                   Aspect="AspectFill"/>
+                                        </DataTemplate>
+                                    </BindableLayout.ItemTemplate>
+                                </HorizontalStackLayout>
+                            </ScrollView>
+
+                            <Grid ColumnDefinitions="*,*" RowDefinitions="Auto">
+                                <Label Grid.Column="0"
+                                       Grid.Row="0"
+                                       Text="{ Binding nota, StringFormat='Nota {0}' }"
+                                       FontAttributes="Bold"
+                                       Style="{ StaticResource lbl_search_meta_left }"/>
+
+                                <Label Grid.Column="1"
+                                       Grid.Row="0"
+                                       Text="{ Binding createdAt, StringFormat='{}{0:dd/MM/yyyy}' }"
+                                       Style="{ StaticResource lbl_search_meta_right }"/>
+                            </Grid>
+                        </VerticalStackLayout>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentView>

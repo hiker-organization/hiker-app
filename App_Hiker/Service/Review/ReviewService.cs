@@ -43,6 +43,32 @@ namespace App_Hiker.Service.Review
             };
         }
 
+        public static async Task<DataResponse<FeedResponse>> Search(string term)
+        {
+            string endpoint = $"/review/search/{Uri.EscapeDataString(term)}";
+
+            string response_json = await ApiService.GetData(endpoint);
+            JObject root = JObject.Parse(response_json);
+
+            List<UserReview> reviews = new List<UserReview>();
+            JToken? dataToken = root["data"];
+
+            if (dataToken is JArray dataArray)
+            {
+                reviews = dataArray.ToObject<List<UserReview>>() ?? new List<UserReview>();
+            }
+
+            return new DataResponse<FeedResponse>
+            {
+                message = root["message"]?.ToString() ?? String.Empty,
+                statusCode = root["statusCode"]?.Value<int>() ?? 200,
+                data = new FeedResponse
+                {
+                    reviews = reviews
+                }
+            };
+        }
+
         public static async Task<DataResponse<CreateReviewResponse>> Create(CreateReviewRequest payload)
         {
             string request_json = JsonConvert.SerializeObject(payload);
