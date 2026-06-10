@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:shared="clr-namespace:App_Hiker.View.Shared"
+             x:Class="App_Hiker.View.User.PublicProfile">
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Label" x:Key="lbl_alignment_left">
+                <Setter Property="HorizontalTextAlignment" Value="Start"/>
+                <Setter Property="VerticalTextAlignment" Value="Center"/>
+            </Style>
+
+            <Style TargetType="Label" x:Key="lbl_alignment_right">
+                <Setter Property="HorizontalTextAlignment" Value="End"/>
+                <Setter Property="VerticalTextAlignment" Value="Center"/>
+            </Style>
+
+            <Style TargetType="Button" x:Key="btn_feed_reaction">
+                <Setter Property="BackgroundColor" Value="Transparent"/>
+                <Setter Property="BorderColor" Value="Transparent"/>
+                <Setter Property="BorderWidth" Value="0"/>
+                <Setter Property="FontFamily" Value="FontAwesomeFreeSolid900"/>
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="WidthRequest" Value="34"/>
+                <Setter Property="HeightRequest" Value="34"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentView.Resources>
+
+    <ContentView.Content>
+        <Grid ColumnDefinitions="*" RowDefinitions="Auto,*" x:Name="PublicProfileRoot">
+            <ScrollView Grid.Row="0">
+                <VerticalStackLayout Padding="15" Spacing="12">
+                    <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto" ColumnSpacing="10">
+                        <Button Grid.Column="0"
+                                Text="&#xf060;"
+                                FontFamily="FontAwesomeFreeSolid900"
+                                BackgroundColor="Transparent"
+                                BorderColor="Transparent"
+                                BorderWidth="0"
+                                TextColor="{ DynamicResource BaseContent }"
+                                WidthRequest="42"
+                                HeightRequest="42"
+                                Padding="0"
+                                Command="{ Binding BackCommand }"/>
+
+                        <Label Grid.Column="1"
+                               Text="Perfil"
+                               VerticalTextAlignment="Center"
+                               HorizontalTextAlignment="Start"
+                               FontAttributes="Bold"
+                               FontSize="18"/>
+                    </Grid>
+
+                    <Grid ColumnDefinitions="*,Auto,*" RowDefinitions="Auto" ColumnSpacing="12">
+                        <VerticalStackLayout Grid.Column="0" HorizontalOptions="Center" VerticalOptions="Center" Spacing="4">
+                            <Label Text="&#xf304;" FontFamily="FontAwesomeFreeSolid900" TextColor="{ DynamicResource Primary }"/>
+                            <Label Text="{ Binding PostsQuantidade }"/>
+                        </VerticalStackLayout>
+
+                        <Border Grid.Column="1"
+                                Stroke="{ DynamicResource BaseContent }"
+                                HeightRequest="100"
+                                WidthRequest="100"
+                                Padding="0">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="50"/>
+                            </Border.StrokeShape>
+                            <Border.Clip>
+                                <EllipseGeometry Center="50,50" RadiusX="50" RadiusY="50"/>
+                            </Border.Clip>
+                            <Image Source="{ Binding FotoUrl }"
+                                   HeightRequest="100"
+                                   WidthRequest="100"
+                                   Aspect="AspectFill"/>
+                        </Border>
+
+                        <VerticalStackLayout Grid.Column="2" HorizontalOptions="Center" VerticalOptions="Center" Spacing="4">
+                            <Label Text="&#xf005;" FontFamily="FontAwesomeFreeSolid900" TextColor="{ DynamicResource Primary }"/>
+                            <Label Text="{ Binding Reputacao }"/>
+                        </VerticalStackLayout>
+                    </Grid>
+
+                    <Label Text="{ Binding DisplayName }"
+                           LineBreakMode="TailTruncation"
+                           MaxLines="1"
+                           Margin="10,0"/>
+
+                    <Label Text="{ Binding UserName }"
+                           LineBreakMode="TailTruncation"
+                           MaxLines="1"
+                           Margin="10,0"/>
+                </VerticalStackLayout>
+            </ScrollView>
+
+            <ScrollView Grid.Row="1" Padding="15">
+                <CollectionView ItemsSource="{ Binding UserData.reviews }"
+                                HorizontalScrollBarVisibility="Never"
+                                VerticalScrollBarVisibility="Never"
+                                SelectionMode="None">
+                    <CollectionView.EmptyView>
+                        <Label Text="Nenhum post para ser exibido." Padding="5"/>
+                    </CollectionView.EmptyView>
+
+                    <CollectionView.Header>
+                        <Label Text="Posts" FontSize="Small" Padding="5"/>
+                    </CollectionView.Header>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border BackgroundColor="Transparent" StrokeShape="{ RoundRectangle CornerRadius=15 }" StrokeThickness="0">
+                                <Border.Content>
+                                    <VerticalStackLayout Padding="15" Spacing="10">
+                                        <Grid ColumnDefinitions="Auto,*,Auto" RowDefinitions="Auto" ColumnSpacing="10">
+                                            <Border Grid.Column="0" Grid.Row="0" Stroke="{ DynamicResource BaseContent }" StrokeShape="Ellipse">
+                                                <Border.Content>
+                                                    <Image Source="{ Binding Source={x:Reference PublicProfileRoot}, Path=BindingContext.FotoUrl }"
+                                                           Aspect="AspectFill"
+                                                           HeightRequest="50"
+                                                           WidthRequest="50"/>
+                                                </Border.Content>
+                                            </Border>
+
+                                            <Label Grid.Column="1" Grid.Row="0" Text="{ Binding local }" FontSize="Small" Style="{ StaticResource lbl_alignment_left }"/>
+
+                                            <Button Grid.Column="2"
+                                                    Grid.Row="0"
+                                                    Text="&#xf1f8;"
+                                                    FontFamily="FontAwesomeFreeSolid900"
+                                                    BackgroundColor="Transparent"
+                                                    BorderColor="Transparent"
+                                                    BorderWidth="0"
+                                                    TextColor="{ DynamicResource Error }"
+                                                    WidthRequest="34"
+                                                    HeightRequest="34"
+                                                    Padding="0"
+                                                    VerticalOptions="Start"
+                                                    IsVisible="{ Binding IsOwnReview }"
+                                                    Command="{ Binding BindingContext.DeleteReviewCommand, Source={x:Reference PublicProfileRoot} }"
+                                                    CommandParameter="{ Binding . }"/>
+                                        </Grid>
+
+                                        <Label Text="{ Binding descricao }" HorizontalTextAlignment="Justify"/>
+
+                                        <CollectionView ItemsSource="{ Binding tags }"
+                                                        SelectionMode="None"
+                                                        HorizontalScrollBarVisibility="Never"
+                                                        Margin="0,6,0,0">
+                                            <CollectionView.ItemsLayout>
+                                                <LinearItemsLayout Orientation="Horizontal" ItemSpacing="8" />
+                                            </CollectionView.ItemsLayout>
+                                            <CollectionView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Border BackgroundColor="{ DynamicResource Base200 }"
+                                                            StrokeThickness="0"
+                                                            StrokeShape="RoundRectangle 999"
+                                                            Padding="10,4">
+                                                        <Label Text="{ Binding descritivo }"
+                                                               FontSize="12"
+                                                               TextColor="{ DynamicResource BaseContent }"
+                                                               HorizontalTextAlignment="Center"
+                                                               VerticalTextAlignment="Center"/>
+                                                    </Border>
+                                                </DataTemplate>
+                                            </CollectionView.ItemTemplate>
+                                        </CollectionView>
+
+                                        <ScrollView Orientation="Horizontal"
+                                                    HorizontalScrollBarVisibility="Never">
+                                            <HorizontalStackLayout BindableLayout.ItemsSource="{ Binding fotos }"
+                                                                   Spacing="6">
+                                                <BindableLayout.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Image Source="{ Binding url }"
+                                                               HeightRequest="180"
+                                                               WidthRequest="280"
+                                                               Aspect="AspectFill"/>
+                                                    </DataTemplate>
+                                                </BindableLayout.ItemTemplate>
+                                            </HorizontalStackLayout>
+                                        </ScrollView>
+
+                                        <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto">
+                                            <Grid ColumnDefinitions="Auto,Auto" RowDefinitions="Auto,Auto" ColumnSpacing="12">
+                                                <Label Grid.Column="0"
+                                                       Grid.Row="0"
+                                                       Text="{ Binding nota, StringFormat='Nota {0}' }"
+                                                       FontAttributes="Bold"
+                                                       Style="{ StaticResource lbl_alignment_left }"/>
+
+                                                <Label Grid.Column="1"
+                                                       Grid.Row="0"
+                                                       Text="{ Binding createdAt, StringFormat='{}{0:dd/MM/yyyy}' }"
+                                                       Style="{ StaticResource lbl_alignment_right }"/>
+
+                                                <Label Grid.Column="0"
+                                                       Grid.Row="1"
+                                                       Text="{ Binding qnt_likes, StringFormat='{}{0} likes' }"
+                                                       FontSize="12"
+                                                       Opacity="0.7"
+                                                       Style="{ StaticResource lbl_alignment_left }"/>
+
+                                                <Label Grid.Column="1"
+                                                       Grid.Row="1"
+                                                       Text="{ Binding qnt_dislikes, StringFormat='{}{0} dislikes' }"
+                                                       FontSize="12"
+                                                       Opacity="0.7"
+                                                       Style="{ StaticResource lbl_alignment_right }"/>
+                                            </Grid>
+
+                                            <HorizontalStackLayout Grid.Column="1"
+                                                                   Spacing="4"
+                                                                   HorizontalOptions="End"
+                                                                   VerticalOptions="End">
+                                                <Button Text="&#xf004;"
+                                                        Style="{ StaticResource btn_feed_reaction }"
+                                                        TextColor="{ DynamicResource BaseContent }"
+                                                        Command="{ Binding BindingContext.LikeCommand, Source={x:Reference PublicProfileRoot} }"
+                                                        CommandParameter="{ Binding . }">
+                                                    <Button.Triggers>
+                                                        <DataTrigger TargetType="Button" Binding="{ Binding liked }" Value="True">
+                                                            <Setter Property="TextColor" Value="{ DynamicResource Primary }"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger TargetType="Button" Binding="{ Binding disliked }" Value="True">
+                                                            <Setter Property="TextColor" Value="{ DynamicResource BaseContent }"/>
+                                                        </DataTrigger>
+                                                    </Button.Triggers>
+                                                </Button>
+
+                                                <Button Text="&#xf00d;"
+                                                        Style="{ StaticResource btn_feed_reaction }"
+                                                        TextColor="{ DynamicResource BaseContent }"
+                                                        Command="{ Binding BindingContext.DislikeCommand, Source={x:Reference PublicProfileRoot} }"
+                                                        CommandParameter="{ Binding . }">
+                                                    <Button.Triggers>
+                                                        <DataTrigger TargetType="Button" Binding="{ Binding disliked }" Value="True">
+                                                            <Setter Property="TextColor" Value="{ DynamicResource Primary }"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger TargetType="Button" Binding="{ Binding liked }" Value="True">
+                                                            <Setter Property="TextColor" Value="{ DynamicResource BaseContent }"/>
+                                                        </DataTrigger>
+                                                    </Button.Triggers>
+                                                </Button>
+                                            </HorizontalStackLayout>
+                                        </Grid>
+                                    </VerticalStackLayout>
+                                </Border.Content>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </ScrollView>
+
+            <shared:LoadingOverlay IsVisible="{ Binding IsBusy }"
+                                   Grid.RowSpan="2"/>
+        </Grid>
+    </ContentView.Content>
+</ContentView>

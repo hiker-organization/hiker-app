@@ -31,10 +31,14 @@ namespace App_Hiker.ViewModel.User
         }
 
         public ICommand SearchCommand { get; }
+        public ICommand OpenProfileCommand { get; }
+
+        public event Action<string>? UserProfileRequested;
 
         public SearchViewModel()
         {
             SearchCommand = new Command(async () => await SearchAsync());
+            OpenProfileCommand = new Command<string>(OnOpenProfile);
         }
 
         private async Task SearchAsync()
@@ -69,6 +73,16 @@ namespace App_Hiker.ViewModel.User
             {
                 IsBusy = false;
             }
+        }
+
+        private void OnOpenProfile(string? userNick)
+        {
+            if (string.IsNullOrWhiteSpace(userNick))
+            {
+                return;
+            }
+
+            UserProfileRequested?.Invoke(userNick.Trim());
         }
     }
 }

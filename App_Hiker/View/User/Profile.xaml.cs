@@ -56,7 +56,8 @@ public partial class Profile : ContentView
                 case 0:
                     ctv_profile_current_tab.Content = new UserReviewsListing
                     {
-                        BindingContext = _viewModel.UserData
+                        BindingContext = _viewModel.UserData,
+                        DeleteCommand = _viewModel.DeleteReviewCommand
                     };
                     break;
 

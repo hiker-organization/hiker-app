@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="App_Hiker.View.Shared.LoadingOverlay"
+             InputTransparent="False">
+    <Grid BackgroundColor="#80000000"
+          Padding="24"
+          HorizontalOptions="Fill"
+          VerticalOptions="Fill">
+        <Border BackgroundColor="{ DynamicResource Base100 }"
+                StrokeThickness="0"
+                StrokeShape="RoundRectangle 18"
+                Padding="20"
+                HorizontalOptions="Center"
+                VerticalOptions="Center">
+            <VerticalStackLayout Spacing="12"
+                                 HorizontalOptions="Center"
+                                 VerticalOptions="Center">
+                <ActivityIndicator IsRunning="True"
+                                   IsVisible="True"
+                                   Color="{ DynamicResource Primary }"
+                                   HeightRequest="36"
+                                   WidthRequest="36"/>
+                <Label Text="Carregando..."
+                       HorizontalTextAlignment="Center"
+                       TextColor="{ DynamicResource BaseContent }"
+                       FontAttributes="Bold"/>
+            </VerticalStackLayout>
+        </Border>
+    </Grid>
+</ContentView>

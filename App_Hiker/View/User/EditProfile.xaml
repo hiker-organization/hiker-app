@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:shared="clr-namespace:App_Hiker.View.Shared"
              x:Class="App_Hiker.View.User.EditProfile">
 
     <ContentView.Resources>
@@ -106,6 +107,9 @@
 
                 </VerticalStackLayout>
             </ScrollView>
+
+            <shared:LoadingOverlay IsVisible="{ Binding IsBusy }"
+                                   Grid.RowSpan="2"/>
 
         </Grid>
     </ContentView.Content>

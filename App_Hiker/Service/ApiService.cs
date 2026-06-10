@@ -15,7 +15,10 @@ namespace App_Hiker.Service
         {
             if (connection == null)
             {
-                connection = new HttpClient();
+                connection = new HttpClient
+                {
+                    Timeout = TimeSpan.FromSeconds(15)
+                };
 
                 //connection.BaseAddress = new Uri("http://localhost:3000");
 

@@ -39,7 +39,7 @@ public partial class MainTabBar : ContentPage
             switch (_viewModel.CurrentTabIndex)
             {
                 case 0:
-                    ctview_page.Content = new Feed();
+                    ShowFeed();
                     break;
 
                 case 1:
@@ -47,7 +47,7 @@ public partial class MainTabBar : ContentPage
                     break;
 
                 case 2:
-                    ctview_page.Content = new Search();
+                    ShowSearch();
                     break;
 
                 case 3:
@@ -58,6 +58,60 @@ public partial class MainTabBar : ContentPage
                     ctview_page.Content = profile_view;
                     break;
             }
+        }
+        catch (Exception ex)
+        {
+            App.ShowInDebugConsole(ex.Message); // Temporário.
+        }
+    }
+
+    private void ShowFeed()
+    {
+        Feed feed_view = new Feed();
+        feed_view.UserProfileRequested += OnFeedUserProfileRequested;
+        ctview_page.Content = feed_view;
+    }
+
+    private void ShowSearch()
+    {
+        Search search_view = new Search();
+        search_view.UserProfileRequested += OnSearchUserProfileRequested;
+        ctview_page.Content = search_view;
+    }
+
+    private void OnFeedUserProfileRequested(string userNick)
+    {
+        try
+        {
+            PublicProfile public_profile_view = new PublicProfile(userNick);
+            public_profile_view.BackRequested += OnPublicProfileBackRequested;
+            ctview_page.Content = public_profile_view;
+        }
+        catch (Exception ex)
+        {
+            App.ShowInDebugConsole(ex.Message); // Temporário.
+        }
+    }
+
+    private void OnPublicProfileBackRequested(object? sender, EventArgs e)
+    {
+        try
+        {
+            ShowFeed();
+        }
+        catch (Exception ex)
+        {
+            App.ShowInDebugConsole(ex.Message); // Temporário.
+        }
+    }
+
+    private void OnSearchUserProfileRequested(object? sender, string userNick)
+    {
+        try
+        {
+            PublicProfile public_profile_view = new PublicProfile(userNick);
+            public_profile_view.BackRequested += OnPublicProfileBackRequested;
+            ctview_page.Content = public_profile_view;
         }
         catch (Exception ex)
         {

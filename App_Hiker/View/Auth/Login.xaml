@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:shared="clr-namespace:App_Hiker.View.Shared"
              x:Class="App_Hiker.View.Auth.Login"
              Title="Login">
     <ContentPage.Content>
@@ -17,10 +18,18 @@
                     <Label Text="Preencha com seus dados já cadastrados para efetuar login no aplicativo."/>
 
                     <Label Text="E-mail:" Style="{ StaticResource lbl_form_field }"/>
-                    <Entry Text="{ Binding Email }" Placeholder="Digite seu e-mail aqui..." Keyboard="Email"/>
+                    <Entry Text="{ Binding Email }"
+                           Placeholder="Digite seu e-mail aqui..."
+                           Keyboard="Email"
+                           ReturnType="Next"/>
 
                     <Label Text="Senha:" Style="{ StaticResource lbl_form_field }"/>
-                    <Entry Text="{ Binding Password }" Placeholder="Digite sua senha aqui..." Keyboard="Password" IsPassword="True"/>
+                    <Entry Text="{ Binding Password }"
+                           Placeholder="Digite sua senha aqui..."
+                           Keyboard="Password"
+                           IsPassword="True"
+                           ReturnType="Go"
+                           ReturnCommand="{ Binding LoginCommand }"/>
 
                     <Grid Margin="0,15,0,0">
                         <Button Text="Entrar"
@@ -30,11 +39,15 @@
                         <ActivityIndicator IsVisible="{ Binding IsBusy }" IsRunning="{ Binding IsBusy }" VerticalOptions="Center" HorizontalOptions="Center" Color="{DynamicResource Secondary}"/>
                     </Grid>
 
-                    <Button Text="Cadastrar-se" Command="{ Binding RegisterCommand }"/>
+                    <Button Text="Cadastrar-se" TextColor="White" Command="{ Binding RegisterCommand }"/>
 
                     <Button Text="Esqueceu a senha? Clique aqui." Style="{ StaticResource btn_route }" Command="{ Binding ForgotPasswordCommand }"/>
                 </VerticalStackLayout>
             </ScrollView>
+
+            <shared:LoadingOverlay IsVisible="{ Binding IsBusy }"
+                                   InputTransparent="{ Binding IsBusy, Converter={StaticResource InverseBoolConverter} }"
+                                   Grid.RowSpan="2"/>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

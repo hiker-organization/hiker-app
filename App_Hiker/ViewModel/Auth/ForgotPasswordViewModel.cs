@@ -109,6 +109,8 @@ namespace App_Hiker.ViewModel.Auth
         {
             try
             {
+                IsBusy = true;
+
                 if (_stats == ResetPasswordStats.Unready)
                 {
                     await SendEmailToResetPasswordAsync();
@@ -121,6 +123,10 @@ namespace App_Hiker.ViewModel.Auth
             catch (Exception ex)
             {
                 await DisplayAlert("Erro!", ex.Message, "OK");
+            }
+            finally
+            {
+                IsBusy = false;
             }
         }
 

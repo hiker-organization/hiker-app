@@ -45,6 +45,8 @@ namespace App_Hiker.ViewModel.User
         {
             try
             {
+                IsBusy = true;
+
                 DataResponse<UserDataResponse> response = await AuthService.Me();
 
                 if (response.data != null)
@@ -61,12 +63,18 @@ namespace App_Hiker.ViewModel.User
             {
                 App.ShowInDebugConsole(ex.Message); // Temporário.
             }
+            finally
+            {
+                IsBusy = false;
+            }
         }
 
         private async Task ChangePhotoAsync()
         {
             try
             {
+                IsBusy = true;
+
                 PickOptions options = new PickOptions
                 {
                     FileTypes = FilePickerFileType.Images
@@ -102,12 +110,18 @@ namespace App_Hiker.ViewModel.User
 
                 await DisplayAlert("Erro", "Erro ao alterar a foto de perfil", "OK");
             }
+            finally
+            {
+                IsBusy = false;
+            }
         }
 
         private async Task SaveAsync()
         {
             try
             {
+                IsBusy = true;
+
                 string nome_exibicao = NomeExibicao?.Trim() ?? string.Empty;
 
                 if (string.IsNullOrWhiteSpace(nome_exibicao))
@@ -138,6 +152,10 @@ namespace App_Hiker.ViewModel.User
             catch (Exception ex)
             {
                 App.ShowInDebugConsole(ex.Message); // Temporário.
+            }
+            finally
+            {
+                IsBusy = false;
             }
         }
     }

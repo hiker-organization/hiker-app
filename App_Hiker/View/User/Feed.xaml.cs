@@ -9,11 +9,14 @@ public partial class Feed : ContentView
     private readonly FeedViewModel _viewModel;
     private bool _initialized = false;
 
+    public event Action<string>? UserProfileRequested;
+
     public Feed()
     {
         InitializeComponent();
 
         _viewModel = new FeedViewModel();
+        _viewModel.UserProfileRequested += OnUserProfileRequested;
 
         BindingContext = _viewModel;
     }
@@ -31,5 +34,18 @@ public partial class Feed : ContentView
                 load.Execute(null);
             }
         }
+    }
+
+    private void OnRemainingItemsThresholdReached(object? sender, EventArgs e)
+    {
+        if (_viewModel.HasMoreReviews && !_viewModel.IsLoadingMore && _viewModel.LoadMoreCommand.CanExecute(null))
+        {
+            _viewModel.LoadMoreCommand.Execute(null);
+        }
+    }
+
+    private void OnUserProfileRequested(string nick)
+    {
+        UserProfileRequested?.Invoke(nick);
     }
 }

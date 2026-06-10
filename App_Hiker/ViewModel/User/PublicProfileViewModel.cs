@@ -6,23 +6,23 @@ using App_Hiker.Model.User.Response;
 
 using App_Hiker.Service.Auth;
 using App_Hiker.Service.Review;
+using App_Hiker.Service.User;
 
 using App_Hiker.ViewModel.Base;
 
 namespace App_Hiker.ViewModel.User
 {
-    public class ProfileViewModel : BaseViewModel
+    public class PublicProfileViewModel : BaseViewModel
     {
-        private readonly string _context;
+        private readonly string _userNick;
 
         private UserDataResponse? _userData = new();
 
-        private string _displayName = "Usuário";
-        private string _userName = "@Usuário";
+        private string _displayName = "Usuario";
+        private string _userName = "@usuario";
         private string _postsQuantidade = "0";
         private string _reputacao = "0%";
         private string _fotoUrl = "profile.png";
-        private int _currentTabIndex = 0;
 
         public string DisplayName
         {
@@ -54,32 +54,23 @@ namespace App_Hiker.ViewModel.User
             set => SetProperty(ref _fotoUrl, value);
         }
 
-        public int CurrentTabIndex
-        {
-            get => _currentTabIndex;
-            set => SetProperty(ref _currentTabIndex, value);
-        }
-
         public UserDataResponse? UserData => _userData;
 
-        public ICommand SelectTabCommand { get; }
-        public ICommand EditProfileCommand { get; }
         public ICommand BackCommand { get; }
-        public ICommand LogoutCommand { get; }
+        public ICommand LikeCommand { get; }
+        public ICommand DislikeCommand { get; }
         public ICommand DeleteReviewCommand { get; }
 
-        public event Action? EditProfileRequested;
         public event Action? BackRequested;
-        public event Action? LogoutRequested;
 
-        public ProfileViewModel(string context)
+        private string _currentUserNick = string.Empty;
+
+        public PublicProfileViewModel(string userNick)
         {
-            _context = context;
-
-            SelectTabCommand = new Command<string>(OnSelectTab);
-            EditProfileCommand = new Command(() => EditProfileRequested?.Invoke());
+            _userNick = userNick;
             BackCommand = new Command(() => BackRequested?.Invoke());
-            LogoutCommand = new Command(async () => await LogoutAsync());
+            LikeCommand = new Command<UserReview>(async (review) => await LikeAsync(review));
+            DislikeCommand = new Command<UserReview>(async (review) => await DislikeAsync(review));
             DeleteReviewCommand = new Command<UserReview>(async (review) => await DeleteReviewAsync(review));
         }
 
@@ -89,12 +80,10 @@ namespace App_Hiker.ViewModel.User
             {
                 IsBusy = true;
 
-                DataResponse<UserDataResponse> response = new DataResponse<UserDataResponse>();
+                var meResponse = await AuthService.Me();
+                _currentUserNick = meResponse.data?.nome_usuario ?? string.Empty;
 
-                if (_context == "AuthUserContext")
-                {
-                    response = await AuthService.Me();
-                }
+                DataResponse<UserDataResponse> response = await UserService.GetByNick(_userNick);
 
                 _userData = response.data;
 
@@ -104,18 +93,23 @@ namespace App_Hiker.ViewModel.User
                         .OrderByDescending(review => review.createdAt)
                         .ToList();
 
+                    foreach (var review in response.data.reviews)
+                        review.IsOwnReview = review.autor.nome_usuario == _currentUserNick;
+
                     DisplayName = response.data.nome_exibicao;
                     UserName = response.data.nome_usuario;
                     PostsQuantidade = response.data.reviews.Count.ToString();
                     Reputacao = response.data.reputacao_normalizada;
-                    FotoUrl = response.data.foto_url;
+                    FotoUrl = string.IsNullOrWhiteSpace(response.data.foto_url)
+                        ? "profile.png"
+                        : response.data.foto_url;
                 }
 
                 OnPropertyChanged(nameof(UserData));
             }
             catch (Exception ex)
             {
-                App.ShowInDebugConsole(ex.Message); // Temporário.
+                App.ShowInDebugConsole(ex.Message); // Temporario.
             }
             finally
             {
@@ -134,40 +128,66 @@ namespace App_Hiker.ViewModel.User
             {
                 await ReviewService.Delete(review.id);
                 await LoadAsync();
-                OnPropertyChanged(nameof(CurrentTabIndex));
             }
             catch (Exception ex)
             {
-                App.ShowInDebugConsole(ex.Message);
+                App.ShowInDebugConsole(ex.Message); // Temporario.
             }
         }
 
-        private void OnSelectTab(string? rawIndex)
-        {
-            if (int.TryParse(rawIndex, out int index))
-            {
-                CurrentTabIndex = index;
-            }
-        }
-
-        private async Task LogoutAsync()
+        private async Task LikeAsync(UserReview? review)
         {
             try
             {
-                bool confirmed = await DisplayAlert("Sair", "Tem certeza que deseja sair?", "Sair", "Cancelar");
-
-                if (!confirmed)
+                if (review == null || review.liked)
                 {
                     return;
                 }
 
-                SecureStorage.Remove("token");
+                bool wasDisliked = review.disliked;
 
-                LogoutRequested?.Invoke();
+                await ReviewService.Like(review.id);
+
+                review.liked = true;
+                review.disliked = false;
+                review.qnt_likes += 1;
+
+                if (wasDisliked && review.qnt_dislikes > 0)
+                {
+                    review.qnt_dislikes -= 1;
+                }
             }
             catch (Exception ex)
             {
-                App.ShowInDebugConsole(ex.Message); // Temporário.
+                App.ShowInDebugConsole(ex.Message); // Temporario.
+            }
+        }
+
+        private async Task DislikeAsync(UserReview? review)
+        {
+            try
+            {
+                if (review == null || review.disliked)
+                {
+                    return;
+                }
+
+                bool wasLiked = review.liked;
+
+                await ReviewService.Dislike(review.id);
+
+                review.disliked = true;
+                review.liked = false;
+                review.qnt_dislikes += 1;
+
+                if (wasLiked && review.qnt_likes > 0)
+                {
+                    review.qnt_likes -= 1;
+                }
+            }
+            catch (Exception ex)
+            {
+                App.ShowInDebugConsole(ex.Message); // Temporario.
             }
         }
     }

@@ -8,6 +8,14 @@ namespace App_Hiker.Service.User
 {
     public static class UserService
     {
+        public static async Task<DataResponse<UserDataResponse>> GetByNick(string nick)
+        {
+            string endpoint = $"/user/{Uri.EscapeDataString(nick)}";
+            string response_json = await ApiService.GetData(endpoint);
+
+            return JsonConvert.DeserializeObject<DataResponse<UserDataResponse>>(response_json) ?? new DataResponse<UserDataResponse>();
+        }
+
         public static async Task<DataResponse<CreateUserResponse>> Create(CreateUserRequest payload)
         {
             string request_json = JsonConvert.SerializeObject(payload);

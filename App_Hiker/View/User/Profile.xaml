@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:shared="clr-namespace:App_Hiker.View.Shared"
              x:Class="App_Hiker.View.User.Profile">
     <ContentView.Resources>
         <ResourceDictionary>
@@ -23,7 +24,7 @@
     <ContentView.Content>
         <Grid ColumnDefinitions="*" RowDefinitions="Auto,Auto,*">
             <VerticalStackLayout Padding="15" Spacing="12">
-                <Grid ColumnDefinitions="Auto,*,Auto" RowDefinitions="Auto" ColumnSpacing="10" >
+                <Grid ColumnDefinitions="Auto,*,Auto" RowDefinitions="Auto" ColumnSpacing="10">
                     <Button Grid.Column="0"
                             Text="&#xf060;"
                             FontFamily="FontAwesomeFreeSolid900"
@@ -36,17 +37,31 @@
                             Padding="0"
                             Command="{ Binding BackCommand }"/>
 
-                    <Button Grid.Column="2"
-                            Text="&#xf304;"
-                            FontFamily="FontAwesomeFreeSolid900"
-                            BackgroundColor="Transparent"
-                            BorderWidth="0"
-                            TextColor="{ DynamicResource Neutral }"
-                            CornerRadius="8"
-                            WidthRequest="42"
-                            HeightRequest="42"
-                            Padding="0"
-                            Command="{ Binding EditProfileCommand }"/>
+                    <HorizontalStackLayout Grid.Column="2"
+                                           Spacing="4"
+                                           HorizontalOptions="End">
+                        <Button Text="&#xf304;"
+                                FontFamily="FontAwesomeFreeSolid900"
+                                BackgroundColor="Transparent"
+                                BorderWidth="0"
+                                TextColor="{ DynamicResource Neutral }"
+                                CornerRadius="8"
+                                WidthRequest="42"
+                                HeightRequest="42"
+                                Padding="0"
+                                Command="{ Binding EditProfileCommand }"/>
+
+                        <Button Text="&#xf2f5;"
+                                FontFamily="FontAwesomeFreeSolid900"
+                                BackgroundColor="Transparent"
+                                BorderColor="Transparent"
+                                BorderWidth="0"
+                                TextColor="{ DynamicResource Error }"
+                                WidthRequest="42"
+                                HeightRequest="42"
+                                Padding="0"
+                                Command="{ Binding LogoutCommand }"/>
+                    </HorizontalStackLayout>
                 </Grid>
 
                 <Grid ColumnDefinitions="*,Auto,*" RowDefinitions="Auto" ColumnSpacing="12">
@@ -102,6 +117,9 @@
             </Grid>
 
             <ContentView x:Name="ctv_profile_current_tab" Grid.Column="0" Grid.Row="3"/>
+
+            <shared:LoadingOverlay IsVisible="{ Binding IsBusy }"
+                                   Grid.RowSpan="4"/>
         </Grid>
     </ContentView.Content>
 </ContentView>

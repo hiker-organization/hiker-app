@@ -4,6 +4,7 @@ using System.Windows.Input;
 using App_Hiker.Model.Api;
 using App_Hiker.Model.Review.Response;
 
+using App_Hiker.Service.Auth;
 using App_Hiker.Service.Review;
 
 using App_Hiker.ViewModel.Base;
@@ -12,35 +13,121 @@ namespace App_Hiker.ViewModel.User
 {
     public class FeedViewModel : BaseViewModel
     {
+        private const int PageSize = 10;
+
         public ObservableCollection<UserReview> Reviews { get; } = new();
 
+        private int? _nextCursor = null;
+        private bool _hasMoreReviews = true;
+        private bool _isLoadingMore = false;
+        private bool _hasLoadedInitialReviews = false;
+        private string _currentUserNick = string.Empty;
+
+        public bool HasMoreReviews
+        {
+            get => _hasMoreReviews;
+            private set => SetProperty(ref _hasMoreReviews, value);
+        }
+
+        public bool IsLoadingMore
+        {
+            get => _isLoadingMore;
+            private set => SetProperty(ref _isLoadingMore, value);
+        }
+
+        public bool HasLoadedInitialReviews
+        {
+            get => _hasLoadedInitialReviews;
+            private set => SetProperty(ref _hasLoadedInitialReviews, value);
+        }
+
         public ICommand LoadCommand { get; }
+        public ICommand LoadMoreCommand { get; }
         public ICommand LikeCommand { get; }
         public ICommand DislikeCommand { get; }
+        public ICommand DeleteReviewCommand { get; }
+        public ICommand OpenProfileCommand { get; }
+
+        public event Action<string>? UserProfileRequested;
 
         public FeedViewModel()
         {
             LoadCommand = new Command(async () => await LoadFeedAsync());
+            LoadMoreCommand = new Command(async () => await LoadMoreAsync());
             LikeCommand = new Command<UserReview>(async (review) => await LikeAsync(review));
             DislikeCommand = new Command<UserReview>(async (review) => await DislikeAsync(review));
+            DeleteReviewCommand = new Command<UserReview>(async (review) => await DeleteReviewAsync(review));
+            OpenProfileCommand = new Command<string>(OnOpenProfile);
         }
 
         private async Task LoadFeedAsync()
         {
+            await LoadFeedPageAsync(reset: true);
+        }
+
+        private async Task LoadMoreAsync()
+        {
+            await LoadFeedPageAsync(reset: false);
+        }
+
+        private async Task LoadFeedPageAsync(bool reset)
+        {
             try
             {
-                DataResponse<FeedResponse> response = await ReviewService.GetFeed();
-
-                Reviews.Clear();
-
-                foreach (UserReview review in response.data?.reviews ?? new List<UserReview>())
+                if (IsLoadingMore || (!reset && !HasMoreReviews))
                 {
+                    return;
+                }
+
+                if (reset)
+                {
+                    IsBusy = true;
+                }
+
+                IsLoadingMore = true;
+
+                if (reset)
+                {
+                    var me = await AuthService.Me();
+                    _currentUserNick = me.data?.nome_usuario ?? string.Empty;
+                }
+
+                DataResponse<FeedResponse> response = await ReviewService.GetFeed(
+                    reset ? null : _nextCursor,
+                    PageSize);
+
+                List<UserReview> reviews = response.data?.reviews ?? new List<UserReview>();
+
+                if (reset)
+                {
+                    Reviews.Clear();
+                }
+
+                foreach (UserReview review in reviews)
+                {
+                    review.IsOwnReview = review.autor.nome_usuario == _currentUserNick;
                     Reviews.Add(review);
+                }
+
+                _nextCursor = response.data?.nextCursor;
+                HasMoreReviews = _nextCursor.HasValue && reviews.Count > 0;
+
+                if (reset)
+                {
+                    HasLoadedInitialReviews = true;
                 }
             }
             catch (Exception ex)
             {
                 App.ShowInDebugConsole(ex.Message); // Temporário.
+            }
+            finally
+            {
+                IsLoadingMore = false;
+                if (reset)
+                {
+                    IsBusy = false;
+                }
             }
         }
 
@@ -98,6 +185,34 @@ namespace App_Hiker.ViewModel.User
             {
                 App.ShowInDebugConsole(ex.Message); // Temporário.
             }
+        }
+
+        private async Task DeleteReviewAsync(UserReview? review)
+        {
+            if (review == null) return;
+
+            bool confirmed = await DisplayAlert("Excluir review", "Deseja excluir esta review?", "Excluir", "Cancelar");
+            if (!confirmed) return;
+
+            try
+            {
+                await ReviewService.Delete(review.id);
+                Reviews.Remove(review);
+            }
+            catch (Exception ex)
+            {
+                App.ShowInDebugConsole(ex.Message);
+            }
+        }
+
+        private void OnOpenProfile(string? userNick)
+        {
+            if (string.IsNullOrWhiteSpace(userNick))
+            {
+                return;
+            }
+
+            UserProfileRequested?.Invoke(userNick.Trim());
         }
     }
 }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:shared="clr-namespace:App_Hiker.View.Shared"
              x:Class="App_Hiker.View.User.Search"
              x:Name="SearchRoot">
     <ContentView.Resources>
@@ -46,9 +47,14 @@
             </CollectionView.ItemsLayout>
 
             <CollectionView.EmptyView>
-                <Label Text="Nenhuma review encontrada para sua busca."
-                       Padding="5"
-                       HorizontalTextAlignment="Center"/>
+                                <Grid IsVisible="{ Binding HasSearched }"
+                                            Padding="24"
+                                            HorizontalOptions="Fill"
+                                            VerticalOptions="Center">
+                                        <Label Text="Nenhuma review encontrada para sua busca."
+                                                     Padding="5"
+                                                     HorizontalTextAlignment="Center"/>
+                                </Grid>
             </CollectionView.EmptyView>
 
             <CollectionView.ItemTemplate>
@@ -74,12 +80,22 @@
                                  <Label Text="{ Binding autor.nome_exibicao }"
                                      FontAttributes="Bold"
                                      FontSize="14"
-                                     HorizontalTextAlignment="Start"/>
+                                     HorizontalTextAlignment="Start">
+                                     <Label.GestureRecognizers>
+                                         <TapGestureRecognizer Command="{ Binding BindingContext.OpenProfileCommand, Source={x:Reference SearchRoot} }"
+                                                               CommandParameter="{ Binding autor.nome_usuario }"/>
+                                     </Label.GestureRecognizers>
+                                 </Label>
 
                                  <Label Text="{ Binding autor.nome_usuario }"
                                      FontSize="12"
                                      Opacity="0.7"
-                                     HorizontalTextAlignment="Start"/>
+                                     HorizontalTextAlignment="Start">
+                                     <Label.GestureRecognizers>
+                                         <TapGestureRecognizer Command="{ Binding BindingContext.OpenProfileCommand, Source={x:Reference SearchRoot} }"
+                                                               CommandParameter="{ Binding autor.nome_usuario }"/>
+                                     </Label.GestureRecognizers>
+                                 </Label>
 
                                  <Label Text="{ Binding local }"
                                      FontSize="12"
@@ -145,5 +161,8 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
+
+        <shared:LoadingOverlay IsVisible="{ Binding IsBusy }"
+                               Grid.RowSpan="2"/>
     </Grid>
 </ContentView>

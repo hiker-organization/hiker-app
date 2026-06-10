@@ -18,6 +18,7 @@ namespace App_Hiker.Model.Review.Response
         private DateTime _createdAt = DateTime.Now;
         private bool _liked = false;
         private bool _disliked = false;
+        private bool _isOwnReview = false;
 
         public int id { get => _id; set => SetField(ref _id, value); }
 
@@ -44,6 +45,8 @@ namespace App_Hiker.Model.Review.Response
         public bool liked { get => _liked; set => SetField(ref _liked, value); }
 
         public bool disliked { get => _disliked; set => SetField(ref _disliked, value); }
+
+        public bool IsOwnReview { get => _isOwnReview; set => SetField(ref _isOwnReview, value); }
 
         public event PropertyChangedEventHandler? PropertyChanged;
 

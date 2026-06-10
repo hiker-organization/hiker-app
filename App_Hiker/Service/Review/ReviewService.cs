@@ -10,9 +10,25 @@ namespace App_Hiker.Service.Review
 {
     class ReviewService
     {
-        public static async Task<DataResponse<FeedResponse>> GetFeed()
+        public static async Task<DataResponse<FeedResponse>> GetFeed(int? cursor = null, int limit = 10)
         {
-            string response_json = await ApiService.GetData("/review");
+            List<string> queryParts = new List<string>();
+
+            if (cursor.HasValue)
+            {
+                queryParts.Add($"cursor={cursor.Value}");
+            }
+
+            if (limit > 0)
+            {
+                queryParts.Add($"limit={limit}");
+            }
+
+            string endpoint = queryParts.Count > 0
+                ? $"/review?{string.Join("&", queryParts)}"
+                : "/review";
+
+            string response_json = await ApiService.GetData(endpoint);
             JObject root = JObject.Parse(response_json);
 
             List<UserReview> reviews = new List<UserReview>();
@@ -38,14 +54,34 @@ namespace App_Hiker.Service.Review
                 statusCode = root["statusCode"]?.Value<int>() ?? 200,
                 data = new FeedResponse
                 {
-                    reviews = reviews
+                    reviews = reviews,
+                    nextCursor = root["nextCursor"]?.Type == JTokenType.Null
+                        ? null
+                        : root["nextCursor"]?.Value<int?>()
                 }
             };
         }
 
-        public static async Task<DataResponse<FeedResponse>> Search(string term)
+        public static async Task<DataResponse<FeedResponse>> Search(string term, int? cursor = null, int limit = 20)
         {
+            List<string> queryParts = new List<string>();
+
+            if (cursor.HasValue)
+            {
+                queryParts.Add($"cursor={cursor.Value}");
+            }
+
+            if (limit > 0)
+            {
+                queryParts.Add($"limit={limit}");
+            }
+
             string endpoint = $"/review/search/{Uri.EscapeDataString(term)}";
+
+            if (queryParts.Count > 0)
+            {
+                endpoint += $"?{string.Join("&", queryParts)}";
+            }
 
             string response_json = await ApiService.GetData(endpoint);
             JObject root = JObject.Parse(response_json);
@@ -64,7 +100,10 @@ namespace App_Hiker.Service.Review
                 statusCode = root["statusCode"]?.Value<int>() ?? 200,
                 data = new FeedResponse
                 {
-                    reviews = reviews
+                    reviews = reviews,
+                    nextCursor = root["nextCursor"]?.Type == JTokenType.Null
+                        ? null
+                        : root["nextCursor"]?.Value<int?>()
                 }
             };
         }
@@ -110,6 +149,11 @@ namespace App_Hiker.Service.Review
         public static async Task Dislike(int reviewId)
         {
             await ApiService.PostData($"/review/{reviewId}/dislike", "{}");
+        }
+
+        public static async Task Delete(int reviewId)
+        {
+            await ApiService.DeleteData($"/review/{reviewId}");
         }
     }
 }

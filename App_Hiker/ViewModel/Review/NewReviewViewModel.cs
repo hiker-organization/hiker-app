@@ -131,6 +131,8 @@ namespace App_Hiker.ViewModel.Review
         {
             try
             {
+                IsBusy = true;
+
                 DataResponse<UserDataResponse> response = new DataResponse<UserDataResponse>();
 
                 if (_context == "AuthUserContext")
@@ -151,6 +153,10 @@ namespace App_Hiker.ViewModel.Review
             catch (Exception ex)
             {
                 App.ShowInDebugConsole(ex.Message); // Temporário.
+            }
+            finally
+            {
+                IsBusy = false;
             }
         }
 
@@ -284,6 +290,8 @@ namespace App_Hiker.ViewModel.Review
         {
             try
             {
+                IsBusy = true;
+
                 if (SelectedRating < 1 || SelectedRating > 5)
                 {
                     await DisplayAlert("Avaliação inválida", "Selecione uma nota de 1 a 5.", "OK");
@@ -313,6 +321,10 @@ namespace App_Hiker.ViewModel.Review
             catch (Exception ex)
             {
                 await DisplayAlert("Erro ao criar review", ex.Message, "OK");
+            }
+            finally
+            {
+                IsBusy = false;
             }
         }
     }

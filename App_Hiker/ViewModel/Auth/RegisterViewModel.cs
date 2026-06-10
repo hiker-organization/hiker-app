@@ -81,6 +81,8 @@ namespace App_Hiker.ViewModel.Auth
         {
             try
             {
+                IsBusy = true;
+
                 if (Senha != ConfirmacaoSenha)
                 {
                     throw new NonMatchingPasswordsException("As senhas passadas não batem! Tente novamente.");
@@ -121,6 +123,10 @@ namespace App_Hiker.ViewModel.Auth
             catch (Exception ex)
             {
                 await DisplayAlert("Erro!", ex.Message, "OK");
+            }
+            finally
+            {
+                IsBusy = false;
             }
         }
     }
