@@ -1,6 +1,8 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
+using App_Hiker.Model.Api;
+
 namespace App_Hiker.ViewModel.Base
 {
     public abstract class BaseViewModel : INotifyPropertyChanged
@@ -32,6 +34,19 @@ namespace App_Hiker.ViewModel.Base
         protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        protected Task HandleApiErrorAsync(Exception ex)
+        {
+            string message = ex switch
+            {
+                ApiHttpException apiEx => apiEx.ApiMessage,
+                TaskCanceledException => "Não foi possível conectar ao servidor.",
+                HttpRequestException => "Não foi possível conectar ao servidor.",
+                _ => ex.Message
+            };
+
+            return DisplayAlert("Erro!", message, "OK");
         }
 
         // Helpers de UI que não acoplam o ViewModel a tipos de View.

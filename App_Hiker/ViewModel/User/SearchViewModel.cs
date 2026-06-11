@@ -67,7 +67,7 @@ namespace App_Hiker.ViewModel.User
             }
             catch (Exception ex)
             {
-                App.ShowInDebugConsole(ex.Message); // Temporário.
+                await HandleApiErrorAsync(ex);
             }
             finally
             {

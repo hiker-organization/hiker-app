@@ -5,6 +5,8 @@ using System.Net.Http.Headers;
 
 using System.Diagnostics;
 
+using App_Hiker.Model.Api;
+
 namespace App_Hiker.Service
 {
     internal abstract class ApiService
@@ -47,7 +49,8 @@ namespace App_Hiker.Service
 
                 App.ShowInDebugConsole(api_response_json);
 
-                api_response.EnsureSuccessStatusCode();
+                if (!api_response.IsSuccessStatusCode)
+                    throw new ApiHttpException(api_response_json);
             }
 
             return api_response_json;
@@ -67,7 +70,8 @@ namespace App_Hiker.Service
 
                 App.ShowInDebugConsole(api_response_json);
 
-                api_response.EnsureSuccessStatusCode();
+                if (!api_response.IsSuccessStatusCode)
+                    throw new ApiHttpException(api_response_json);
             }
 
             return api_response_json;
@@ -87,7 +91,8 @@ namespace App_Hiker.Service
 
                 App.ShowInDebugConsole(api_response_json);
 
-                api_response.EnsureSuccessStatusCode();
+                if (!api_response.IsSuccessStatusCode)
+                    throw new ApiHttpException(api_response_json);
             }
 
             return api_response_json;
@@ -107,7 +112,8 @@ namespace App_Hiker.Service
 
                 App.ShowInDebugConsole(api_response_json);
 
-                api_response.EnsureSuccessStatusCode();
+                if (!api_response.IsSuccessStatusCode)
+                    throw new ApiHttpException(api_response_json);
             }
 
             return api_response_json;
@@ -127,7 +133,8 @@ namespace App_Hiker.Service
 
                 App.ShowInDebugConsole(api_response_json);
 
-                api_response.EnsureSuccessStatusCode();
+                if (!api_response.IsSuccessStatusCode)
+                    throw new ApiHttpException(api_response_json);
             }
 
             return api_response_json;
@@ -152,7 +159,8 @@ namespace App_Hiker.Service
 
                 App.ShowInDebugConsole(api_response_json);
 
-                api_response.EnsureSuccessStatusCode();
+                if (!api_response.IsSuccessStatusCode)
+                    throw new ApiHttpException(api_response_json);
             }
 
             return api_response_json;
@@ -172,7 +180,8 @@ namespace App_Hiker.Service
 
                 App.ShowInDebugConsole(api_response_json);
 
-                api_response.EnsureSuccessStatusCode();
+                if (!api_response.IsSuccessStatusCode)
+                    throw new ApiHttpException(api_response_json);
             }
 
             return api_response_json;

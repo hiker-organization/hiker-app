@@ -109,7 +109,7 @@ namespace App_Hiker.ViewModel.User
             }
             catch (Exception ex)
             {
-                App.ShowInDebugConsole(ex.Message); // Temporario.
+                await HandleApiErrorAsync(ex);
             }
             finally
             {
@@ -131,7 +131,7 @@ namespace App_Hiker.ViewModel.User
             }
             catch (Exception ex)
             {
-                App.ShowInDebugConsole(ex.Message); // Temporario.
+                await HandleApiErrorAsync(ex);
             }
         }
 
@@ -159,7 +159,7 @@ namespace App_Hiker.ViewModel.User
             }
             catch (Exception ex)
             {
-                App.ShowInDebugConsole(ex.Message); // Temporario.
+                await HandleApiErrorAsync(ex);
             }
         }
 
@@ -187,7 +187,7 @@ namespace App_Hiker.ViewModel.User
             }
             catch (Exception ex)
             {
-                App.ShowInDebugConsole(ex.Message); // Temporario.
+                await HandleApiErrorAsync(ex);
             }
         }
     }

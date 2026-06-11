@@ -152,7 +152,7 @@ namespace App_Hiker.ViewModel.Review
             }
             catch (Exception ex)
             {
-                App.ShowInDebugConsole(ex.Message); // Temporário.
+                await HandleApiErrorAsync(ex);
             }
             finally
             {
@@ -320,7 +320,7 @@ namespace App_Hiker.ViewModel.Review
             }
             catch (Exception ex)
             {
-                await DisplayAlert("Erro ao criar review", ex.Message, "OK");
+                await HandleApiErrorAsync(ex);
             }
             finally
             {

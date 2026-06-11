@@ -122,7 +122,7 @@ namespace App_Hiker.ViewModel.Auth
             }
             catch (Exception ex)
             {
-                await DisplayAlert("Erro!", ex.Message, "OK");
+                await HandleApiErrorAsync(ex);
             }
             finally
             {
@@ -142,7 +142,7 @@ namespace App_Hiker.ViewModel.Auth
             }
             catch (Exception ex)
             {
-                await DisplayAlert("Erro!", ex.Message, "OK");
+                await HandleApiErrorAsync(ex);
             }
         }
 
@@ -165,7 +165,7 @@ namespace App_Hiker.ViewModel.Auth
             }
             catch (Exception ex)
             {
-                await DisplayAlert("Erro!", ex.Message, "OK");
+                await HandleApiErrorAsync(ex);
             }
         }
     }

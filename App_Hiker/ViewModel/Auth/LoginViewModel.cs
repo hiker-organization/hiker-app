@@ -82,13 +82,9 @@ namespace App_Hiker.ViewModel.Auth
             {
                 // Sessão inválida: permanece na tela de login.
             }
-            catch (TaskCanceledException)
-            {
-                // Timeout ao verificar sessão: permanece na tela de login.
-            }
             catch (Exception ex)
             {
-                await DisplayAlert("Erro!", ex.Message, "OK");
+                await HandleApiErrorAsync(ex);
             }
             finally
             {
@@ -118,17 +114,9 @@ namespace App_Hiker.ViewModel.Auth
                     LoginSucceeded?.Invoke();
                 }
             }
-            catch (HttpRequestException)
-            {
-                await DisplayAlert("Erro!", "E-mail e/ou senha incorretos.", "OK");
-            }
-            catch (TaskCanceledException)
-            {
-                await DisplayAlert("Erro!", "Não foi possível conectar ao servidor.", "OK");
-            }
             catch (Exception ex)
             {
-                await DisplayAlert("Erro!", ex.Message, "OK");
+                await HandleApiErrorAsync(ex);
             }
             finally
             {

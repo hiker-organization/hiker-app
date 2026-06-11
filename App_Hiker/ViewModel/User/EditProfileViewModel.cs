@@ -61,7 +61,7 @@ namespace App_Hiker.ViewModel.User
             }
             catch (Exception ex)
             {
-                App.ShowInDebugConsole(ex.Message); // Temporário.
+                await HandleApiErrorAsync(ex);
             }
             finally
             {
@@ -95,10 +95,6 @@ namespace App_Hiker.ViewModel.User
 
                     await DisplayAlert("Sucesso!", "Foto de perfil atualizada com sucesso.", "OK");
                 }
-                else
-                {
-                    await DisplayAlert("Erro", "Não foi possível atualizar a foto de perfil.", "OK");
-                }
             }
             catch (PermissionException)
             {
@@ -106,9 +102,7 @@ namespace App_Hiker.ViewModel.User
             }
             catch (Exception ex)
             {
-                App.ShowInDebugConsole(ex.Message); // Temporário.
-
-                await DisplayAlert("Erro", "Erro ao alterar a foto de perfil", "OK");
+                await HandleApiErrorAsync(ex);
             }
             finally
             {
@@ -144,14 +138,10 @@ namespace App_Hiker.ViewModel.User
 
                     BackRequested?.Invoke();
                 }
-                else
-                {
-                    await DisplayAlert("Erro", "Não foi possível atualizar o perfil.", "OK");
-                }
             }
             catch (Exception ex)
             {
-                App.ShowInDebugConsole(ex.Message); // Temporário.
+                await HandleApiErrorAsync(ex);
             }
             finally
             {
