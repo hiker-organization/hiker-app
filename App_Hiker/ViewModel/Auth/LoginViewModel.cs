@@ -51,6 +51,7 @@ namespace App_Hiker.ViewModel.Auth
             try
             {
                 IsBusy = true;
+                ((Command)LoginCommand).ChangeCanExecute();
 
                 string? token = await SecureStorage.Default.GetAsync("token");
 
@@ -89,6 +90,7 @@ namespace App_Hiker.ViewModel.Auth
             finally
             {
                 IsBusy = false;
+                ((Command)LoginCommand).ChangeCanExecute();
             }
         }
 
