@@ -1,188 +1,138 @@
 using System.Text;
 
-using System.Net.Http;
-using System.Net.Http.Headers;
-
-using System.Diagnostics;
-
 using App_Hiker.Model.Api;
 
 namespace App_Hiker.Service
 {
     internal abstract class ApiService
     {
-        private static HttpClient? connection = null;
+        private static readonly HttpClient _authClient;
+        private static readonly HttpClient _client;
 
-        private static async Task CreateConnection()
+        static ApiService()
         {
-            if (connection == null)
+            const string baseUrl = "https://hikerapi.azurewebsites.net";
+
+            _authClient = new HttpClient
             {
-                connection = new HttpClient
-                {
-                    Timeout = TimeSpan.FromSeconds(15)
-                };
+                BaseAddress = new Uri(baseUrl),
+                Timeout = TimeSpan.FromSeconds(15)
+            };
 
-                //connection.BaseAddress = new Uri("http://localhost:3000");
-
-                connection.BaseAddress = new Uri("https://hikerapi.azurewebsites.net");
-            }
-
-            string auth_token = await SecureStorage.GetAsync("token") ?? "";
-
-            if (auth_token != String.Empty)
+            _client = new HttpClient(new AuthRefreshHandler(_authClient))
             {
-                connection.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", auth_token);
-            }
+                BaseAddress = new Uri(baseUrl),
+                Timeout = TimeSpan.FromSeconds(15)
+            };
         }
 
+        // Para endpoints de auth (login, refresh, logout, forgot-password) — sem retry de 401
+        internal static async Task<string> PostAuth(string endpoint, string json_data)
+        {
+            HttpResponseMessage response = await _authClient.PostAsync(
+                endpoint,
+                new StringContent(json_data, Encoding.UTF8, "application/json"));
+
+            string api_response_json = await response.Content.ReadAsStringAsync();
+            App.ShowInDebugConsole(api_response_json);
+
+            if (!response.IsSuccessStatusCode)
+                throw new ApiHttpException(api_response_json);
+
+            return api_response_json;
+        }
+
+        // Para endpoints protegidos — passa pelo AuthRefreshHandler
         internal static async Task<string> GetData(string endpoint)
         {
-            await CreateConnection();
+            HttpResponseMessage response = await _client.GetAsync(endpoint);
+            string api_response_json = await response.Content.ReadAsStringAsync();
+            App.ShowInDebugConsole(api_response_json);
 
-            string api_response_json = "";
-
-            if (connection != null)
-            {
-                HttpResponseMessage api_response = await connection.GetAsync(endpoint);
-
-                api_response_json = await api_response.Content.ReadAsStringAsync();
-
-                App.ShowInDebugConsole(api_response_json);
-
-                if (!api_response.IsSuccessStatusCode)
-                    throw new ApiHttpException(api_response_json);
-            }
+            if (!response.IsSuccessStatusCode)
+                throw new ApiHttpException(api_response_json);
 
             return api_response_json;
         }
 
         internal static async Task<string> PostData(string endpoint, string json_data)
         {
-            await CreateConnection();
+            HttpResponseMessage response = await _client.PostAsync(
+                endpoint,
+                new StringContent(json_data, Encoding.UTF8, "application/json"));
 
-            string api_response_json = "";
+            string api_response_json = await response.Content.ReadAsStringAsync();
+            App.ShowInDebugConsole(api_response_json);
 
-            if (connection != null)
-            {
-                HttpResponseMessage api_response = await connection.PostAsync(endpoint, new StringContent(json_data, Encoding.UTF8, "application/json"));
-
-                api_response_json = await api_response.Content.ReadAsStringAsync();
-
-                App.ShowInDebugConsole(api_response_json);
-
-                if (!api_response.IsSuccessStatusCode)
-                    throw new ApiHttpException(api_response_json);
-            }
+            if (!response.IsSuccessStatusCode)
+                throw new ApiHttpException(api_response_json);
 
             return api_response_json;
         }
 
         internal static async Task<string> PostMultipart(string endpoint, MultipartFormDataContent form_data)
         {
-            await CreateConnection();
+            HttpResponseMessage response = await _client.PostAsync(endpoint, form_data);
+            string api_response_json = await response.Content.ReadAsStringAsync();
+            App.ShowInDebugConsole(api_response_json);
 
-            string api_response_json = "";
-
-            if (connection != null)
-            {
-                HttpResponseMessage api_response = await connection.PostAsync(endpoint, form_data);
-
-                api_response_json = await api_response.Content.ReadAsStringAsync();
-
-                App.ShowInDebugConsole(api_response_json);
-
-                if (!api_response.IsSuccessStatusCode)
-                    throw new ApiHttpException(api_response_json);
-            }
+            if (!response.IsSuccessStatusCode)
+                throw new ApiHttpException(api_response_json);
 
             return api_response_json;
         }
 
         internal static async Task<string> PutData(string endpoint, string json_data)
         {
-            await CreateConnection();
+            HttpResponseMessage response = await _client.PutAsync(
+                endpoint,
+                new StringContent(json_data, Encoding.UTF8, "application/json"));
 
-            string api_response_json = "";
+            string api_response_json = await response.Content.ReadAsStringAsync();
+            App.ShowInDebugConsole(api_response_json);
 
-            if (connection != null)
-            {
-                HttpResponseMessage api_response = await connection.PutAsync(endpoint, new StringContent(json_data, Encoding.UTF8, "application/json"));
-
-                api_response_json = await api_response.Content.ReadAsStringAsync();
-
-                App.ShowInDebugConsole(api_response_json);
-
-                if (!api_response.IsSuccessStatusCode)
-                    throw new ApiHttpException(api_response_json);
-            }
+            if (!response.IsSuccessStatusCode)
+                throw new ApiHttpException(api_response_json);
 
             return api_response_json;
         }
 
         internal static async Task<string> PatchData(string endpoint, string json_data)
         {
-            await CreateConnection();
+            HttpResponseMessage response = await _client.PatchAsync(
+                endpoint,
+                new StringContent(json_data, Encoding.UTF8, "application/json"));
 
-            string api_response_json = "";
+            string api_response_json = await response.Content.ReadAsStringAsync();
+            App.ShowInDebugConsole(api_response_json);
 
-            if (connection != null)
-            {
-                HttpResponseMessage api_response = await connection.PatchAsync(endpoint, new StringContent(json_data, Encoding.UTF8, "application/json"));
-
-                api_response_json = await api_response.Content.ReadAsStringAsync();
-
-                App.ShowInDebugConsole(api_response_json);
-
-                if (!api_response.IsSuccessStatusCode)
-                    throw new ApiHttpException(api_response_json);
-            }
+            if (!response.IsSuccessStatusCode)
+                throw new ApiHttpException(api_response_json);
 
             return api_response_json;
         }
 
         internal static async Task<string> PatchMultipart(string endpoint, MultipartFormDataContent form_data)
         {
-            await CreateConnection();
+            var request = new HttpRequestMessage(HttpMethod.Patch, endpoint) { Content = form_data };
+            HttpResponseMessage response = await _client.SendAsync(request);
+            string api_response_json = await response.Content.ReadAsStringAsync();
+            App.ShowInDebugConsole(api_response_json);
 
-            string api_response_json = "";
-
-            if (connection != null)
-            {
-                HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Patch, endpoint)
-                {
-                    Content = form_data
-                };
-
-                HttpResponseMessage api_response = await connection.SendAsync(request);
-
-                api_response_json = await api_response.Content.ReadAsStringAsync();
-
-                App.ShowInDebugConsole(api_response_json);
-
-                if (!api_response.IsSuccessStatusCode)
-                    throw new ApiHttpException(api_response_json);
-            }
+            if (!response.IsSuccessStatusCode)
+                throw new ApiHttpException(api_response_json);
 
             return api_response_json;
         }
 
         internal static async Task<string> DeleteData(string endpoint)
         {
-            await CreateConnection();
+            HttpResponseMessage response = await _client.DeleteAsync(endpoint);
+            string api_response_json = await response.Content.ReadAsStringAsync();
+            App.ShowInDebugConsole(api_response_json);
 
-            string api_response_json = "";
-
-            if (connection != null)
-            {
-                HttpResponseMessage api_response = await connection.DeleteAsync(endpoint);
-
-                api_response_json = await api_response.Content.ReadAsStringAsync();
-
-                App.ShowInDebugConsole(api_response_json);
-
-                if (!api_response.IsSuccessStatusCode)
-                    throw new ApiHttpException(api_response_json);
-            }
+            if (!response.IsSuccessStatusCode)
+                throw new ApiHttpException(api_response_json);
 
             return api_response_json;
         }

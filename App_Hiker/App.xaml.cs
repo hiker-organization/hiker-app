@@ -1,5 +1,8 @@
 ﻿using System.Diagnostics;
 
+using App_Hiker.Service;
+using App_Hiker.View.Auth;
+
 namespace App_Hiker
 {
     public partial class App : Application
@@ -9,6 +12,17 @@ namespace App_Hiker
             InitializeComponent();
 
             ApplyRequestedThemeColors();
+
+            AuthRefreshHandler.SessionExpired += async () =>
+            {
+                SecureStorage.Default.Remove("access_token");
+                SecureStorage.Default.Remove("refresh_token");
+
+                await MainThread.InvokeOnMainThreadAsync(() =>
+                {
+                    Application.Current!.Windows[0].Page = new NavigationPage(new Login());
+                });
+            };
         }
 
         protected override Window CreateWindow(IActivationState? activationState)

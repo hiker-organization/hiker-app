@@ -161,7 +161,14 @@ namespace App_Hiker.ViewModel.User
                     return;
                 }
 
-                SecureStorage.Remove("token");
+                string? refreshToken = await SecureStorage.Default.GetAsync("refresh_token");
+                if (!string.IsNullOrEmpty(refreshToken))
+                {
+                    try { await AuthService.Logout(refreshToken); } catch { }
+                }
+
+                SecureStorage.Default.Remove("access_token");
+                SecureStorage.Default.Remove("refresh_token");
 
                 LogoutRequested?.Invoke();
             }
