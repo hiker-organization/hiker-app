@@ -11,17 +11,15 @@ namespace App_Hiker.Service
 
         static ApiService()
         {
-            const string baseUrl = "https://hikerapi.azurewebsites.net";
-
             _authClient = new HttpClient
             {
-                BaseAddress = new Uri(baseUrl),
+                BaseAddress = new Uri(Config.BaseUrl),
                 Timeout = TimeSpan.FromSeconds(15)
             };
 
             _client = new HttpClient(new AuthRefreshHandler(_authClient))
             {
-                BaseAddress = new Uri(baseUrl),
+                BaseAddress = new Uri(Config.BaseUrl),
                 Timeout = TimeSpan.FromSeconds(15)
             };
         }

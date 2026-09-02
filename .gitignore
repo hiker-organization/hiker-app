@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Local config with real API URL (see Config.Example.cs)
+App_Hiker/Config.cs

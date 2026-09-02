@@ -16,7 +16,7 @@ namespace App_Hiker.ViewModel.Review
 {
     public class NewReviewViewModel : BaseViewModel
     {
-        private const string GoogleApiKey = "AIzaSyD8SFvXnT_IaBmd55CFkvflabW-HUWdX-Q";
+        private const string GoogleApiKey = Config.GoogleApiKey;
 
         private readonly string _context;
         private readonly List<FileResult> _arquivosSelecionados = new();
